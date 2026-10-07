@@ -1,0 +1,72 @@
+FOTOS DO SITE BENITOS FESTAS
+============================
+
+Como funciona: salve a foto nesta pasta com o nome exato da lista abaixo.
+Ela aparece sozinha no site, no lugar da ilustração. Não precisa mexer no código.
+
+Regras dos arquivos
+- Formato .jpg, com o nome todo em minúsculas e sem acento, exatamente como na lista.
+- Foto deitada (horizontal), no formato 5:4. Exemplo: 1600 x 1280 pixels.
+- Tamanho de até 400 KB por foto, para o site abrir rápido no celular.
+  Dá para reduzir de graça em squoosh.app ou tinypng.com.
+
+
+1. TOPO DA PÁGINA INICIAL
+   topo.jpg              Foto principal: mãos de criança criando com um kit.
+
+2. CARROSSEL DAS CRIAÇÕES (uma foto por criação)
+   criacao-rabiscos.jpg
+   criacao-pintar.jpg
+   criacao-modelar.jpg
+   criacao-colagem.jpg
+   criacao-mosaico.jpg
+   criacao-costura.jpg
+   criacao-pulseiras.jpg
+   criacao-madeira.jpg
+   criacao-cientista.jpg
+   Se não tiver a foto da criação, o site usa a 1ª foto do kit mini.
+
+3. SEÇÕES POR IDADE (página inicial)
+   idade-1-3.jpg         Criança pequena rabiscando, pintando ou com argila.
+   idade-4-6.jpg         Recortando, colando, montando mosaico ou costurando.
+   idade-7-9.jpg         Pulseiras, casinha de madeira ou cristais.
+
+4. FOTOS DE CADA KIT (até 5 por kit, na ordem da galeria do produto)
+   Use o código do kit e o número da foto. Exemplo para o Mini Rabiscos:
+     rabiscos-mini-1.jpg   Kit fechado, na embalagem da Benitos.
+     rabiscos-mini-2.jpg   Material espalhado, mostrando tudo o que vem.
+     rabiscos-mini-3.jpg   A criação pronta.
+   A foto 1 também aparece no card da vitrine. Os números precisam ser
+   seguidos: se faltar a 2, a 3 não aparece.
+
+   Códigos dos kits:
+     rabiscos-mini    rabiscos-completo
+     pintar-mini      pintar-completo
+     modelar-mini     modelar-completo
+     colagem-mini     colagem-completo
+     mosaico-mini     mosaico-completo
+     costura-mini     costura-completo
+     pulseiras-mini   pulseiras-completo
+     madeira-mini     madeira-completo
+     cientista-mini   cientista-completo
+
+5. MURAL DAS MÃOZINHAS (#MãozinhasBenitos, até 12 fotos)
+   galeria-1.jpg, galeria-2.jpg, galeria-3.jpg ...
+   Fotos das mãozinhas que as famílias mandarem, carimbadas com tinta, argila,
+   areia ou massinha. Fotos quadradas ficam melhores aqui. Os números também
+   precisam ser seguidos.
+   Legenda (primeiro nome e idade): escreva em MURAL, na configuração do
+   index.html. Exemplo: { 'galeria-1':'Theo, 3 anos' }
+   Só publique com a autorização da família. O botão do site já manda a
+   autorização na mensagem do WhatsApp. Guarde essa conversa.
+
+
+CUIDADOS IMPORTANTES
+- Fotos de crianças: só com autorização por escrito dos pais (ECA e LGPD).
+  O mais simples é fotografar só as MÃOS da criança, sem o rosto.
+- Fotos de clientes: peça autorização para publicar, mesmo que seja pelo WhatsApp.
+- Use fotos suas, dos kits de verdade. Foto da internet ou de fornecedor tem
+  direito autoral e pode não mostrar o que o cliente vai receber.
+
+Dica de foto com celular: de dia, perto de uma janela, sem flash, sobre uma
+cartolina lisa de cor clara ou pastel.
