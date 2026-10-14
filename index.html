@@ -834,6 +834,10 @@
         <form id="checkout" novalidate>
           <section>
             <h2>Sobre a festa</h2>
+            <div class="duas-col">
+              <div class="field"><label for="aniv">Nome do aniversariante</label><input id="aniv" name="aniv" type="text" maxlength="40" autocomplete="off"></div>
+              <div class="field"><label for="idade">Idade que vai completar</label><input id="idade" name="idade" type="number" inputmode="numeric" min="0" max="99" placeholder="Ex.: 5"></div>
+            </div>
             <div class="field"><label for="data">Data da festa</label><input id="data" name="data" type="date"></div>
             <div class="field"><label for="obs">Observações</label><textarea id="obs" name="obs" rows="3"></textarea></div>
           </section>
@@ -2143,7 +2147,7 @@ $('checkout').addEventListener('submit',e=>{
     fetch(LOJA.pedidosUrl, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:ehRetirada() ? 'Retirada' : $('cep').value,
         whatsapp:$('zap').value, email:$('email').value.trim(), documento:$('doc').value, endereco:ehRetirada() ? 'Retirada' : endereco(),
-        dataFesta, obs:$('obs').value.trim(), pagamento:pag, total:t.total, entrada:t.entrada, itens }) }).catch(()=>{});
+        dataFesta, aniversariante:$('aniv').value.trim(), idade:$('idade').value, obs:$('obs').value.trim(), pagamento:pag, total:t.total, entrada:t.entrada, itens }) }).catch(()=>{});
   }
   const linhas = carrinho.map(i=>{ const p=prod(i.pid); return `• ${i.qtd}x ${p.nome} (${itemDet(i).join(', ')}) [${sku(p,i.opt)}] — ${brl(preco(p,i.opt)*i.qtd)}`; });
   const msg = [
@@ -2152,7 +2156,8 @@ $('checkout').addEventListener('submit',e=>{
     `Total (sem frete): ${brl(t.total)}`, `Pagamento: ${pag}`,
     t.entrada ? `Entrada (50%): ${brl(t.entrada)} · Restante antes do envio ou da retirada: ${brl(t.total-t.entrada)}, mais o frete` : null,
     t.cash>0 ? `Cashback para a próxima compra: ${brl(t.cash)}` : null, '',
-    '*Festa*', `Data da festa: ${dataFesta}`, `Observações: ${$('obs').value.trim()||'—'}`, '',
+    '*Festa*', $('aniv').value.trim() ? `Aniversariante: ${$('aniv').value.trim()}${$('idade').value ? `, vai completar ${$('idade').value} ano${+$('idade').value===1?'':'s'}` : ''}` : null,
+    `Data da festa: ${dataFesta}`, `Observações: ${$('obs').value.trim()||'—'}`, '',
     '*Cliente*', `Nome: ${$('cliente').value.trim()}`, `WhatsApp: ${$('zap').value}`, $('email').value.trim() ? `E-mail: ${$('email').value.trim()}` : null, '',
     '*Entrega*', ehRetirada() ? 'Retirada (combinar o local)' : `Envio para: ${endereco()}`,
     ehRetirada() ? null : `CPF/CNPJ de quem recebe: ${$('doc').value}`
