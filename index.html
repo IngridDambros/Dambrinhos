@@ -473,6 +473,30 @@
   .lembrar{font-weight:500}
   .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--linha);padding:14px 20px calc(18px + env(safe-area-inset-bottom,0px));z-index:5}
   .bar .cta{width:100%}
+  /* Dam: o assistente de perguntas prontas (uma mãozinha nas cores da logo) */
+  .dam-btn{position:fixed;right:18px;bottom:18px;z-index:30;display:flex;align-items:center;gap:8px;padding:8px 16px 8px 8px;border:0;border-radius:40px;background:#fff;color:var(--ink);font-weight:700;font-size:15px;box-shadow:0 8px 24px rgba(16,17,35,.18);cursor:pointer}
+  .dam-btn svg{width:44px;height:44px}
+  .dam-btn[hidden]{display:none}
+  @media (max-width:600px){.dam-btn{padding-right:14px;right:12px;bottom:12px}.dam-txt{display:none}}
+  .dam{position:fixed;right:18px;bottom:18px;z-index:31;width:min(380px,calc(100vw - 24px));height:min(600px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--fundo);border-radius:22px;box-shadow:0 18px 50px rgba(16,17,35,.25);overflow:hidden}
+  .dam[hidden]{display:none}
+  .dam-topo{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border-bottom:1px solid var(--linha)}
+  .dam-topo svg{width:40px;height:40px;flex:none}
+  .dam-topo b{display:block;font-family:var(--font-head);font-size:18px}
+  .dam-topo span{font-size:12px;color:var(--muted)}
+  .dam-fechar{margin-left:auto;all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;font-size:22px}
+  .dam-fechar:hover{background:var(--linha)}
+  .dam-conversa{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+  .dam-msg{max-width:88%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.45;background:#fff;border:1px solid var(--linha)}
+  .dam-msg.eu{align-self:flex-end;background:var(--azul);color:#fff;border-color:var(--azul)}
+  .dam-msg ul{margin:6px 0 0;padding-left:18px}
+  .dam-msg a,.dam-msg button{all:unset;cursor:pointer;color:var(--azul);font-weight:600;text-decoration:underline;text-underline-offset:2px}
+  .dam-opcoes{display:flex;flex-wrap:wrap;gap:6px}
+  .dam-opcoes button{all:unset;cursor:pointer;padding:7px 12px;border-radius:18px;border:1.5px solid var(--azul);color:var(--azul);background:#fff;font-size:13px;font-weight:600}
+  .dam-opcoes button:hover{background:var(--azul);color:#fff}
+  .dam-pe{padding:10px 14px;background:#fff;border-top:1px solid var(--linha);display:flex;gap:8px}
+  .dam-pe button,.dam-pe a{flex:1;min-height:42px;font-size:14px;padding:0 10px}
+  @media print{.dam-btn,.dam{display:none!important}}
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:24px;font-weight:600;font-size:14px;z-index:20}
 
   /* Rodapé */
@@ -715,11 +739,6 @@
         <div class="pd-paylogos" aria-label="Formas de pagamento"><span>Pix</span><span class="so-cartao">Visa</span><span class="so-cartao">Mastercard</span><span class="so-cartao">Elo</span><span id="p-parc-logo"></span></div>
         <button class="cta pd-add" type="button" id="add">Adicionar ao carrinho</button>
         <a class="cta pd-add" id="p-avise" href="#" target="_blank" rel="noopener" hidden>Em breve · Avise-me pelo WhatsApp</a>
-        <button class="btn-out pd-msg-btn" type="button" id="p-msg-btn" aria-expanded="false" aria-controls="p-msg-wrap">Adicione uma mensagem para o cartão</button>
-        <div class="field" id="p-msg-wrap" hidden>
-          <label for="p-msg">Mensagem para o cartão (opcional)</label>
-          <textarea id="p-msg" rows="3" maxlength="200" placeholder="Ex.: Obrigado por celebrar com a gente! Com carinho, Theo"></textarea>
-        </div>
         <div class="pd-benef" id="p-benef"></div>
         <div class="pd-acc">
           <details open><summary>Por que você vai adorar este kit?</summary><div class="pd-acc-body"><p id="p-desc"></p><div class="selos" id="p-selos"></div></div></details>
@@ -923,6 +942,15 @@
 </footer>
 
 <div class="toast" id="toast" role="status" hidden></div>
+
+<!-- Dam: assistente de perguntas prontas. As respostas ficam em DAM_PERGUNTAS, no script. -->
+<button class="dam-btn" id="dam-btn" type="button" aria-haspopup="dialog" aria-controls="dam"><span id="dam-ico-btn"></span><span class="dam-txt">Dúvidas? Fale com o </span>Dam</button>
+<div class="dam" id="dam" role="dialog" aria-modal="false" aria-labelledby="dam-titulo" hidden>
+  <div class="dam-topo"><span id="dam-ico-topo"></span><div><b id="dam-titulo">Dam</b><span>A mãozinha da Dambrinhos · respostas rápidas</span></div>
+    <button class="dam-fechar" id="dam-fechar" type="button" aria-label="Fechar">×</button></div>
+  <div class="dam-conversa" id="dam-conversa" aria-live="polite"></div>
+  <div class="dam-pe"><button class="btn-out" id="dam-menu" type="button">Ver as perguntas</button><a class="cta" id="dam-ingrid" href="#" target="_blank" rel="noopener">Falar com a Ingrid</a></div>
+</div>
 
 <script>
 /* =========================================================
@@ -1985,12 +2013,11 @@ function abrirProduto(pid){
   $('p-rating').hidden = !p.avaliacoes;
   if (p.avaliacoes) $('p-rating').innerHTML = `<span class="estrelas">${'★'.repeat(Math.round(p.avaliacoes.nota))}</span> ${p.avaliacoes.total}`;
   const ok = disponivel(p);
-  $('add').hidden = !ok; $('p-msg-btn').hidden = !ok;
+  $('add').hidden = !ok;
   $('p-avise').hidden = ok; $('p-avise').href = waAvise(p);
   $('p-pacotes-wrap').hidden = !!p.porUnidade;
   $('p-qty-row').hidden = !p.porUnidade;
   $('p-sens-wrap').hidden = !p.sensorial; $('p-sens').checked = false;
-  $('p-msg').value = ''; $('p-msg-wrap').hidden = true; $('p-msg-btn').setAttribute('aria-expanded','false');
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   $('p-benef').innerHTML = [
     [ico('<path d="M3 7h11v9H3z M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), 'Enviamos para todo o Brasil'],
@@ -2031,12 +2058,11 @@ $('view-product').addEventListener('click', e=>{
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
   else if (b.id==='q-dec') sel.qtd = Math.max(1, sel.qtd-1);
   else if (b.id==='q-inc') sel.qtd++;
-  else if (b.id==='p-msg-btn'){ const ab = $('p-msg-wrap').hidden; $('p-msg-wrap').hidden = !ab; b.setAttribute('aria-expanded', ab); if (ab) $('p-msg').focus(); return; }
   else return;
   renderProduto();
 });
 $('add').onclick = ()=>{
-  const {p,opt,qtd} = sel, msg = $('p-msg').value.trim(), sens = !!p.sensorial && $('p-sens').checked;
+  const {p,opt,qtd} = sel, msg = '', sens = !!p.sensorial && $('p-sens').checked;
   const ex = carrinho.find(i=>i.pid===p.id && i.opt===opt && (i.msg||'')===msg && !!i.sens===sens);
   ex ? ex.qtd += qtd : carrinho.push({pid:p.id, opt, qtd, msg, sens});
   atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart');
@@ -2197,6 +2223,93 @@ if (CAMPANHA){
 if ($('aviso').hidden && AVISO_FIXO){ $('aviso').innerHTML = AVISO_FIXO; $('aviso').dataset.nav = 'criacoes'; $('aviso').hidden = false; }
 
 renderMenu();
+/* =========================================================
+   DAM — a mãozinha que responde as perguntas mais comuns.
+   Só responde o que está escrito aqui, com os dados do próprio site (preços, prazo, kits).
+   O que não estiver na lista vai para o WhatsApp da Ingrid. Nunca prometa efeito terapêutico.
+   ========================================================= */
+const DAM_SVG = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#FFF8E7"/>
+  <rect x="13" y="22" width="8" height="20" rx="4" fill="#1E459F" transform="rotate(-28 17 32)"/>
+  <rect x="21" y="9" width="8" height="24" rx="4" fill="#CF2A2A"/><rect x="29.5" y="7" width="8" height="26" rx="4" fill="#FABD32"/>
+  <rect x="38" y="9" width="8" height="24" rx="4" fill="#1F8A4C"/><rect x="45" y="15" width="7.5" height="20" rx="3.75" fill="#F07D28" transform="rotate(14 49 25)"/>
+  <rect x="19" y="27" width="31" height="25" rx="12" fill="#F2C9A6"/>
+  <circle cx="29" cy="38" r="2.2" fill="#14295C"/><circle cx="40" cy="38" r="2.2" fill="#14295C"/>
+  <path d="M29 44 q5.5 5 11 0" fill="none" stroke="#14295C" stroke-width="2.2" stroke-linecap="round"/></svg>`;
+const damWa = texto => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(texto)}`;
+const damKit = p => `<button type="button" data-pid="${p.id}">${esc(p.nome)}</button>`;
+const damPreco = p => p.porUnidade ? `${brl(p.opcoes[0].preco)} o kit` : `${brl(porKit(p.opcoes[0]))} por kit`;
+const damFaixaPreco = lista => { const v = lista.map(p=>p.porUnidade ? p.opcoes[0].preco : porKit(p.opcoes[0])); return Math.min(...v)===Math.max(...v) ? brl(v[0]) : `${brl(Math.min(...v))} a ${brl(Math.max(...v))}`; };
+const damCriar = () => PRODUTOS.filter(p=>!criacaoDe(p).linha);
+const damCelebrar = () => PRODUTOS.filter(p=>['sazonal','natal'].includes(criacaoDe(p).linha));
+
+/* Cada pergunta: texto do botão e a resposta (HTML curto). 'segue' = botões que aparecem depois da resposta. */
+const DAM_PERGUNTAS = [
+  { id:'pedir', q:'Como faço o pedido?', a:()=>`É bem simples:<ul><li>escolha o kit e o pacote (12, 24 ou 36 kits);</li><li>adicione ao carrinho e preencha os dados da festa e da entrega;</li><li>toque em <b>Finalizar pedido pelo WhatsApp</b>.</li></ul>O pedido chega para a Ingrid, que confirma tudo e envia os dados para o pagamento.` },
+  { id:'idade', q:'Qual kit serve para a idade da criança?', a:()=>`Escolha a idade e eu mostro o kit indicado:`, segue:()=>Array.from({length:10},(_,i)=>({ t:`${i+1} ano${i?'s':''}`, id:'idade:'+(i+1) })) },
+  { id:'misturar', q:'Posso misturar idades na mesma festa?', a:()=>`Pode! Cada kit vem em pacotes de 12, 24 ou 36, e você leva um pacote de cada kit que precisar, todos no mesmo pedido. Por exemplo: 12 kits de 3+ e 12 de 6+.<br><br>Quer misturar atividades dentro de um mesmo pacote de 12? Isso a Ingrid combina com você pelo WhatsApp.` },
+  { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 12, 24 ou 36. O frete é confirmado pelo WhatsApp.` },
+  { id:'dentro', q:'O que vem dentro de cada kit?', a:()=>`Escolha o kit e eu abro a página com a lista completa:`, segue:()=>[...damCriar(), ...SENSORIAIS, ...damCelebrar()].map(p=>({ t:p.nome, pid:p.id })) },
+  { id:'disponiveis', q:'Quais kits já estão disponíveis?', a:()=>{ const ok = PRODUTOS.filter(disponivel); return ok.length ? `Já dá para pedir:<ul>${ok.map(p=>`<li>${damKit(p)} · ${damPreco(p)}</li>`).join('')}</ul>Os outros kits estão em produção. Na página de cada um, o botão <b>Avise-me</b> manda uma mensagem para a Ingrid te chamar quando ficar pronto.` : `Os kits estão em produção. Use o botão <b>Avise-me</b> na página do kit que você quer.`; } },
+  { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>1 mês de antecedência</b>.` },
+  { id:'pagar', q:'Quais as formas de pagamento?', a:()=>`Por enquanto, só Pix:<ul><li><b>Pix à vista (100%)</b>: o pedido entra primeiro na fila de produção;</li><li><b>Pix em 2 vezes</b>: 50% para começar a produção e 50% mais o frete antes do envio ou da retirada.</li></ul>${LOJA.cashbackPix>0 ? `E pagando no Pix você ganha ${LOJA.cashbackPix}% de cashback para a próxima compra.` : ''}` },
+  ...(LOJA.cashbackPix>0 ? [{ id:'cashback', q:'Como funciona o cashback?', a:()=>`Pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na Dambrinhos, válido por ${LOJA.cashbackMeses} meses. O crédito não diminui o valor do pedido atual e não vira dinheiro.` }] : []),
+  { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido. Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
+  { id:'seguranca', q:'Os materiais são seguros? Têm selo do INMETRO?', a:()=>`Os materiais que exigem certificação vêm <b>lacrados na embalagem do fabricante</b>, com o selo do INMETRO e a idade indicada. A gente nunca separa itens de uma embalagem lacrada.<br><br>Cada kit tem uma idade sugerida para começar, e as atividades são feitas sempre com um adulto por perto. A seção "Idade e segurança", na página do kit, traz os detalhes.` },
+  { id:'alergia', q:'E se a criança tiver alergia?', a:()=>`Cada material vem <b>lacrado na embalagem original do fabricante</b>, com a composição no rótulo. Antes de entregar o kit para a criança, confira na embalagem se há algum ingrediente ao qual ela tenha alergia. As massas de modelar, por exemplo, costumam levar amido, que pode conter trigo.<br><br>Quer saber a marca e a composição antes de fazer o pedido? Toque em <b>Falar com a Ingrid</b> que ela envia as fotos das embalagens.`, wa:'Olá! Antes de fazer o pedido, queria ver a marca e a composição dos materiais do kit. A criança tem alergia a: ' },
+  { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, o biscuit, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
+  { id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' },
+];
+
+function damFalar(html, eu){
+  const b = document.createElement('div'); b.className = 'dam-msg' + (eu ? ' eu' : ''); b.innerHTML = html;
+  $('dam-conversa').appendChild(b); return b;
+}
+function damOpcoes(lista){
+  const box = document.createElement('div'); box.className = 'dam-opcoes';
+  box.innerHTML = lista.map(o=>`<button type="button" ${o.pid ? `data-pid="${o.pid}"` : `data-dam="${o.id}"`}>${esc(o.t)}</button>`).join('');
+  $('dam-conversa').appendChild(box); box.scrollIntoView({block:'end'});
+}
+function damMenu(){
+  damFalar('Sobre o que você quer saber?');
+  damOpcoes(DAM_PERGUNTAS.map(p=>({ t:p.q, id:p.id })));
+}
+function damResponder(id){
+  if (id.startsWith('idade:')){
+    const n = +id.split(':')[1], cr = ESCADA.find(c=>c.idade===n), p = cr && prod(cr.id+'-mini');
+    damFalar(`${n} ano${n>1?'s':''}`, true);
+    damFalar(p ? `Para ${n} ano${n>1?'s':''}, o kit indicado é o ${damKit(p)}, por ${damPreco(p)}. ${esc(p.resumo)}<br><br>A idade é a sugerida para começar: depois dela, qualquer idade aproveita. Para crianças a partir de 3 anos, também há os kits de texturas e das datas especiais.`
+                 : 'Não encontrei um kit para essa idade. Fale com a Ingrid que ela te ajuda a escolher.');
+    damOpcoes([{ t:'Ver outra idade', id:'idade' }, { t:'Outras perguntas', id:'menu' }]); return;
+  }
+  if (id==='menu'){ damMenu(); return; }
+  const p = DAM_PERGUNTAS.find(x=>x.id===id); if (!p) return;
+  damFalar(esc(p.q), true);
+  damFalar(p.a());
+  if (p.wa) $('dam-ingrid').href = damWa(p.wa);
+  damOpcoes(p.segue ? p.segue() : [{ t:'Outras perguntas', id:'menu' }]);
+}
+function damAbrir(){
+  $('dam').hidden = false; $('dam-btn').hidden = true;
+  if (!$('dam-conversa').children.length){
+    damFalar(`Oi! Eu sou o <b>Dam</b>, a mãozinha da Dambrinhos. 👋 Respondo as dúvidas mais comuns. Se a sua pergunta não estiver aqui, toque em <b>Falar com a Ingrid</b>.`);
+    damMenu();
+  }
+  $('dam-fechar').focus();
+}
+function damFechar(){ $('dam').hidden = true; $('dam-btn').hidden = $('view-cart').hidden === false; $('dam-btn').focus(); }
+$('dam-ico-btn').innerHTML = DAM_SVG; $('dam-ico-topo').innerHTML = DAM_SVG;
+$('dam-ingrid').href = damWa('Olá! Tenho uma dúvida sobre os kits da Dambrinhos.');
+$('dam-btn').onclick = damAbrir; $('dam-fechar').onclick = damFechar;
+$('dam-menu').onclick = ()=>damMenu();
+$('dam').addEventListener('click', e=>{
+  const b = e.target.closest('[data-dam]'); if (b){ damResponder(b.dataset.dam); return; }
+  if (e.target.closest('[data-pid],[data-guia]')) $('dam').hidden = true, $('dam-btn').hidden = false;
+});
+document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('dam').hidden) damFechar(); });
+/* No carrinho, a barra de finalizar fica embaixo: o botão do Dam some para não cobri-la */
+const _irOriginal = ir;
+ir = function(view){ _irOriginal(view); if ($('dam').hidden) $('dam-btn').hidden = view === 'cart'; };
+
 renderHome();
 procurarFotos();
 </script>
