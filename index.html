@@ -33,7 +33,11 @@
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
   @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-  body{margin:0;background:var(--fundo);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;overflow-x:clip}
+  /* Fundo do site inteiro: img/fundo-site.jpg = Fundo4.png + a mesma imagem espelhada embaixo,
+     para as faixas se encontrarem sem emenda quando o fundo se repete do topo ao rodapé */
+  /* Véu creme: faixas fortes nas laterais e clarinhas atrás dos textos (no celular, véu por igual) */
+  @media (max-width:759px){html body{background:linear-gradient(rgba(249,242,220,.78),rgba(249,242,220,.78)),#F9F2DC url("img/fundo-site.jpg") center top/100% auto repeat-y}}
+  body{margin:0;background:linear-gradient(90deg,rgba(249,242,220,.15) 0,rgba(249,242,220,.8) 16%,rgba(249,242,220,.8) 84%,rgba(249,242,220,.15) 100%),#F9F2DC url("img/fundo-site.jpg") center top/100% auto repeat-y;color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.5;overflow-x:clip}
   h1,h2,h3,h4{font-family:var(--font-head);font-weight:700;margin:0;font-variation-settings:"SOFT" 100;letter-spacing:-.01em}
   button,input,textarea{font:inherit;color:inherit}
   a{color:var(--azul)}
@@ -98,7 +102,7 @@
     .menu{display:none;position:absolute;left:0;right:0;top:100%;margin:0;flex-direction:column;align-items:stretch;gap:0;background:#fff;border-bottom:1px solid var(--linha);padding:6px 16px 16px;max-height:78vh;overflow:auto;box-shadow:0 12px 30px rgba(16,17,35,.14)}
     .menu.open{display:flex}
     .menu-link,.dd summary{height:50px;color:var(--ink);border-radius:10px;padding:0 10px;justify-content:space-between}
-    .menu-link:hover,.dd summary:hover,.dd[open] summary{background:#EDF0F5}
+    .menu-link:hover,.dd summary:hover,.dd[open] summary,.dd[open] summary:hover{background:#EDF0F5;color:var(--azul)}
     .mega{position:static;box-shadow:none;border:0;background:none}
     .mega-in{padding:8px 10px 14px;grid-template-columns:1fr;gap:16px}
     .busca.open input{width:140px}
@@ -110,9 +114,7 @@
      O creme #F9F2DC é a mesma cor do fundo da imagem, para não aparecer emenda. */
   /* A imagem (horizontal) é espelhada e esticada na largura toda: as linhas entram pela direita, passam atrás
      das ilustrações e chegam ao lado esquerdo. Uma névoa creme atrás do texto deixa as linhas clarinhas ali. */
-  .hero{position:relative;isolation:isolate;background:#F9F2DC}
-  .hero::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse 46% 50% at 78% 46%,rgba(249,242,220,.94) 0,rgba(249,242,220,.86) 55%,rgba(249,242,220,0) 100%),url("Fundo 2.png") left top/100% 100% no-repeat;transform:scaleX(-1)}
-  @media (max-width:859px){.hero::before{background:url("Fundo 2.png") left bottom/auto 48% no-repeat}}
+  .hero{position:relative;isolation:isolate;background:transparent}  /* o topo usa o fundo do site inteiro */
   /* O fundo de ondas desce até encostar na seção "Nossa história" (sem faixa creme entre as duas) */
   .hero .idades-wrap{padding-bottom:64px}
   .hero + .historia{margin-top:0;border-top-left-radius:0;border-top-right-radius:0}
@@ -144,12 +146,12 @@
   .sec-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:8px 20px;margin-bottom:22px}
 
   /* Cartões grandes coloridos das criações, num carrossel */
-  .criacoes{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 14px;scrollbar-width:thin}
-  .criacoes .cri-card{flex:0 0 min(310px,84%);scroll-snap-align:start}
-  .car-nav{display:flex;gap:8px}
-  .car-nav button{width:46px;height:46px;border-radius:23px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);font-size:24px;line-height:1;cursor:pointer}
-  .car-nav button:hover{background:var(--ink);color:#fff}
-  @media (max-width:699px){.car-nav{display:none}}
+  /* Criações em grade: 2 por linha no celular, 5 por linha no computador (duas linhas de 5) */
+  .criacoes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:4px 0 8px}
+  @media (min-width:1000px){.criacoes{grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}}
+  .criacoes .cri-card{padding:20px 18px 0}
+  .criacoes .cri-card h3{font-size:clamp(18px,1.7vw,24px);min-height:2.2em}  /* títulos de 1 ou 2 linhas ocupam o mesmo espaço */
+  .criacoes .cri-card .preco,.criacoes .cri-card .ver{font-size:14px}
 
   /* Fotos reais (com a idade no canto) */
   .foto-wrap{position:relative;display:block;width:100%;height:100%}
@@ -170,7 +172,7 @@
   .arte .cta{margin-top:8px}
 
   /* Nossa história: as letras de "mãos" se acendem dentro de Dambrinhos */
-  .historia{display:grid;gap:28px;align-items:center;margin-top:64px;padding:40px 28px;border-radius:20px;background:var(--azul-claro);scroll-margin-top:110px}
+  .historia{display:grid;gap:28px;align-items:center;margin:64px 0 72px;padding:40px 28px;border-radius:20px;background:var(--azul-claro);scroll-margin-top:110px}
   @media (min-width:860px){.historia{grid-template-columns:1.2fr 1fr;gap:48px;padding:52px 56px}}
   .historia-txt > p:not(.eyebrow):not(.h-palavra):not(.h-legenda){font-size:17px;margin:0 0 12px;max-width:54ch}
   .historia .cta{margin-top:10px}
@@ -200,37 +202,22 @@
   .hist-page p{font-size:18px;line-height:1.6;margin:0 0 14px}
   .hist-assina{font-family:var(--font-head);font-style:italic;font-size:20px !important;margin-top:28px !important}
   .hist-acts{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  /* Tela Ajuda */
+  .ajuda-page{padding:10px 0 72px;text-align:center}
+  .ajuda-page .hist-acts{justify-content:center;margin-top:36px}
 
   /* Seções por faixa de idade */
-  .faixas{display:grid;gap:64px}
-  .faixa{display:grid;gap:28px;align-items:center}
-  @media (min-width:860px){.faixa{grid-template-columns:1fr 1fr;gap:56px} .faixa:nth-child(even) .faixa-img{order:2}}
-  .faixa-txt > p:not(.eyebrow){font-size:17px;color:var(--muted);margin:14px 0 18px;max-width:52ch}
-  .faixa-cri{list-style:none;margin:0 0 18px;padding:0;display:grid;gap:8px}
-  .faixa-cri button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:12px;padding:10px 16px 10px 10px;background:#fff;border-radius:14px;border:1.5px solid transparent}
-  .faixa-cri button:hover{border-color:var(--ink)}
-  .faixa-cri button:focus-visible{outline:3px solid var(--azul);outline-offset:2px}
-  .faixa-cri b{width:40px;height:40px;border-radius:20px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-variation-settings:"SOFT" 100;flex-shrink:0}
-  .faixa-cri .t{flex:1;display:grid}
-  .faixa-cri small{color:var(--muted);font-size:13px}
 
-  /* Kit em destaque */
-  .destaque{background:var(--bege-claro);margin-top:72px}
-  .destaque-in{display:grid;gap:28px;align-items:center;padding-block:52px}
-  @media (min-width:860px){.destaque-in{grid-template-columns:1fr 1fr;gap:56px;padding-block:64px}}
-  .destaque-img{border-radius:20px;overflow:hidden;aspect-ratio:5/4;background:#fff;box-shadow:0 18px 40px rgba(16,17,35,.14)}
-  .destaque-txt h2{font-size:clamp(30px,4vw,46px);line-height:1.05;margin-bottom:6px}
-  .destaque-txt > p{margin:0 0 14px}
-  .d-opts{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
-  .d-opt{min-height:44px;padding:0 18px;border-radius:22px;border:1.5px solid var(--campo);background:#fff;color:var(--ink);font-weight:600;cursor:pointer}
-  .d-opt[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:#fff}
-  .destaque-acts{display:flex;flex-wrap:wrap;gap:10px}
-  .cri-card{display:flex;flex-direction:column;gap:10px;padding:30px 30px 0;border-radius:18px;border:0;text-align:left;cursor:pointer;color:var(--ink);overflow:hidden;transition:transform .15s}
+  .cri-card{display:flex;flex-direction:column;gap:8px;padding:26px 26px 0;border-radius:18px;border:0;text-align:left;cursor:pointer;color:var(--ink);overflow:hidden;transition:transform .15s}
   .cri-card:hover{transform:translateY(-3px)}
   .cri-card h3{font-size:clamp(24px,2.4vw,30px);line-height:1.1}
-  .cri-card p{margin:0;font-size:16px;max-width:36ch}
+  .cri-card .preco{font-size:16px}
   .cri-card .ver{font-weight:600;text-decoration:underline;text-underline-offset:3px;font-size:15px}
-  .cri-card .img{display:block;margin:auto -6px 0;aspect-ratio:5/4;border-radius:14px 14px 0 0;overflow:hidden}
+  /* Imagem do cartão: sempre 5:4 e encostada embaixo, para todas ficarem do mesmo tamanho e alinhadas na linha.
+     A foto/ilustração fica em position:absolute para não esticar a caixa com o tamanho original do arquivo. */
+  .cri-card .img{position:relative;display:block;flex:none;width:100%;margin:auto 0 18px;aspect-ratio:5/4;border-radius:14px;overflow:hidden;background:#fff}
+  .cri-card .img > *{position:absolute;inset:0;width:100%;height:100%}
+  .cri-card .ver{margin-bottom:14px}
 
   /* Benefícios com formas grandes (como "Horas de entretenimento" da Sculpd) */
   .beneficios{display:grid;grid-template-columns:1fr;gap:34px;text-align:center}
@@ -241,18 +228,19 @@
   .beneficios p{margin:0;color:var(--muted);font-size:17px;max-width:38ch}
 
   /* Ocasiões */
-  .oc-row{display:flex;gap:16px;overflow-x:auto;padding:20px 2px 12px;scroll-snap-type:x mandatory}
-  .oc-card{flex:0 0 236px;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-height:250px;padding:22px;border-radius:16px;border:2px solid transparent;text-align:left;cursor:pointer;color:var(--ink)}
-  .oc-card svg{width:56px;height:56px}
-  .oc-card b{display:block;font-family:var(--font-head);font-variation-settings:"SOFT" 100;font-size:24px;line-height:1.1}
-  .oc-card span{font-size:14px;color:var(--muted)}
-  .oc-card[aria-pressed="true"]{border-color:var(--ink)}
-  .oc-result .sec-head{margin:22px 0 16px}
-  .oc-result h3{font-size:24px}
+  /* Datas sazonais e "Para quem cuida": os mesmos cartões com foto das criações (5 por linha no computador, 2 no celular) */
+  .criacoes.ocasioes{padding-top:18px}
+  .criacoes.ocasioes .cri-card h3{min-height:0}
+  .cri-card .sub{font-size:13px;line-height:1.35;color:var(--muted);min-height:4.05em}
+  a.cri-card{text-decoration:none}
+  #empresas{scroll-margin-top:110px}
+  #empresas .cuida-pe{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:14px}
 
   /* Cards de produto (vitrine) */
   .pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}
   @media (min-width:900px){.pgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  /* Padrão do site no computador: cartões pequenos, 5 por linha */
+  @media (min-width:1100px){.pgrid{grid-template-columns:repeat(5,minmax(0,1fr))} .pgrid .pcard h3{font-size:17px} .pgrid .pcard .resumo{font-size:13px}}
   .pcard{display:flex;flex-direction:column;gap:10px}
   .pcard-img{display:block;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:5/4;background:#fff;cursor:pointer}
   .pcard-img:hover{box-shadow:0 10px 26px rgba(16,17,35,.12)}
@@ -265,6 +253,10 @@
   .pcard .resumo{margin:0;color:var(--muted);font-size:14px}
   .pcard-preco b{font-size:17px}
   .pcard .cta{min-height:46px;font-size:15px;margin-top:auto;width:100%}
+  /* Kits sem estoque: selo "Em breve" na foto e botão "Avise-me" pelo WhatsApp */
+  .pcard-img{position:relative}
+  .em-breve{position:absolute;top:10px;right:10px;padding:5px 11px;border-radius:20px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;letter-spacing:.03em}
+  .pcard .btn-out{min-height:46px;font-size:15px;margin-top:auto;width:100%}
 
   /* Faixa "Presentear" */
   .banner{background:var(--logo-azul);color:var(--fundo);margin-top:72px}
@@ -311,17 +303,13 @@
   .eco-item{background:#fff;border-radius:16px;padding:16px;display:grid;gap:6px;align-content:start}
   .eco-item svg{width:36px;height:36px}
   .eco-item span{font-size:14px;color:var(--muted)}
-  .empresas{display:grid;gap:18px;margin-top:24px;padding:40px 28px;border-radius:20px;background:var(--amarelo-fundo);scroll-margin-top:110px}
-  @media (min-width:760px){.empresas{grid-template-columns:1.4fr 1fr;align-items:center}}
-  .empresas h2{font-size:clamp(26px,3.2vw,36px);line-height:1.1;margin-bottom:10px}
-  .empresas p{margin:0 0 16px}
-  .empresas ul{margin:0;padding:16px 18px 16px 34px;background:#fff;border-radius:16px;display:grid;gap:6px}
-  .sens-home{display:grid;gap:18px;margin-top:24px;padding:40px 28px;border-radius:20px;background:var(--lilas);scroll-margin-top:110px}
-  @media (min-width:760px){.sens-home{grid-template-columns:1.4fr 1fr;align-items:center}}
-  .sens-home h2{font-size:clamp(26px,3.2vw,36px);line-height:1.1;margin-bottom:10px}
-  .sens-home p{margin:0 0 16px}
-  .sens-home .acts{display:flex;flex-wrap:wrap;gap:10px}
-  .sens-home ul{margin:0;padding:16px 18px 16px 34px;background:#fff;border-radius:16px;display:grid;gap:6px}
+  /* Linha Personagens: um cartão de largura inteira */
+  .duo{display:grid;gap:18px;margin-top:64px}
+  .empresas,.sens-home,.personagens{display:flex;flex-direction:column;align-items:flex-start;padding:36px 28px;border-radius:20px;scroll-margin-top:110px}
+  .empresas{background:var(--amarelo-fundo)} .sens-home{background:var(--lilas)} .personagens{background:var(--menta-claro)}
+  .empresas h2,.sens-home h2,.personagens h2{font-size:clamp(24px,2.4vw,28px);line-height:1.1;margin-bottom:8px}
+  .empresas p:not(.eyebrow),.sens-home p:not(.eyebrow),.personagens p:not(.eyebrow){margin:0 0 18px;flex:1}
+  .personagens .nota{flex:none;font-size:13px;color:var(--muted);margin:14px 0 0}
   .insta{text-align:center;padding-bottom:72px}
 
   /* Versão sensorial: selo, opção no produto e página explicativa */
@@ -351,6 +339,27 @@
   .sens-box h2{font-size:clamp(24px,2.8vw,32px);line-height:1.1;margin-bottom:12px}
   .sens-box p{margin:0 0 12px}
   .sens-box ol{margin:0 0 16px;padding-left:20px;display:grid;gap:6px}
+  /* Guia de texturas: tabela no computador, um cartão por material no celular */
+  .guia{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--linha);border-radius:16px;overflow:hidden;font-size:15px}
+  .guia th,.guia td{padding:12px 14px;text-align:left;vertical-align:top;border-top:1px solid var(--linha)}
+  .guia thead th{border-top:0;font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .guia .grupo th{background:var(--lilas);font-size:14px}
+  .guia tbody th{font-weight:600;min-width:150px}
+  .guia td{color:var(--muted)}
+  .guia .kits{display:block;margin-top:4px;font-weight:400;font-size:13px}
+  .guia button,.pd-acc-body .guia-link{all:unset;cursor:pointer;color:var(--azul);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+  .guia-nota{margin:12px 0 0;max-width:80ch}
+  #guia-texturas{scroll-margin-top:120px}
+  .pd-tex{margin:0 0 12px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px}
+  .pd-tex dt{font-weight:600}
+  .pd-tex dd{margin:0;color:var(--muted)}
+  @media (max-width:759px){
+    .guia thead{display:none}
+    .guia,.guia tbody,.guia tr,.guia th,.guia td{display:block}
+    .guia tbody tr:not(.grupo){padding:12px 0;border-top:1px solid var(--linha)}
+    .guia tbody th,.guia td{border-top:0;padding:3px 14px}
+    .guia td::before{content:attr(data-l) ": ";font-weight:600;color:var(--ink)}
+  }
   .sens-aviso{margin:16px 0 72px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--linha);font-size:15px;color:var(--muted)}
   .sens-aviso b{color:var(--ink)}
   .insta p{color:var(--muted);margin:10px 0 20px;font-size:17px}
@@ -481,8 +490,9 @@
   <a class="aviso" id="aviso" href="#" hidden></a>
   <div class="wrap">
     <div class="top-row">
-      <!-- Logo colorida: img/logo-dambrinhos.png. Versão de uma cor (azul petróleo): img/logo-dambrinhos-petroleo.png -->
-      <button class="brand" type="button" data-go="home"><img src="img/logo-dambrinhos.png" alt="Dambrinhos, página inicial" width="1108" height="160"></button>
+      <!-- Logo colorida em cinco cores, com ™ (pedido de registro no INPI feito em 13/10/2026): img/logo-dambrinhos-5-cores-tm.png.
+           Sem ™: img/logo-dambrinhos-5-cores.png · antiga: img/logo-dambrinhos.png · uma cor: img/logo-dambrinhos-petroleo.png -->
+      <button class="brand" type="button" data-go="home"><img src="img/logo-dambrinhos-5-cores-tm.png" alt="Dambrinhos, página inicial" width="1170" height="160"></button>
       <!-- Menu montado pelo código (função renderMenu), a partir dos produtos cadastrados -->
       <nav class="menu" aria-label="Menu principal" id="menu"></nav>
       <div class="top-acts">
@@ -527,37 +537,52 @@
       </div>
     </section>
 
-    <!-- Nossa história (resumo na página inicial; a versão completa fica em view-historia) -->
-    <section class="historia" id="historia-home">
-      <div class="historia-txt">
-        <p class="eyebrow">Nossa história</p>
-        <p class="h-palavra" aria-label="Dambrinhos: dentro do nome, as letras de mãos e de irmãos"><span class="h-l">D</span><span class="h-l h-mao" style="--o:2">a</span><span class="h-l h-mao" style="--o:1">m</span><span class="h-l">b</span><span class="h-l h-irm" style="--o:1">r</span><span class="h-l h-irm" style="--o:2">i</span><span class="h-l">n</span><span class="h-l">h</span><span class="h-l h-mao" style="--o:3">o</span><span class="h-l h-mao" style="--o:4">s</span></p>
-        <p class="h-legenda">Dentro de <b>Dambrinhos</b> cabem as <b>mãos</b> e os <b>irmãos</b>.</p>
-        <p>Dambros é o sobrenome da nossa família. Na escola, o Bento e o Benício viraram “os Dambrinhos”, um apelido carinhoso que agora dá nome à marca.</p>
-        <p>E, olhando com carinho, descobri que dentro do nome cabem os dois: os irmãos que inspiraram a marca e as mãos que criam cada obra dos nossos kits.</p>
-        <button class="cta" type="button" data-go="historia">Conheça a nossa história</button>
-      </div>
-      <div class="historia-img" id="historia-img" aria-hidden="true"></div>
-    </section>
-
     <!-- 1. Carrossel das criações -->
     <section class="sec" id="criacoes">
       <div class="sec-head">
-        <div><h2 class="sec-title">O que a criança vai criar?</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em versão lembrancinha (mini, em pacotes) e presente (completo). A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
-        <div class="car-nav"><button type="button" data-car="-1" aria-label="Atividades anteriores">‹</button><button type="button" data-car="1" aria-label="Próximas atividades">›</button></div>
+        <div><p class="eyebrow">Criar</p><h2 class="sec-title">O que a criança vai criar?</h2>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 12, 24 ou 36 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
       </div>
       <div class="criacoes" id="grid-criacoes"></div>
     </section>
 
-    <!-- Fases da criança: uma seção por faixa de idade (textos na configuração FAIXAS) -->
-    <section class="sec" id="faixas">
-      <div class="faixas" id="faixas-lista"></div>
+    <!-- Área sensorial: os kits de textura, que só existem nessa área (mesmos cartões das criações) -->
+    <section class="sec" id="sensorial-home">
+      <div class="sec-head">
+        <div><p class="eyebrow">Sentir</p><h2 class="sec-title">O que a criança vai sentir?</h2>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Área sensorial: materiais de texturas diferentes, que só existem aqui. Todos a partir de 3 anos.</p></div>
+        <button class="btn-out" type="button" data-go="sensorial">Conhecer a área sensorial</button>
+      </div>
+      <div class="criacoes" id="sens-row"></div>
     </section>
 
-    <!-- 2. Benefícios -->
-    <section class="sec">
-      <div class="beneficios" id="beneficios"></div>
+    <!-- Espaço de Natal: aparece sozinho de 1º de outubro a 25 de dezembro (ver mostrarNatal) -->
+    <section class="banner full" id="natal-especial" hidden>
+      <div class="wrap banner-in">
+        <div class="banner-art" id="natal-art" aria-hidden="true"></div>
+        <div>
+          <p class="eyebrow">Edição especial de Natal</p>
+          <h2>Enfeites pintados pela criança, para a árvore de todo ano.</h2>
+          <p>Três enfeites de madeira, tintas e pincel. Vendido por unidade, para dar de presente.</p>
+          <div class="hero-ctas" style="margin-top:0">
+            <button class="cta" type="button" data-pid="estrela-mini">Ver o kit de Natal</button>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec" id="ocasioes">
+      <p class="eyebrow">Celebrar</p>
+      <h2 class="sec-title">Como você vai celebrar?</h2>
+      <div class="criacoes ocasioes" id="oc-row"></div>
+    </section>
+
+    <!-- Para quem cuida: um cartão por tipo de profissional, cada um abre o WhatsApp com a mensagem pronta -->
+    <section class="sec" id="empresas">
+      <div class="sec-head"><div><p class="eyebrow">Cuidar</p><h2 class="sec-title">Para quem cuida</h2></div><span class="small">Mini kits para alunos e pequenos pacientes, com a tag da sua marca. A partir de 24 unidades.</span></div>
+      <div class="criacoes ocasioes" id="cuida-row"></div>
+      <div class="cuida-pe"><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
     </section>
 
     <!-- Assinatura da marca: toda criação vira arte, com a ficha da obra -->
@@ -593,37 +618,12 @@
     </section>
 
 
-    <!-- 5. Kit em destaque (configuração DESTAQUE) -->
-    <section class="destaque full" id="destaque"></section>
-
     <!-- 6. Depoimentos reais (aparecem só quando DEPOIMENTOS tiver algum) -->
     <section class="sec" id="depo-sec" hidden>
       <h2 class="sec-title" style="margin-bottom:22px">Quem já celebrou com a gente</h2>
       <div class="depo-row" id="grid-depo"></div>
     </section>
 
-    <section class="sec" id="ocasioes">
-      <h2 class="sec-title">Como você vai celebrar?</h2>
-      <div class="oc-row" id="oc-row" role="list"></div>
-      <div class="oc-result" id="oc-result" aria-live="polite"></div>
-    </section>
-
-    <section class="banner full">
-      <div class="wrap banner-in">
-        <div class="banner-art" id="banner-art" aria-hidden="true"></div>
-        <div>
-          <p class="eyebrow">Presentear</p>
-          <h2>Um ateliê completo para levar para casa.</h2>
-          <p>As versões completas trazem mais material, guia com projetos e caixa com a nossa marca: para presentear no aniversário, no Dia das Crianças ou no Natal.</p>
-          <button class="cta" type="button" data-col="completos">Ver kits completos</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="sec" id="como">
-      <h2 class="sec-title" style="text-align:center">Como funciona</h2>
-      <ol class="passos" id="passos"></ol>
-    </section>
 
     <section class="eco" id="jeito">
       <h2 class="sec-title">Nosso jeito de fazer</h2>
@@ -631,38 +631,31 @@
       <div class="eco-grid" id="eco-grid"></div>
     </section>
 
-    <section class="empresas" id="empresas">
-      <div>
-        <p class="eyebrow">Escolas e empresas</p>
-        <h2>Uma oficina de criação para a turma inteira.</h2>
-        <p>Dia das Crianças, fim de ano e presentes para professores e colaboradores. Montamos o pedido na quantidade que você precisar.</p>
-        <a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento pelo WhatsApp</a>
+    <!-- Linha Personagens DESATIVADA por enquanto: o bloco fica guardado e escondido. Para reativar, apague o "hidden" abaixo
+         e devolva os links do menu ({ nome:'Linha Personagens', nav:'personagens' }) e do rodapé. -->
+    <div class="duo" hidden>
+      <!-- Linha Personagens: sob encomenda, com produtos licenciados originais. Não usar nomes nem imagens de personagens no site. -->
+      <section class="personagens" id="personagens">
+        <p class="eyebrow">Linha Personagens</p>
+        <h2>No tema da festa</h2>
+        <p>Giz de cera, massinha e papelaria licenciados originais, com o personagem favorito da criança. Diga o tema e consultamos a disponibilidade.</p>
+        <a class="cta" id="personagens-wa" href="#" target="_blank" rel="noopener">Consultar o tema</a>
+        <p class="nota">Sob encomenda, a partir de 3 anos, mínimo de 12 kits. Por usar produtos licenciados, o valor é diferente dos kits Dambrinhos.</p>
+      </section>
+    </div>
+
+    <!-- Nossa história (resumo na página inicial; a versão completa fica em view-historia) -->
+    <section class="historia" id="historia-home">
+      <div class="historia-txt">
+        <p class="eyebrow">Nossa história</p>
+        <p class="h-palavra" aria-label="Dambrinhos: dentro do nome, as letras de mãos e de irmãos"><span class="h-l">D</span><span class="h-l h-mao" style="--o:2">a</span><span class="h-l h-mao" style="--o:1">m</span><span class="h-l">b</span><span class="h-l h-irm" style="--o:1">r</span><span class="h-l h-irm" style="--o:2">i</span><span class="h-l">n</span><span class="h-l">h</span><span class="h-l h-mao" style="--o:3">o</span><span class="h-l h-mao" style="--o:4">s</span></p>
+        <p class="h-legenda">Dentro de <b>Dambrinhos</b> cabem as <b>mãos</b> e os <b>irmãos</b>.</p>
+        <p>Dambros é o sobrenome da nossa família. Na escola, o Bento e o Benício viraram “os Dambrinhos”, um apelido carinhoso que agora dá nome à marca.</p>
+        <button class="cta" type="button" data-go="historia">Conheça a nossa história</button>
       </div>
-      <ul>
-        <li>A partir de 20 kits</li>
-        <li>Embalagem com a nossa marca, igual para todos</li>
-        <li>Tag com o nome da escola ou da empresa, se quiser</li>
-      </ul>
+      <div class="historia-img" id="historia-img" aria-hidden="true"></div>
     </section>
 
-    <section class="sens-home" id="sensorial-home">
-      <div>
-        <p class="eyebrow">Sensorial</p>
-        <h2>Para crianças que gostam de explorar texturas.</h2>
-        <p>Brinquedos para apertar, moldar e brincar de novo, como a areia mágica, a massinha e a argila, a obra de arte desta área, e uma versão sensorial do kit de mosaico. Tudo pensado para crianças autistas e para todas as crianças que sentem o mundo pelas mãos.</p>
-        <div class="acts">
-          <button class="cta" type="button" data-go="sensorial">Conhecer a área sensorial</button>
-          <button class="btn-out" type="button" data-col="sensorial">Ver os kits</button>
-        </div>
-      </div>
-      <ul id="sens-home-lista"></ul>
-    </section>
-
-    <section class="sec insta">
-      <h2 class="sec-title">Acompanhe a gente</h2>
-      <p>Novidades, bastidores e as criações das crianças, no Instagram.</p>
-      <a class="cta" id="insta-link" href="#" target="_blank" rel="noopener">@dambrinhosoficial no Instagram</a>
-    </section>
   </div>
 
   <!-- ====== COLEÇÃO (criação, ocasião, busca, todos) ====== -->
@@ -699,6 +692,7 @@
         <div id="p-pacotes-wrap">
           <h2 class="pd-h">Quantos convidados?</h2>
           <div class="pd-pacotes" id="p-pacotes"></div>
+          <p class="small" style="margin:10px 0 0">Convidados de várias idades? Leve um pacote de cada kit: é só adicionar ao carrinho e escolher outro.</p>
         </div>
         <div class="qty-row" id="p-qty-row">
           <span style="font-weight:600">Quantidade</span>
@@ -714,8 +708,9 @@
           <span>Mesmo preço e a mesma embalagem por fora, com instruções em figuras e o material separado por etapa. <button type="button" data-go="sensorial">O que muda?</button></span></span>
         </label>
         <p class="pd-stock"><span class="pd-dot" aria-hidden="true"></span><span id="p-prazo"></span></p>
-        <div class="pd-paylogos" aria-label="Formas de pagamento"><span>Pix</span><span>Visa</span><span>Mastercard</span><span>Elo</span><span id="p-parc-logo"></span></div>
+        <div class="pd-paylogos" aria-label="Formas de pagamento"><span>Pix</span><span class="so-cartao">Visa</span><span class="so-cartao">Mastercard</span><span class="so-cartao">Elo</span><span id="p-parc-logo"></span></div>
         <button class="cta pd-add" type="button" id="add">Adicionar ao carrinho</button>
+        <a class="cta pd-add" id="p-avise" href="#" target="_blank" rel="noopener" hidden>Em breve · Avise-me pelo WhatsApp</a>
         <button class="btn-out pd-msg-btn" type="button" id="p-msg-btn" aria-expanded="false" aria-controls="p-msg-wrap">Adicione uma mensagem para o cartão</button>
         <div class="field" id="p-msg-wrap" hidden>
           <label for="p-msg">Mensagem para o cartão (opcional)</label>
@@ -725,8 +720,9 @@
         <div class="pd-acc">
           <details open><summary>Por que você vai adorar este kit?</summary><div class="pd-acc-body"><p id="p-desc"></p><div class="selos" id="p-selos"></div></div></details>
           <details><summary>O que vem dentro do kit</summary><div class="pd-acc-body"><ul class="itens" id="p-itens"></ul></div></details>
+          <details id="p-tex-wrap"><summary>Textura do material</summary><div class="pd-acc-body"><div id="p-tex"></div><button type="button" class="guia-link" data-guia>Comparar com os outros materiais</button></div></details>
           <details><summary>Idade e segurança</summary><div class="pd-acc-body"><p id="p-seguranca"></p></div></details>
-          <details><summary>Prazo e entrega</summary><div class="pd-acc-body"><p id="p-prazo2"></p><p>Enviamos para todo o Brasil. O valor do frete é confirmado pelo WhatsApp junto com o pedido.</p></div></details>
+          <details><summary>Prazo e entrega</summary><div class="pd-acc-body"><p id="p-prazo2"></p><p>Se o pedido for enviado, some o prazo da transportadora, que varia conforme o CEP. Para chegar com folga, peça com pelo menos 1 mês de antecedência da festa.</p><p>Enviamos para todo o Brasil. O valor do frete é confirmado pelo WhatsApp junto com o pedido.</p></div></details>
         </div>
         <div class="sku" id="p-sku"></div>
       </div>
@@ -737,43 +733,60 @@
   <div id="view-sensorial" class="wrap" hidden>
     <section class="sens-hero full">
       <div class="wrap sens-hero-in">
-        <p class="crumbs"><button type="button" data-go="home">Início</button> / Área sensorial</p>
-        <p class="eyebrow">Área sensorial</p>
+        <p class="crumbs"><button type="button" data-go="home">Início</button> / Sentir</p>
+        <p class="eyebrow">Sentir · área sensorial</p>
         <h1>Criar com as mãos, no ritmo de cada criança.</h1>
         <p id="sens-intro"></p>
       </div>
     </section>
 
     <section class="sec">
-      <div class="sec-head"><h2 class="sec-title">Brinquedos sensoriais</h2><span class="small">Só nesta área: para apertar, moldar e brincar de novo.</span></div>
+      <div class="sec-head"><h2 class="sec-title">Texturas para explorar</h2><span class="small">Só nesta área: areia que escorre, biscuit que fica firme, massa de EVA leve e massa de modelar macia.</span></div>
       <div class="pgrid" id="sens-produtos"></div>
     </section>
 
-    <section class="sec">
-      <h2 class="sec-title" style="margin-bottom:8px">Versão sensorial dos kits</h2>
-      <p class="small" style="margin:0 0 22px;max-width:70ch">O kit de mosaico também vem numa versão sensorial, com o mesmo preço. O que muda:</p>
-      <div class="sens-grid" id="sens-grid"></div>
+    <section class="sec" id="guia-texturas">
+      <div class="sec-head"><h2 class="sec-title">Guia de texturas</h2><span class="small">O que a mão sente em cada material, nos kits desta área e nas lembrancinhas.</span></div>
+      <table class="guia">
+        <thead><tr><th scope="col">Material</th><th scope="col">Toque</th><th scope="col">Água</th><th scope="col">Barulho</th><th scope="col">Espera</th></tr></thead>
+        <tbody id="guia-corpo"></tbody>
+      </table>
+      <p class="small guia-nota">O guia descreve os materiais para ajudar na escolha. Ele não indica um material para uma criança: quem conhece o que ela gosta de tocar é você.</p>
     </section>
 
     <div class="sens-duas">
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Brinquedos sensoriais: é só escolher e adicionar ao carrinho.</li>
-          <li>Versão sensorial: escolha um kit de mosaico e, na página dele, marque <b>“Quero a versão sensorial”</b>.</li>
-          <li>Quer misturar na mesma festa? Escreva nas observações do pedido, por exemplo: “17 comuns e 3 sensoriais”.</li>
+          <li>Escolha a textura: areia, biscuit, massa de EVA ou massa de modelar.</li>
+          <li>Escolha o pacote e adicione ao carrinho.</li>
+          <li>Quer mais de uma textura na mesma festa? Combine pacotes de kits diferentes.</li>
         </ol>
         <button class="cta" type="button" data-col="sensorial">Ver os kits sensoriais</button>
       </section>
       <section class="sens-box" style="background:var(--lilas)">
         <h2>Uma festa para todos</h2>
-        <p>Por fora, a versão sensorial é igual às outras: mesma embalagem, mesma marca e mesmo cartão. Assim, nenhuma criança recebe uma lembrancinha visivelmente diferente das outras.</p>
+        <p>Os kits desta área vêm na mesma embalagem e com a mesma marca dos outros kits. Assim, nenhuma criança recebe uma lembrancinha visivelmente diferente das outras.</p>
         <p>Ficou com dúvida sobre algum material? Mandamos fotos e a descrição de cada item antes de você fechar o pedido.</p>
         <a class="btn-out" id="sens-wa" href="#" target="_blank" rel="noopener">Tirar dúvidas pelo WhatsApp</a>
       </section>
     </div>
 
     <p class="sens-aviso"><b>Importante:</b> nossos kits são atividades de criação, e não um recurso terapêutico. Cada criança é única, então você conhece melhor do que ninguém o que funciona para ela.</p>
+  </div>
+
+  <!-- ====== AJUDA (tela própria, como a Nossa história) ====== -->
+  <div id="view-ajuda" class="wrap" hidden>
+    <p class="crumbs pd-crumbs"><button type="button" data-go="home">Início</button> / Ajuda</p>
+    <section class="ajuda-page">
+      <p class="eyebrow">Ajuda</p>
+      <h1 class="sec-title">Como funciona</h1>
+      <ol class="passos" id="passos"></ol>
+      <div class="hist-acts">
+        <a class="cta" id="ajuda-wa" href="#" target="_blank" rel="noopener">Tirar dúvidas pelo WhatsApp</a>
+        <button class="btn-out" type="button" data-col="todos">Ver todos os kits</button>
+      </div>
+    </section>
   </div>
 
   <!-- ====== NOSSA HISTÓRIA ====== -->
@@ -824,19 +837,24 @@
             <h2>Seus dados e entrega</h2>
             <div class="field" id="f-cliente"><label for="cliente">Seu nome *</label><input id="cliente" name="cliente" type="text" autocomplete="name"></div>
             <div class="field" id="f-cep"><label for="cep">CEP *</label><input id="cep" name="cep" type="text" inputmode="numeric" placeholder="00000-000" maxlength="9" autocomplete="postal-code"></div>
-            <p class="small" style="margin:0">O valor do frete é confirmado pelo WhatsApp.</p>
+            <p class="small" style="margin:0">O valor do frete é confirmado pelo WhatsApp. Pedido pronto em até 15 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 1 mês de antecedência da festa.</p>
           </section>
           <section style="margin-top:24px">
             <h2>Pagamento</h2>
-            <label class="radio"><input type="radio" name="pag" value="Pix" checked> <span id="pix-label">Pix</span></label>
-            <label class="radio"><input type="radio" name="pag" value="Cartão"> Cartão de crédito</label>
+            <label class="radio"><input type="radio" name="pag" value="Pix à vista (100%)" checked> <span id="pix-label">Pix à vista (100%): o pedido entra primeiro na fila de produção</span></label>
+            <label class="radio"><input type="radio" name="pag" value="Pix em 2 vezes (50% + 50%)"> <span id="pix2-label">Pix em 2 vezes: 50% para iniciar a produção e 50% mais o frete antes do envio ou da retirada</span></label>
+            <label class="radio" id="cartao-opcao"><input type="radio" name="pag" value="Cartão"> <span id="cartao-label">Cartão de crédito</span></label>
           </section>
           <section class="summary" style="margin-top:24px" aria-live="polite">
             <div><span>Subtotal</span><span id="s-sub">R$ 0,00</span></div>
             <div class="disc" id="s-disc-row"><span>Desconto Pix</span><span id="s-disc">− R$ 0,00</span></div>
             <div><span>Frete</span><span>a confirmar</span></div>
             <div class="total"><span>Total</span><span id="s-total">R$ 0,00</span></div>
+            <div id="s-ent-row" hidden><span>Agora, no pedido (50%)</span><span id="s-ent">R$ 0,00</span></div>
+            <div id="s-rest-row" hidden><span>Antes do envio ou da retirada (50%, mais o frete)</span><span id="s-rest">R$ 0,00</span></div>
+            <div class="disc" id="s-cash-row"><span>Cashback para a próxima compra</span><span id="s-cash">R$ 0,00</span></div>
           </section>
+          <p class="small" id="cash-regra" style="margin:10px 0 0"></p>
           <div class="note" style="margin-top:16px">Ao finalizar, seu pedido é enviado para o nosso WhatsApp. Lá confirmamos o pedido e enviamos os dados para pagamento.</div>
         </form>
       </div>
@@ -859,9 +877,10 @@
       </div>
       <div><h4>Loja</h4><ul id="foot-loja"></ul></div>
       <div><h4>Ajuda</h4><ul>
-        <li><button type="button" data-nav="como">Como funciona</button></li>
-        <li><button type="button" data-nav="empresas">Escolas e empresas</button></li>
-        <li><button type="button" data-go="sensorial">Área sensorial</button></li>
+        <li><button type="button" data-go="ajuda">Como funciona</button></li>
+        <li><button type="button" data-nav="empresas">Cuidar: para quem cuida</button></li>
+        <li><button type="button" data-go="sensorial">Sentir: área sensorial</button></li>
+        <li><button type="button" data-nav="ocasioes">Celebrar: datas especiais</button></li>
         <li><button type="button" data-go="cart">Meu carrinho</button></li>
       </ul></div>
       <div><h4>Dambrinhos</h4><ul>
@@ -870,7 +889,7 @@
         <li><a id="foot-insta" href="#" target="_blank" rel="noopener">Instagram</a></li>
       </ul></div>
     </div>
-    <div class="foot-base"><span>Enviamos para todo o Brasil</span><span id="f-pix">Pix e cartão</span></div>
+    <div class="foot-base"><span>Enviamos para todo o Brasil</span><span id="f-pix">Pagamento no Pix</span></div>
   </div>
 </footer>
 
@@ -882,11 +901,17 @@
    ========================================================= */
 const LOJA = {
   nome: 'Dambrinhos',
-  whatsapp: '5521999999999',   // DDI + DDD + número, só dígitos
+  whatsapp: '5521993966116',   // DDI + DDD + número, só dígitos
   instagram: 'dambrinhosoficial',  // usuário do Instagram, sem @
-  descontoPix: 5,              // % de desconto no Pix (0 para desativar)
-  parcelas: 3,                 // parcelas sem juros no cartão
-  prazo: 'Envio em até 5 dias úteis + frete'   // prazo de produção (exemplo)
+  descontoPix: 0,              // % de desconto no Pix (0 = sem desconto; hoje o benefício do Pix é o cashback abaixo)
+  cashbackPix: 5,              // % do valor dos produtos que vira crédito para a próxima compra, pagando no Pix
+  cashbackMeses: 12,           // validade do crédito, em meses, a partir da compra
+  pedidosUrl: '',              // endereço do Apps Script (termina em /exec) que grava os pedidos na planilha; vazio = não grava
+  cartao: false,               // cartão de crédito no site (false = só Pix, por enquanto)
+  parcelas: 3,                 // parcelas sem juros no cartão, quando ele for ativado
+  // kits com material em estoque: podem ser comprados. Os outros aparecem como "Em breve", com o botão "Avise-me".
+  disponiveis: ['massinha-mini', 'dobradura-mini'],
+  prazo: 'Pronto em até 15 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
 };
 
 /* As dez criações, em ordem de idade. cor = fundo do cartão grande; fundo = fundo da ilustração;
@@ -894,11 +919,11 @@ const LOJA = {
    que a idade indicada pelo fabricante de cada item do kit. seguranca = aparece em "Idade e segurança". */
 const CRIACOES = [
   { id:'rabiscos', nome:'Rabiscos', titulo:'Kit de primeiros rabiscos', idade:1, cor:'#8FB3DE', fundo:'#E8F0FA',
-    desc:'Giz de cera jumbo, papel grosso e uma moldura para a primeira obra de arte ir para a parede.',
-    seguranca:'O giz é grosso, feito para mãos pequenas.' },
+    desc:'Giz de cera para bebês, papel grosso e uma moldura para a primeira obra de arte ir para a parede.',
+    seguranca:'O giz é próprio para bebês: tem formato de argola, para segurar com a mão inteira, vem em cartela lacrada com selo do INMETRO e é indicado pelo fabricante a partir de 1 ano. Use sempre com um adulto por perto.' },
   { id:'colorir',  nome:'Colorir',  titulo:'Kit de colorir',            idade:2, cor:'#9CC56B', fundo:'#EEF6E3',
-    desc:'Desenhos exclusivos de traço grosso e canetinhas laváveis jumbo: a criança escolhe as cores e a obra vai para a moldura.',
-    seguranca:'As canetinhas são laváveis, de ponta grossa e feitas para mãos pequenas.' },
+    desc:'Desenhos exclusivos de traço grosso e giz de cera para bebês: a criança escolhe as cores e a obra vai para a moldura.',
+    seguranca:'O giz é próprio para bebês: tem formato de argola, para segurar com a mão inteira, vem em cartela lacrada com selo do INMETRO e é indicado pelo fabricante a partir de 1 ano. Use sempre com um adulto por perto.' },
   { id:'pintar',   nome:'Pintar',   titulo:'Kit de pintura em tela',    idade:3, cor:'#5DAA9B', fundo:'#E3F1EE',
     desc:'Uma tela, as três cores primárias e um godê para criar as outras: a primeira obra de arte da criança, com as cores que ela mesma inventou.',
     seguranca:'A tinta guache é à base de água e sai com água e sabão. O pincel tem cabo grosso, fácil de segurar.' },
@@ -911,34 +936,58 @@ const CRIACOES = [
   { id:'mosaico',  nome:'Mosaico',  titulo:'Kit de mosaico',            idade:6, cor:'#B89B2F', fundo:'#F5EFD8',
     desc:'Pastilhas coloridas para montar um porta-copos ou um espelho, peça por peça.',
     seguranca:'Tem peças pequenas. As pastilhas são de papel cartão, sem vidro.' },
-  { id:'costura',  nome:'Feltro',   titulo:'Kit de bichinhos de feltro', idade:7, cor:'#7FB77E', fundo:'#E8F3E6',
-    desc:'Feltro já recortado, agulha de ponta arredondada e lã para montar um bichinho, como um dinossauro ou um monstrinho, ponto a ponto.',
-    seguranca:'A agulha tem ponta arredondada, própria para crianças.' },
-  { id:'tecelagem', nome:'Tecelagem', titulo:'Kit de tecelagem',         idade:8, cor:'#E0896A', fundo:'#FBEAE3',
-    desc:'Um tear de papelão e lã grossa colorida para tecer, fio por cima e fio por baixo, uma pequena tapeçaria de parede.',
-    seguranca:'Lã, papelão e palito de madeira, com agulha grande de ponta arredondada: sem peças pequenas.' },
-  { id:'macrame',  nome:'Macramê',  titulo:'Kit de macramê',            idade:9, cor:'#C9A27A', fundo:'#EFE1CC',
-    desc:'Cordão de algodão e uma argola de madeira para aprender os nós do macramê e criar uma peça para pendurar no quarto.',
-    seguranca:'Só cordão de algodão, argola e palito de madeira: sem peças pequenas e sem agulha.' },
+  { id:'botanico', nome:'Pequeno botânico', titulo:'Kit pequeno botânico', idade:7, cor:'#6FAF5E', fundo:'#E6F2DF',
+    desc:'Semente, terra de fibra de coco e um vasinho biodegradável para plantar, esperar e acompanhar a planta crescer no diário do botânico.',
+    seguranca:'Sementes em pacotinho lacrado, de empresa registrada no Ministério da Agricultura. Terra de fibra de coco, vasinho biodegradável. Não é para comer: lave as mãos depois de mexer na terra.' },
+  { id:'engenhocas', nome:'Engenhocas', titulo:'Kit de engenhocas',       idade:8, cor:'#E3955A', fundo:'#FBEBDD',
+    desc:'Papelão, palitos de madeira e elástico para construir um brinquedo que funciona de verdade: um catavento que gira ou um periscópio para espiar.',
+    seguranca:'Papelão pré-marcado, palitos de madeira e elástico. Use a tesoura sem ponta e peça ajuda a um adulto para furar o papelão.' },
+  { id:'jogo',     nome:'Crie seu jogo', titulo:'Kit crie seu jogo',       idade:9, cor:'#5B8FD1', fundo:'#E3EDF9',
+    desc:'Um tabuleiro em branco, peões e dado de madeira e cartas para a criança inventar as regras, desenhar o caminho e jogar com os amigos.',
+    seguranca:'Peões e dado de madeira são peças pequenas: guarde longe de crianças menores de 3 anos.' },
   { id:'ceramica', nome:'Cerâmica', titulo:'Kit de cerâmica',          idade:10, cor:'#C9744B', fundo:'#F8E8DD',
     desc:'O grande projeto: argila que seca ao ar, sem forno, para modelar uma peça de verdade do zero, pintar e envernizar. A última obra da escadinha.',
     seguranca:'A argila seca ao ar e não vai ao forno. A peça é decorativa e de uso seco: não serve para comida nem para água. Tinta e verniz à base de água, lacrados, com selo do INMETRO.' },
   /* Brinquedos sensoriais: ficam FORA da escadinha (linha:'sensorial') e aparecem só na área sensorial.
      São produtos certificados de fabricante, revendidos lacrados dentro da embalagem Dambrinhos. */
+  /* Kits sazonais (Páscoa, Férias, Dia das Crianças e Natal): ficam FORA da escadinha (têm "linha"), são vendidos
+     por unidade, como presente, e aparecem primeiro na ocasião de cada um */
+  { id:'ninho', linha:'sazonal', nome:'Ninho de Páscoa', titulo:'Kit Ninho de Páscoa', idade:3, cor:'#E9A9C4', fundo:'#FBEAF1',
+    desc:'Ovos de madeira para a criança pintar e esconder na caça aos ovos, Páscoa após Páscoa.',
+    seguranca:'Ovos de madeira grandes, lixados e sem farpas. Tinta guache com selo do INMETRO, indicada a partir de 3 anos.' },
+  { id:'horta', linha:'sazonal', nome:'Horta das Férias', titulo:'Kit Horta das Férias', idade:3, cor:'#8FC27A', fundo:'#E8F3E1',
+    desc:'Duas plantas para a criança plantar, regar e acompanhar durante as férias inteiras, com um calendário para marcar o que muda a cada dia.',
+    seguranca:'Sementes lacradas, de empresa registrada no Ministério da Agricultura. Não são comestíveis antes de plantadas e são peças pequenas: o plantio é feito com um adulto. Vasinhos biodegradáveis e fibra de coco.' },
+  { id:'casinha', linha:'sazonal', nome:'Casinha de Passarinho', titulo:'Kit Casinha de Passarinho', idade:3, cor:'#7FB6DD', fundo:'#E6F1FA',
+    desc:'Uma casinha de madeira para montar, pintar e pendurar no quintal ou na varanda, e um diário para anotar os passarinhos que aparecem.',
+    seguranca:'Peças de madeira lixadas e sem farpas, de encaixe, sem pregos. Tinta guache com selo do INMETRO, indicada a partir de 3 anos. A montagem é feita com um adulto.' },
+  { id:'fantoches', linha:'sazonal', nome:'Teatro de Fantoches', titulo:'Kit Teatro de Fantoches', idade:3, cor:'#F2A46B', fundo:'#FDEBDD',
+    desc:'Saquinhos de papel que viram personagens: a criança cria os fantoches, inventa a história e a caixa do kit vira o palco.',
+    seguranca:'Tudo de papel. Cola bastão e giz de cera com selo do INMETRO, indicados a partir de 3 anos. Sem tesoura: as formas já vêm recortadas.' },
+  { id:'estrela', linha:'natal', nome:'Oficina de Natal', titulo:'Kit Oficina de Natal', idade:3, cor:'#C8463A', fundo:'#F8E6E2',
+    desc:'Enfeites de madeira para a criança pintar, escrever o nome e o ano e pendurar na árvore, Natal após Natal.',
+    seguranca:'Enfeites de madeira lixados e sem farpas, com cordão para pendurar. Tinta guache com selo do INMETRO, indicada a partir de 3 anos.' },
   { id:'areia', linha:'sensorial', nome:'Areia mágica', titulo:'Kit de areia mágica', idade:3, cor:'#E3A857', fundo:'#FBF1DC',
     desc:'Areia que molda e desmancha nas mãos e não seca: dá para brincar hoje, amanhã e depois.',
     seguranca:'A areia vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível: brinque sobre uma mesa ou bandeja e guarde no pote fechado.' },
-  { id:'massinha', linha:'sensorial', nome:'Massinha', titulo:'Kit de massinha de modelar', idade:3, cor:'#E8879C', fundo:'#FCE8ED',
-    desc:'Massinha macia para apertar, esticar e modelar: guardada no pote fechado, não resseca e a brincadeira continua.',
-    seguranca:'A massinha vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se a criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
+  { id:'massinha', linha:'sensorial', nome:'Massa de modelar', titulo:'Kit de massa de modelar', idade:3, cor:'#E8879C', fundo:'#FCE8ED',
+    desc:'Massa de modelar em seis cores para apertar, esticar, misturar e modelar. Bem guardada depois de brincar, a brincadeira continua.',
+    seguranca:'A massa de modelar vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se a criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
+  /* Argila: fora da área sensorial e fora da venda por enquanto (ver o filtro depois de PRODUTOS). A argila fica no kit de cerâmica. */
   { id:'modelar', linha:'sensorial', nome:'Argila', titulo:'Kit de argila', idade:3, cor:'#F2A93B', fundo:'#FDF0DA',
-    desc:'A obra de arte da área sensorial: argila fria, macia e pesada para apertar, achatar e carimbar. Depois de seca, vira uma peça para guardar.',
-    seguranca:'A argila vem lacrada na embalagem do fabricante, com o selo do INMETRO. Seca ao ar e não vai ao forno. As ferramentas são de madeira e sem ponta.' }
+    desc:'Argila fria, macia e pesada para apertar, achatar e carimbar. Depois de seca, vira uma obra de arte para guardar.',
+    seguranca:'A argila vem lacrada na embalagem do fabricante, com o selo do INMETRO. Seca ao ar e não vai ao forno. As ferramentas são de madeira e sem ponta.' },
+  { id:'biscuit', linha:'sensorial', nome:'Biscuit', titulo:'Kit de biscuit', idade:3, cor:'#7FBFB0', fundo:'#E3F3EF',
+    desc:'Massa de biscuit lisa e macia para apertar, enrolar e modelar com mais detalhe. Depois de seca, fica dura e firme e vira uma obra de arte para guardar.',
+    seguranca:'A massa de biscuit vem lacrada na embalagem do fabricante, com o selo do INMETRO, e é indicada a partir de 3 anos. Seca ao ar e não vai ao forno. Não é comestível. Se a criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
+  { id:'eva', linha:'sensorial', nome:'Massa de EVA', titulo:'Kit de massa de EVA', idade:3, cor:'#8E7BD8', fundo:'#EEE9FA',
+    desc:'Massa de EVA colorida, muito leve e fofa, para apertar, enrolar e modelar. Depois de seca, vira uma obra de arte para guardar.',
+    seguranca:'A massa de EVA vem lacrada na embalagem do fabricante, com o selo do INMETRO, e é indicada a partir de 3 anos. Seca ao ar e não vai ao forno. Não é comestível.' }
 ];
 /* Só as criações da escadinha (1+ a 9+), sem os brinquedos sensoriais */
 const ESCADA = CRIACOES.filter(cr=>!cr.linha);
 
-/* Faixas de idade: uma seção na página inicial e uma coluna nos menus "Lembrancinhas" e "Presentear" para cada uma */
+/* Faixas de idade: uma seção na página inicial e uma coluna no menu "Lembrancinhas" para cada uma */
 /* rotulo: texto da faixa quando ela tem uma idade só (ex.: 10+) */
 const faixaTxt = f => f.rotulo || `De ${f.de} a ${f.ate} anos`;
 const FAIXAS = [
@@ -946,14 +995,11 @@ const FAIXAS = [
     texto:'É quando a criança descobre que a mão deixa marca: o primeiro rabisco, a primeira cor escolhida, a primeira pincelada. Não existe certo ou errado, só curiosidade e um mundo inteiro para imaginar. Por isso, nos três kits dessa fase, a obra vem com moldura: o que hoje parece um rabisco é a lembrança mais bonita de amanhã.' },
   { id:'4-6', de:4, ate:6, titulo:'Mãos mais firmes',
     texto:'A criança já quer fazer sozinha, e o papel vira a matéria-prima: primeiro ela dobra com as mãos, depois recorta e cola, e por fim monta um mosaico peça por peça. Cada kit tem começo, meio e fim, e um prepara o outro. O resultado é uma obra que ela mostra com orgulho.' },
-  { id:'7-9', de:7, ate:9, titulo:'Fio a fio',
-    texto:'Agora são os fios: montar um bichinho de feltro ponto a ponto, tecer uma tapeçaria no tear e aprender os nós do macramê. Cada técnica prepara a próxima, e todas pedem paciência e capricho para terminar em algo para guardar.' },
+  { id:'7-9', de:7, ate:9, titulo:'Pequenos inventores',
+    texto:'A criança já lê, escreve e quer fazer sozinha. Agora ela planta e espera a semente crescer, constrói um brinquedo que funciona de verdade e inventa o próprio jogo para jogar com os amigos. Projetos que pedem paciência, curiosidade e imaginação.' },
   { id:'10', de:10, ate:10, rotulo:'A partir de 10 anos', titulo:'O grande projeto',
     texto:'Para fechar o ciclo, a criança cria do zero uma peça de cerâmica com argila que seca ao ar: modela com as técnicas de verdade, pinta e enverniza. Do primeiro rabisco à primeira peça de cerâmica, a última obra da escadinha.' }
 ];
-
-/* Kit em destaque na página inicial (troque o id para destacar outro kit) */
-const DESTAQUE = { pid:'modelar-mini', eyebrow:'Kit em destaque' };
 
 /* Fotos reais: salve o arquivo na pasta fotos/ com o nome abaixo e ele aparece sozinho no lugar da
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
@@ -967,20 +1013,20 @@ const FOTO = {
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
-   Lembrancinhas: pacotes(preço por kit). O pacote é só a quantidade × o preço do kit, sem desconto.
-   Preço por kit de acordo com a fase: A fase da descoberta (1+ a 3+) 34,99 · Mãos mais firmes (4+ a 6+) 39,99 ·
-   Fio a fio (7+ a 9+) 44,99 · O grande projeto (10+) 49,99. Área sensorial: Areia e Massinha 29,99, Argila 39,99.
-   O único desconto é o do Pix (LOJA.descontoPix).
+   Lembrancinhas: pacotes(preço por kit) de 12, 24 ou 36 kits (1, 2 ou 3 caixas de transporte 50×30×22, com 12 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
+   Preço por kit de acordo com a fase: A fase da descoberta (1+ a 3+) 40,99 · Mãos mais firmes (4+ a 6+) 44,99 ·
+   Pequenos inventores (7+ a 9+) e O grande projeto (10+) 49,99. Área sensorial: Massa de modelar 30,99, Areia 34,99, Biscuit e Massa de EVA 39,99.
+   Não há desconto no Pix: quem paga no Pix ganha cashback (LOJA.cashbackPix) para a próxima compra.
    fotos: ['fotos/arquivo.jpg', ...] quando tiver fotos reais (sem fotos, mostra a ilustração).
    avaliacoes: { nota: 4.9, total: 32 } SÓ com avaliações reais. */
-const pacotes = porKit => [10,20,30].map(n => ({ nome:`${n} kits`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
+const pacotes = porKit => [12,24,36].map(n => ({ nome:`${n} kits`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com moldura para a primeira obra.',
-    descricao:'Giz de cera jumbo, grosso e fácil de segurar, papel grosso e uma moldura para a primeira obra de arte ir direto para a parede. A moldura tem espaço para os pais anotarem o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
-    selos:['Moldura para a primeira obra','Giz jumbo, fácil de segurar','Saquinho reutilizável'],
-    itens:['4 gizes de cera jumbo','1 bloco de papel grosso A5 (10 folhas)','1 moldura de papel cartão com a nossa marca, para o desenho A5, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
-    opcoes:pacotes(34.99) },
+    descricao:'Giz de cera para bebês, em formato de argola e fácil de segurar com a mão inteira, papel grosso e uma moldura para a primeira obra de arte ir direto para a parede. A moldura tem espaço para os pais anotarem o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
+    selos:['Moldura para a primeira obra','Giz próprio para bebês (1+)','Selo do INMETRO'],
+    itens:['6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 bloco de papel grosso A5 (10 folhas)','1 moldura de papel cartão com a nossa marca, para o desenho A5, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
+    opcoes:pacotes(40.99) },
   { id:'rabiscos-completo', criacao:'rabiscos', versao:'completo', nome:'Ateliê de Rabiscos', cod:'RB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Muitas cores, rolo de papel e moldura de madeira para a obra favorita.',
     descricao:'Um rolo de papel kraft para estender no chão, giz de cera jumbo em várias cores, um bloco de papel grosso e uma moldura de madeira para a obra favorita ir para a parede, com espaço para o nome, a idade e a data.',
@@ -988,11 +1034,11 @@ const PRODUTOS = [
     itens:['8 gizes de cera jumbo','1 rolo de papel kraft (3 m)','1 bloco de papel grosso A4 (20 folhas)','1 moldura de MDF para o desenho A4, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
     opcoes:[{nome:'1 kit', n:'001', preco:89}] },
   { id:'colorir-mini', criacao:'colorir', versao:'mini', nome:'Mini Colorir', cod:'CL-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Desenhos exclusivos, canetinhas jumbo e uma moldura para a obra.',
-    descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com canetinhas laváveis jumbo e a obra preferida vai para a moldura, com a ficha da obra.',
-    selos:['Desenhos exclusivos','Canetinha lavável jumbo','Saquinho reutilizável'],
-    itens:['3 desenhos exclusivos Dambrinhos para colorir (papel grosso A5)','6 canetinhas laváveis de ponta jumbo','1 moldura de papel cartão com a nossa marca, com espaço para o nome, a idade e a data'],
-    opcoes:pacotes(34.99) },
+    embalagem:'Saquinho de algodão cru', resumo:'Desenhos exclusivos, giz de cera para bebês e uma moldura para a obra.',
+    descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com o giz de cera para bebês, em formato de argola, e a obra preferida vai para a moldura, com a ficha da obra.',
+    selos:['Desenhos exclusivos','Giz próprio para bebês (1+)','Selo do INMETRO'],
+    itens:['3 desenhos exclusivos Dambrinhos para colorir (papel grosso A5)','6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 moldura de papel cartão com a nossa marca, com espaço para o nome, a idade e a data'],
+    opcoes:pacotes(40.99) },
   { id:'colorir-completo', criacao:'colorir', versao:'completo', nome:'Ateliê de Colorir', cod:'CL-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Um livro de desenhos exclusivos, 12 canetinhas e moldura.',
     descricao:'Um livrinho com 12 desenhos exclusivos Dambrinhos, canetinhas laváveis jumbo em 12 cores e uma moldura para a obra favorita ir para a parede.',
@@ -1004,7 +1050,7 @@ const PRODUTOS = [
     descricao:'O kit vem com as três cores primárias: azul, vermelho e amarelo. No godê de 6 espaços, a criança e os pais seguem o cartão da técnica e criam as outras cores: verde, laranja, roxo e os tons entre elas. São 9 cores para pintar uma tela de 20×20 cm com esponja e pincel de cabo grosso. Depois de seca, a tela ganha a moldura com o nome, a idade e a data, e vai direto para a parede.',
     selos:['Moldura para a obra','Cria 9 cores com 3','Saquinho reutilizável'],
     itens:['1 tela 20×20 cm','3 potes de tinta guache nas cores primárias: azul, vermelho e amarelo','1 godê com 6 espaços para misturar as cores','1 pincel de cabo grosso','1 esponja grande','Cartão da técnica, que ensina a misturar as cores primárias e criar mais 6 cores','1 moldura de papel cartão para a tela, com espaço para o nome, a idade e a data'],
-    opcoes:pacotes(34.99) },
+    opcoes:pacotes(40.99) },
   { id:'pintar-completo', criacao:'pintar', versao:'completo', nome:'Ateliê de Pintura', cod:'PT-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Duas telas, seis cores e esponjas para pintar à vontade.',
     descricao:'Duas telas grandes, seis cores de tinta guache, esponjas de formatos diferentes e pincéis de cabo grosso. Um presente que vira uma tarde inteira de arte, com moldura para as duas obras.',
@@ -1016,7 +1062,7 @@ const PRODUTOS = [
     descricao:'Folhas exclusivas Dambrinhos, já coloridas e com as linhas de dobra impressas: a criança segue as linhas, dobra três bichinhos e cola tudo num cenário. No final, completa a cena com o próprio desenho e a obra vai para a moldura.',
     selos:['Folhas com linhas de dobra','Desenhos exclusivos','Saquinho reutilizável'],
     itens:['6 folhas exclusivas Dambrinhos com linhas de dobra impressas (para 3 bichinhos)','Manual em figuras, uma dobra por quadrinho','1 cenário impresso para colar os bichinhos','1 cola bastão','1 moldura de papel cartão com espaço para o nome, a idade e a data'],
-    opcoes:pacotes(39.99) },
+    opcoes:pacotes(44.99) },
   { id:'dobradura-completo', criacao:'dobradura', versao:'completo', nome:'Ateliê de Dobradura', cod:'DB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Oito bichinhos em dois níveis, dois cenários e moldura.',
     descricao:'Folhas exclusivas Dambrinhos para dobrar oito bichinhos, em dois níveis de dificuldade marcados com estrelas, dois cenários para montar e uma moldura para a cena favorita ir para a parede.',
@@ -1028,60 +1074,60 @@ const PRODUTOS = [
     descricao:'Uma base de papel cartão e papéis coloridos para a criança recortar formas e montar um cenário: uma cidade, o fundo do mar ou uma floresta, do jeito dela. Com bolinhas de papel crepom, a cena ganha volume, e a obra pronta vai para a moldura.',
     selos:['Tesoura sem ponta','Cenário para emoldurar','Saquinho reutilizável'],
     itens:['1 base de papel cartão para o cenário','Cartão com 3 ideias de cenário: cidade, fundo do mar e floresta','Tiras e folhas de papel colorido','Formas de papel para recortar e colar','Papel crepom para amassar e fazer bolinhas','1 tesoura sem ponta','1 cola bastão','1 moldura de papel cartão com espaço para o nome, a idade e a data'],
-    opcoes:pacotes(39.99) },
+    opcoes:pacotes(44.99) },
   { id:'colagem-completo', criacao:'colagem', versao:'completo', nome:'Ateliê de Colagem', cod:'CC-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Papéis, papel crepom e moldes para três cenários emoldurados.',
     descricao:'Moldes para recortar seguindo a linha, papéis de cores e texturas diferentes, papel crepom e cola para montar três cenários: cidade, fundo do mar e floresta. O favorito vai para a moldura.',
     selos:['Tesoura sem ponta','Caixa reciclável'],
     itens:['3 bases de papel cartão para os cenários','Moldes para recortar','Bloco de papéis coloridos e com textura','Papel crepom em várias cores','1 tesoura sem ponta','1 cola bastão e 1 cola branca','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data','Guia com 3 cenários'],
     opcoes:[{nome:'1 kit', n:'001', preco:109}] },
-  { id:'mosaico-mini', criacao:'mosaico', versao:'mini', nome:'Mini Mosaico', cod:'MO-M', sensorial:true,
+  { id:'mosaico-mini', criacao:'mosaico', versao:'mini', nome:'Mini Mosaico', cod:'MO-M',
     embalagem:'Saquinho de algodão cru', resumo:'Um porta-copos montado peça por peça.',
     descricao:'Base de MDF e pastilhas coloridas de papel cartão para montar um porta-copos. Treina a paciência, a coordenação e as cores.',
     selos:['Pastilhas de papel, sem vidro','Saquinho reutilizável'],
     itens:['1 porta-copos de MDF','Cerca de 80 pastilhas de papel cartão colorido','1 cola branca pequena','Cartão com 3 desenhos para seguir'],
-    opcoes:pacotes(39.99) },
-  { id:'mosaico-completo', criacao:'mosaico', versao:'completo', nome:'Ateliê de Mosaico', cod:'MO-C', porUnidade:true, sensorial:true,
+    opcoes:pacotes(44.99) },
+  { id:'mosaico-completo', criacao:'mosaico', versao:'completo', nome:'Ateliê de Mosaico', cod:'MO-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Um espelho e dois porta-copos em mosaico.',
     descricao:'Um espelho redondo com moldura de MDF e dois porta-copos para decorar com centenas de pastilhas. Um projeto para fazer com calma, sozinho ou em família.',
     selos:['Pastilhas de papel, sem vidro','Caixa reciclável'],
     itens:['1 espelho redondo com moldura de MDF','2 porta-copos de MDF','Cerca de 300 pastilhas de papel cartão colorido','1 cola branca','1 espátula de madeira','Guia com moldes'],
     opcoes:[{nome:'1 kit', n:'001', preco:129}] },
-  { id:'costura-mini', criacao:'costura', versao:'mini', nome:'Mini Feltro', cod:'FE-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Um bichinho de feltro montado ponto a ponto pela própria criança.',
-    descricao:'Peças de feltro já recortadas em formato de dinossauro ou monstrinho, agulha de ponta arredondada e lã: a criança dá os pontos em volta, coloca o enchimento e fica com um chaveiro feito por ela.',
-    selos:['Agulha de ponta arredondada','Saquinho reutilizável'],
-    itens:['2 peças de feltro recortadas (dinossauro ou monstrinho)','1 agulha de ponta arredondada','Lã colorida','Enchimento','1 argola de chaveiro','Manual em figuras com o passo a passo'],
-    opcoes:pacotes(44.99) },
-  { id:'costura-completo', criacao:'costura', versao:'completo', nome:'Ateliê de Feltro', cod:'FE-C', porUnidade:true,
-    embalagem:'Caixa kraft com a nossa marca', resumo:'Três bichinhos de feltro para montar: dinossauro, monstrinho e raposa.',
-    descricao:'Feltro em várias cores, moldes, agulhas de ponta arredondada e lãs para montar três bichinhos: um dinossauro, um monstrinho e uma raposa, com botões para os olhinhos.',
-    selos:['Agulha de ponta arredondada','Caixa reciclável'],
-    itens:['Feltro em 6 cores','Moldes de 3 bichinhos: dinossauro, monstrinho e raposa','2 agulhas de ponta arredondada','Lãs coloridas','Enchimento','Botões para os olhinhos','Guia com o passo a passo'],
-    opcoes:[{nome:'1 kit', n:'001', preco:139}] },
-  { id:'tecelagem-mini', criacao:'tecelagem', versao:'mini', nome:'Mini Tecelagem', cod:'TC-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Uma pequena tapeçaria de parede, tecida no tear de papelão.',
-    descricao:'Um tear de papelão já preparado e lã grossa em quatro cores: a criança passa o fio por cima e por baixo, cria listras e franjas e, no final, prende a tapeçaria num palito de madeira para pendurar no quarto.',
-    selos:['Para pendurar na parede','Sem peças pequenas','Saquinho reutilizável'],
-    itens:['1 tear de papelão','Lã grossa em 4 cores','1 agulha grande de ponta arredondada','1 palito de madeira e cordão para pendurar','Manual em figuras: montar o tear, tecer listras e fazer franjas'],
-    opcoes:pacotes(44.99) },
-  { id:'tecelagem-completo', criacao:'tecelagem', versao:'completo', nome:'Ateliê de Tecelagem', cod:'TC-C', porUnidade:true,
-    embalagem:'Caixa kraft com a nossa marca', resumo:'Tear maior, lãs com textura e três padrões para tecer.',
-    descricao:'Um tear de papelão maior, lãs em várias cores e texturas, pente de madeira para apertar a trama e um guia com três padrões: listras, ondas e franjas. A tapeçaria pronta vai para a parede.',
-    selos:['Para pendurar na parede','Três padrões','Caixa reciclável'],
-    itens:['1 tear de papelão grande','Lãs em 6 cores, uma com textura','2 agulhas grandes de ponta arredondada','1 pente de madeira','1 palito de madeira e cordão','Guia com 3 padrões: listras, ondas e franjas'],
-    opcoes:[{nome:'1 kit', n:'001', preco:129}] },
-  { id:'macrame-mini', criacao:'macrame', versao:'mini', nome:'Mini Macramê', cod:'MC-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Os primeiros nós do macramê, num chaveiro e numa pulseira.',
-    descricao:'Cordão de algodão macio e uma argola de madeira para aprender dois nós do macramê, o nó de cotovelo e o nó quadrado, seguindo o manual em figuras. A criança faz um chaveiro com franjas e, com as sobras, uma pulseira para usar ou dar a um amigo.',
-    selos:['Feito só com nós','Sem peças pequenas','Saquinho reutilizável'],
-    itens:['Cordão de algodão de 3 mm (2 cores)','1 argola de madeira','Manual em figuras com 2 nós e 2 projetos: chaveiro e pulseira'],
-    opcoes:pacotes(44.99) },
-  { id:'macrame-completo', criacao:'macrame', versao:'completo', nome:'Ateliê de Macramê', cod:'MC-C', porUnidade:true,
-    embalagem:'Caixa kraft com a nossa marca', resumo:'Um painel de parede de macramê, do primeiro nó ao acabamento.',
-    descricao:'Cordão de algodão, um palito de madeira e o guia com quatro nós para criar um painel de macramê para pendurar no quarto, com franjas no acabamento. Vem também material para um chaveiro e uma pulseira.',
-    selos:['Painel para a parede','Sem peças pequenas','Caixa reciclável'],
-    itens:['Cordão de algodão de 3 mm (3 cores)','1 palito de madeira para o painel','1 argola de madeira','1 pente de madeira para as franjas','Guia com 4 nós e 3 projetos: painel de parede, chaveiro e pulseira'],
+  { id:'botanico-mini', criacao:'botanico', versao:'mini', nome:'Mini Botânico', cod:'BT-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Plantar, esperar e ver crescer: uma planta cuidada pela própria criança.',
+    descricao:'Uma pastilha de fibra de coco que vira terra com um pouco de água, um vasinho biodegradável para decorar e sementes de crescimento rápido. A criança planta, rega e anota no diário do botânico o que muda a cada dia. Quando a muda crescer, o vasinho vai direto para a terra.',
+    selos:['Vasinho biodegradável','Diário do botânico','Saquinho reutilizável'],
+    itens:['1 pastilha de fibra de coco (vira terra com água)','1 vasinho biodegradável para decorar','1 pacotinho de sementes de crescimento rápido, lacrado','Diário do botânico para desenhar e medir o crescimento','Cartão com o passo a passo para plantar e cuidar'],
+    opcoes:pacotes(49.99) },
+  { id:'botanico-completo', criacao:'botanico', versao:'completo', nome:'Ateliê do Botânico', cod:'BT-C', porUnidade:true,
+    embalagem:'Caixa kraft com a nossa marca', resumo:'Três plantas para cultivar, com regador e diário de observação.',
+    descricao:'Três vasinhos biodegradáveis, terra de fibra de coco e três tipos de sementes para comparar como cada planta cresce. Vem com regador, plaquinhas de madeira para identificar as plantas, lupa e o diário do botânico.',
+    selos:['Vasinhos biodegradáveis','Três plantas para comparar','Caixa reciclável'],
+    itens:['3 pastilhas de fibra de coco','3 vasinhos biodegradáveis','3 pacotinhos de sementes lacrados','1 regador pequeno','3 plaquinhas de madeira','1 lupa','Diário do botânico'],
+    opcoes:[{nome:'1 kit', n:'001', preco:99}] },
+  { id:'engenhocas-mini', criacao:'engenhocas', versao:'mini', nome:'Mini Engenhocas', cod:'EG-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Um catavento de papelão que gira de verdade.',
+    descricao:'Papelão já marcado, palito de madeira e um alfinete-bucha de madeira para a criança recortar, montar e decorar um catavento que gira com o vento. O manual explica por que ele gira.',
+    selos:['Funciona de verdade','Papelão e madeira','Saquinho reutilizável'],
+    itens:['Folha de papelão com o molde do catavento','1 palito de madeira','1 eixo de madeira para girar','Manual em figuras: recortar, montar e decorar'],
+    opcoes:pacotes(49.99) },
+  { id:'engenhocas-completo', criacao:'engenhocas', versao:'completo', nome:'Ateliê de Engenhocas', cod:'EG-C', porUnidade:true,
+    embalagem:'Caixa kraft com a nossa marca', resumo:'Catavento, periscópio e carrinho de elástico para construir.',
+    descricao:'Moldes de papelão, palitos, elásticos e eixos de madeira para construir três engenhocas que funcionam: um catavento, um periscópio para espiar por cima do muro e um carrinho movido a elástico.',
+    selos:['Três engenhocas','Papelão e madeira','Caixa reciclável'],
+    itens:['Moldes de papelão para 3 engenhocas','Palitos e eixos de madeira','Elásticos','2 espelhos de acrílico seguro para o periscópio','Manual em figuras para cada engenhoca'],
+    opcoes:[{nome:'1 kit', n:'001', preco:109}] },
+  { id:'jogo-mini', criacao:'jogo', versao:'mini', nome:'Mini Crie seu Jogo', cod:'JG-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Um jogo de tabuleiro inventado pela própria criança.',
+    descricao:'Um tabuleiro em branco de papel cartão, peões e dado de madeira e cartas em branco: a criança desenha o caminho, inventa os desafios e escreve as regras. Depois, é só chamar os amigos para jogar.',
+    selos:['Jogar com os amigos','Peças de madeira','Saquinho reutilizável'],
+    itens:['1 tabuleiro em branco de papel cartão','4 peões de madeira','1 dado de madeira','12 cartas em branco para os desafios','Cartão com ideias de regras e caminhos'],
+    opcoes:pacotes(49.99) },
+  { id:'jogo-completo', criacao:'jogo', versao:'completo', nome:'Ateliê Crie seu Jogo', cod:'JG-C', porUnidade:true,
+    embalagem:'Caixa kraft com a nossa marca', resumo:'Tabuleiro grande, peões para pintar e cartas para inventar.',
+    descricao:'Um tabuleiro grande de papel cartão, peões de madeira crua para pintar, dois dados de madeira, cartas em branco e uma caixinha para guardar o jogo: a criança inventa, decora e joga com a família e os amigos.',
+    selos:['Jogar com os amigos','Peças de madeira','Caixa reciclável'],
+    itens:['1 tabuleiro grande em branco de papel cartão','6 peões de madeira crua para pintar','2 dados de madeira','24 cartas em branco','3 potes de tinta e 1 pincel','Guia com ideias de jogos'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
   { id:'ceramica-mini', criacao:'ceramica', versao:'mini', nome:'Mini Cerâmica', cod:'CE-M',
     embalagem:'Saquinho de algodão cru', resumo:'Uma peça de cerâmica criada do zero: modelar, pintar e envernizar.',
@@ -1095,25 +1141,59 @@ const PRODUTOS = [
     selos:['Seca ao ar, sem forno','Técnicas de cerâmica','Caixa reciclável'],
     itens:['Argila de secar ao ar (500 g)','1 rolinho de madeira','4 ferramentas de modelar de madeira, sem ponta','Moldes e carimbos de textura','6 potes de tinta','2 pincéis','1 verniz à base de água','Guia com 4 projetos'],
     opcoes:[{nome:'1 kit', n:'001', preco:149}] },
+  /* Kits sazonais: vendidos por unidade (presente para o filho, os sobrinhos), e não em pacotes de 12 */
+  { id:'ninho-mini', criacao:'ninho', versao:'mini', nome:'Ninho de Páscoa', cod:'PA-U', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Três ovos de madeira para pintar e esconder na caça aos ovos.',
+    descricao:'Três ovos de madeira, três potes de tinta, pincel e um ninho de palha. A criança pinta os ovos do jeito dela, e a família esconde pela casa para a caça aos ovos. Depois da brincadeira, eles ficam guardados no ninho e voltam na Páscoa do ano seguinte.',
+    selos:['Edição de Páscoa','Ovos de madeira','Para brincar todo ano'],
+    itens:['3 ovos de madeira para pintar','3 potes de tinta guache, lacrados','1 pincel','1 ninho de palha','Cartão com ideias de pintura e as pistas da caça aos ovos'],
+    opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
+  /* Férias: uma horta para acompanhar o mês inteiro. Usa os mesmos materiais do Mini Botânico (vasinho, fibra de coco, sementes lacradas). */
+  { id:'horta-mini', criacao:'horta', versao:'mini', nome:'Horta das Férias', cod:'FE-U', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Duas plantas para cuidar e ver crescer durante as férias.',
+    descricao:'Dois vasinhos biodegradáveis, duas pastilhas de fibra de coco, que viram terra com um pouco de água, e dois envelopes de sementes de crescimento rápido. A criança planta com um adulto, rega e marca no calendário das férias o que muda a cada dia. Com duas plantas de ritmos diferentes, sempre tem novidade para ver.',
+    selos:['Edição de Férias','Duas plantas','Calendário de 30 dias'],
+    itens:['2 vasinhos biodegradáveis','2 pastilhas de fibra de coco (viram terra com água)','2 envelopes de sementes de crescimento rápido, lacrados','Calendário das férias, de 30 dias, para marcar a rega e desenhar o que mudou','2 plaquinhas para identificar as plantas','Cartão com o passo a passo para plantar e cuidar'],
+    opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
+  /* Casinha de Passarinho: passou a ser o kit do Dia das Crianças (antes era o das Férias) */
+  { id:'casinha-mini', criacao:'casinha', versao:'mini', nome:'Casinha de Passarinho', cod:'DC-U', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Uma casinha de madeira para montar, pintar e pendurar.',
+    descricao:'Uma casinha de madeira de encaixe, três potes de tinta, pincel e cordão. A criança monta com um adulto, pinta do jeito dela e pendura no quintal ou na varanda. No diário, ela desenha e anota os passarinhos que aparecerem.',
+    selos:['Edição de Dia das Crianças','Casinha de madeira','Para o quintal ou a varanda'],
+    itens:['1 casinha de madeira de encaixe para montar','3 potes de tinta guache, lacrados','1 pincel','Cordão para pendurar','Diário dos passarinhos, para desenhar e anotar as visitas'],
+    opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
+  /* Teatro de Fantoches: DESATIVADO (ver o filtro depois de PRODUTOS). A Casinha de Passarinho ficou no lugar dele. */
+  { id:'fantoches-mini', criacao:'fantoches', versao:'mini', nome:'Teatro de Fantoches', cod:'TF-U', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos, que vira o palco', resumo:'Três fantoches de papel para criar, e a caixa vira o palco.',
+    descricao:'Três saquinhos de papel, papéis coloridos, cola e giz de cera. A criança cria os personagens, com cabelo, roupa e cara de bravo ou de riso, inventa a história no roteiro em branco e apresenta a peça para a família. A caixa do kit vira o palco.',
+    selos:['Edição de Dia das Crianças','Tudo de papel','A caixa vira o palco'],
+    itens:['3 saquinhos de papel para os fantoches','Formas de papel colorido, já recortadas','1 cola bastão','Giz de cera 6 cores, lacrado','Roteiro em branco para inventar a história','Cartão com o passo a passo e ideias de personagens'],
+    opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
+  { id:'estrela-mini', criacao:'estrela', versao:'mini', nome:'Oficina de Natal', cod:'NT-M', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Três enfeites de madeira para pintar e pendurar na árvore.',
+    descricao:'Três enfeites de madeira, com cordão para pendurar, três potes de tinta e pincel. A criança pinta do jeito dela, escreve o nome e o ano no verso, e os enfeites vão para a árvore da família ou viram presente para alguém especial. Todo Natal, eles voltam para a árvore.',
+    selos:['Edição de Natal','Enfeites de madeira','Para pendurar todo ano'],
+    itens:['3 enfeites de madeira com cordão (modelos variados: estrela, árvore, sino, anjo ou botinha)','3 potes de tinta guache, lacrados','1 pincel','Cartão com ideias: listras, bolinhas, neve, o nome e o ano'],
+    opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
   { id:'areia-mini', criacao:'areia', versao:'mini', nome:'Mini Areia Mágica', cod:'AM-M',
     embalagem:'Saquinho de algodão cru', resumo:'Areia que molda e não seca, com 10 ideias de brincadeiras.',
     descricao:'Um pote de areia mágica com forminhas, lacrado, e o cartão Dambrinhos com 10 brincadeiras para explorar a textura: esconder tesouros, fazer pegadas, escrever o nome, montar castelos. A areia não seca, então a brincadeira continua depois da festa.',
     selos:['Não seca: dá para brincar de novo','Saquinho reutilizável'],
     itens:['1 pote de areia mágica (200 g), lacrado','3 forminhas','Cartão com 10 brincadeiras com areia mágica'],
-    opcoes:pacotes(29.99) },
+    opcoes:pacotes(34.99) },
   { id:'areia-completo', criacao:'areia', versao:'completo', nome:'Ateliê de Areia Mágica', cod:'AM-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Três cores de areia, bandeja e espátula para brincar à vontade.',
     descricao:'Três potes de areia mágica em cores diferentes, uma bandeja para brincar sem espalhar e uma espátula de madeira, com o cartão de brincadeiras Dambrinhos.',
     selos:['Não seca: dá para brincar de novo','Caixa reciclável'],
     itens:['3 potes de areia mágica (200 g cada) em cores diferentes, lacrados','9 forminhas','1 bandeja','1 espátula de madeira','Cartão com 10 brincadeiras com areia mágica'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
-  /* Massinha: pote de marca certificada (ex.: Uti Guti Soft 140 g), revendido lacrado. Preço do completo é provisório. */
-  { id:'massinha-mini', criacao:'massinha', versao:'mini', nome:'Mini Massinha', cod:'MM-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Massinha macia em pote, cortadores e 10 ideias para brincar.',
-    descricao:'Um pote de massinha de modelar macia, lacrado, com cortadores e o cartão Dambrinhos com 10 brincadeiras: fazer bolinhas de cada cor, carimbar texturas, montar bichinhos. Guardada no pote fechado, a massinha não resseca e a brincadeira continua depois da festa.',
-    selos:['Não resseca no pote fechado','Saquinho reutilizável'],
-    itens:['1 pote de massinha de modelar (140 g), lacrado','3 cortadores de formas','Cartão com 10 brincadeiras com massinha'],
-    opcoes:pacotes(29.99) },
+  /* Massinha: caixa de papel com 6 cores, de marca certificada (Uti Guti), revendida lacrada. Preço do completo é provisório. */
+  { id:'massinha-mini', criacao:'massinha', versao:'mini', nome:'Mini Massa de Modelar', cod:'MM-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Seis cores de massa de modelar, cortadores e 10 ideias para brincar.',
+    descricao:'Uma caixa de massa de modelar com seis cores, lacrada, com cortadores e o cartão Dambrinhos com 10 brincadeiras: fazer bolinhas de cada cor, misturar duas cores para criar uma nova, carimbar texturas, montar bichinhos. Bem guardada depois de brincar, a massa rende outras brincadeiras depois da festa.',
+    selos:['Seis cores para misturar','Saquinho reutilizável'],
+    itens:['1 caixa de massa de modelar com 6 cores, lacrada','3 cortadores de formas','Cartão com 10 brincadeiras com massa de modelar'],
+    opcoes:pacotes(30.99) },
   { id:'massinha-completo', criacao:'massinha', versao:'completo', nome:'Ateliê de Massinha', cod:'MM-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Seis cores de massinha, rolinho e cortadores para criar à vontade.',
     descricao:'Seis potes de massinha em cores diferentes, um rolinho de madeira e cortadores, com o cartão de brincadeiras Dambrinhos. Para criar bichinhos, comidinhas e o que a imaginação mandar.',
@@ -1121,9 +1201,9 @@ const PRODUTOS = [
     itens:['6 potes de massinha de modelar (140 g cada) em cores diferentes, lacrados','1 rolinho de madeira','6 cortadores de formas','Cartão com 10 brincadeiras com massinha'],
     opcoes:[{nome:'1 kit', n:'001', preco:119}] },
   { id:'modelar-mini', criacao:'modelar', versao:'mini', nome:'Mini Argila', cod:'AR-M',
-    embalagem:'Saquinho de algodão cru', resumo:'A obra de arte da área sensorial: uma plaquinha para carimbar e pintar.',
+    embalagem:'Saquinho de algodão cru', resumo:'Uma plaquinha para carimbar e pintar, que seca e vira obra de arte.',
     descricao:'Argila branca que seca ao ar, sem forno. A criança achata a argila, carimba folhas, texturas ou a própria mãozinha e, depois de seca, pinta com as cores dela.',
-    selos:['A obra de arte da área sensorial','Seca ao ar, sem forno','Saquinho reutilizável'],
+    selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['Argila branca de secar ao ar (150 g)','1 rolinho de madeira','1 espátula de madeira sem ponta','3 potes de tinta','1 pincel','Cartão com o passo a passo da plaquinha'],
     opcoes:pacotes(39.99) },
   { id:'modelar-completo', criacao:'modelar', versao:'completo', nome:'Ateliê de Argila', cod:'AR-C', porUnidade:true,
@@ -1131,51 +1211,131 @@ const PRODUTOS = [
     descricao:'Mais argila, rolinho, carimbos e ferramentas para fazer plaquinhas, potinhos e bichinhos. Vem com um guia de projetos, do mais simples ao mais caprichado.',
     selos:['Seca ao ar, sem forno','Caixa reciclável'],
     itens:['Argila branca de secar ao ar (500 g)','1 rolinho de madeira','4 ferramentas de modelar de madeira, sem ponta','Conjunto de carimbos','6 potes de tinta','2 pincéis','Guia com 3 projetos'],
-    opcoes:[{nome:'1 kit', n:'001', preco:139}] }
+    opcoes:[{nome:'1 kit', n:'001', preco:139}] },
+  /* Biscuit: só com massa de marca certificada e com idade indicada (Acrilex 90 g, 3+), revendida lacrada.
+     Biscuit é material de artesanato: a maioria das marcas não tem selo do INMETRO e não entra nos kits. */
+  { id:'biscuit-mini', criacao:'biscuit', versao:'mini', nome:'Mini Biscuit', cod:'BI-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Massa lisa para modelar uma peça com detalhes, que seca e fica firme.',
+    descricao:'Massa de biscuit, lisa e macia, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela com mais detalhe: um bichinho, uma flor, a inicial do nome. Depois de seca, a peça fica dura e firme e vai para a estante, com a ficha da obra ao lado, como num museu.',
+    selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
+    itens:['2 pacotes de massa de biscuit (90 g cada), lacrados','1 espátula de madeira sem ponta','Cartão com o passo a passo da escultura'],
+    opcoes:pacotes(39.99) },
+  /* Massa de EVA: embalagem de marca certificada (Make+, 3+), revendida lacrada. Já vem colorida: dispensa tinta. */
+  { id:'eva-mini', criacao:'eva', versao:'mini', nome:'Mini Massa de EVA', cod:'EV-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Massa leve e fofa para modelar uma peça colorida, que seca e fica para guardar.',
+    descricao:'Massa de EVA em várias cores, muito leve e fofa, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela: um bichinho, uma flor, a inicial do nome. A massa já vem colorida, então não precisa de tinta. Depois de seca, a peça vai para a estante, com a ficha da obra ao lado, como num museu.',
+    selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
+    itens:['1 embalagem de massa de EVA em várias cores, lacrada','Cartão com o passo a passo da escultura'],
+    opcoes:pacotes(39.99) }
 ];
+
+/* Kits completos (presente) DESATIVADOS por enquanto: o foco é vender em quantidade (festas e "Para quem cuida").
+   Os dados continuam guardados acima. Para reativar, apague a linha do PRODUTOS.splice abaixo. */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.versao==='mini'));
+/* Kit de argila DESATIVADO: a área sensorial tem só produtos exclusivos (areia, biscuit, massa de EVA e massa de modelar).
+   Para reativar, apague a linha abaixo. */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='modelar'));
+/* Teatro de Fantoches DESATIVADO: o Dia das Crianças agora é a Casinha de Passarinho. Para reativar, apague a linha abaixo. */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='fantoches'));
 
 /* Ficha da obra: vai em todos os kits da escadinha (no Rabiscos, o registro já fica na própria moldura) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
-PRODUTOS.filter(p=>!['rabiscos','colorir','pintar','dobradura'].includes(p.criacao) && (ESCADA.some(cr=>cr.id===p.criacao) || p.criacao==='modelar')).forEach(p=>p.itens.push(FICHA_DA_OBRA));
+PRODUTOS.filter(p=>!['rabiscos','colorir','pintar','dobradura'].includes(p.criacao) && (ESCADA.some(cr=>cr.id===p.criacao) || ['modelar','biscuit','eva'].includes(p.criacao))).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
 const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='sensorial';
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
+/* Produtos exclusivos da área sensorial, em ordem alfabética */
+const SENSORIAIS = PRODUTOS.filter(ehBrinquedoSensorial).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
 
 /* Ocasiões — o carrossel "Como você vai celebrar?" e o menu.
-   produtos = ids sugeridos · alvo = vai direto para uma seção da página inicial */
-const MINIS = PRODUTOS.filter(p=>p.versao==='mini').map(p=>p.id);
+   produtos = ids sugeridos · alvo = vai direto para uma seção da página inicial
+   sazonal = aparece em "Como você vai celebrar?" na página inicial, com a foto e o preço do kit da data */
+const MINIS = PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade).map(p=>p.id);
 const COMPLETOS = PRODUTOS.filter(p=>p.versao==='completo').map(p=>p.id);
+/* As datas sazonais (Páscoa, Férias, Dia das Crianças, Natal) mostram só o kit daquela data; as lembrancinhas de festa ficam em Aniversário */
 const OCASIOES = [
   { id:'aniversario', nome:'Aniversário',        sub:'Uma lembrancinha criativa para cada convidado', cor:'#FFE8A3', icone:'bolo',   produtos:MINIS },
-  { id:'criancas',    nome:'Dia das Crianças',   sub:'Para a turma toda criar junto',                 cor:'#FDE1D3', icone:'balao',  produtos:MINIS },
-  { id:'natal',       nome:'Natal',              sub:'Um ateliê completo de presente',                cor:'#DCEFE2', icone:'arvore', produtos:COMPLETOS },
-  { id:'escola',      nome:'Escolas e empresas', sub:'Kits para a turma ou a equipe inteira',         cor:'#EDE4F6', icone:'escola', alvo:'empresas' }
+  { id:'pascoa',      nome:'Páscoa',             sub:'Uma Páscoa que vai além do chocolate',          cor:'#F6DDE9', icone:'ovo',
+    produtos:['ninho-mini'], sazonal:true },
+  { id:'ferias',      nome:'Férias',             sub:'Uma horta para cuidar o mês inteiro',            cor:'#DCEBF7', icone:'sol',
+    produtos:['horta-mini'], sazonal:true },
+  { id:'criancas',    nome:'Dia das Crianças',   sub:'Uma casinha de passarinho para montar e pintar', cor:'#FDE1D3', icone:'balao',  produtos:['casinha-mini'], sazonal:true },
+  { id:'natal',       nome:'Natal',              sub:'Edição especial: enfeites pintados pela criança', cor:'#DCEFE2', icone:'arvore',
+    produtos:['estrela-mini'], sazonal:true },
+  { id:'escola',      nome:'Para quem cuida', sub:'Escolas, clínicas, terapeutas e consultórios',         cor:'#EDE4F6', icone:'escola', alvo:'empresas' }
+];
+/* Para quem cuida — os cartões da página inicial e a coluna "Para quem" do menu.
+   quem = completa a mensagem pronta do WhatsApp · foto = imagem do cartão, na pasta fotos/ */
+const CUIDA = [
+  { nome:'Escolas e creches',     sub:'Um mimo para a turma inteira',         quem:'uma escola ou creche',    foto:'fotos/cuida-escolas.jpg',      cor:'#FFE8A3' },
+  { nome:'Clínicas e terapeutas', sub:'Para os pequenos pacientes, todo mês', quem:'uma clínica ou terapeuta', foto:'fotos/cuida-clinicas.jpg',     cor:'#EDE4F6' },
+  { nome:'Pediatras e dentistas', sub:'Uma lembrança depois da consulta',     quem:'um consultório',          foto:'fotos/cuida-consultorios.jpg', cor:'#DCEBF7' },
+  { nome:'Empresas',              sub:'Dia das Crianças e fim de ano',        quem:'uma empresa',             foto:'fotos/cuida-empresas.jpg',     cor:'#DCEFE2' }
 ];
 
-/* Faixa de campanha no topo. Some sozinha depois da data. Para desligar: CAMPANHA = null */
-const CAMPANHA = { nome:'Dia das Crianças', data:'2026-10-12', ocasiao:'criancas' };
+/* Faixa do topo. Sem campanha na lista, mostra o AVISO_FIXO (combinar pacotes por idade).
+   Para voltar a contar os dias de uma data, coloque-a na lista CAMPANHAS, por exemplo:
+   { nome:'Natal', data:'2026-12-25', ocasiao:'natal' }  (a faixa troca sozinha quando a data passa) */
+const AVISO_FIXO = '<b>Festa com crianças de várias idades?</b> Combine pacotes de kits diferentes, um para cada idade · Ver os kits →';
+const CAMPANHAS = [];
+const _hojeC = new Date(); _hojeC.setHours(0,0,0,0);
+const CAMPANHA = CAMPANHAS.find(c => new Date(c.data+'T00:00:00') >= _hojeC) || null;
 
 /* Nosso jeito de fazer — escreva só o que a loja faz de verdade (propaganda enganosa é proibida pelo CDC e pelo Conar) */
 const COMPROMISSOS = [
   { icone:'caixa',   titulo:'Embalagens que ficam',          texto:'Saquinho de algodão cru e caixa de papelão reciclável, sem plástico bolha.' },
-  { icone:'folha',   titulo:'Sem glitter plástico e sem EVA', texto:'A maior parte do material é papel, madeira, argila, lã e algodão, que agridem menos o planeta.' },
+  { icone:'folha',   titulo:'O mínimo de plástico',          texto:'A maior parte do material é papel, madeira, argila e algodão. Onde o plástico ainda aparece, como na massa de EVA e nos potes de tinta, buscamos reduzir a cada kit.' },
   { icone:'retorno', titulo:'Nada se perde',                 texto:'Produzimos só o que foi pedido, e as sobras de papel viram enchimento das caixas.' }
 ];
 
-/* Versão sensorial — aparece nos produtos com sensorial:true (selo, opção na página do kit e filtro no menu).
+/* Versão sensorial — hoje nenhum kit usa (a área sensorial tem só produtos exclusivos); as adaptações ficam guardadas.
+   Aparece nos produtos com sensorial:true (selo, opção na página do kit e filtro no menu).
    Escreva aqui SÓ o que o kit sensorial tem de verdade, e nunca prometa efeito terapêutico
    (palavras como "acalma", "trata" ou "desenvolve" podem virar propaganda enganosa pelo CDC). */
 const SENSORIAL = {
-  intro: 'Uma área pensada para crianças autistas e para todas as crianças que gostam de explorar texturas. Aqui estão os brinquedos sensoriais, que só existem nesta área, incluindo a argila, a obra de arte desta área, e a versão sensorial do kit de mosaico: mesmo material e mesmo preço, num kit organizado para ser mais previsível e mais confortável.',
+  intro: 'Uma área pensada para crianças autistas e para todas as crianças que gostam de explorar texturas. Aqui estão materiais que só existem nesta área, cada um com uma textura diferente para a festa: a areia mágica, que escorre e molda; o biscuit, liso, que seca e fica firme; a massa de EVA, leve e fofa, que seca e vira uma peça leve; e a massa de modelar, macia e elástica.',
   adaptacoes: [
     { icone:'figuras',  titulo:'Instruções em figuras',       texto:'Um passo a passo com desenhos simples, uma etapa por cartão, no lugar de texto corrido.' },
     { icone:'etapas',   titulo:'Material separado por etapa', texto:'Saquinhos numerados (1, 2, 3), para a criança saber o que vem agora e o que vem depois.' },
     { icone:'enxuto',   titulo:'Menos escolhas de uma vez',   texto:'Um kit mais enxuto, com menos cores e ferramentas, para a atividade não ficar cansativa.' },
     { icone:'cheiro',   titulo:'Sem cheiro forte e sem glitter', texto:'Cola e materiais de cheiro suave, sem brilho solto e sem partes que soltam pó.' },
     { icone:'silencio', titulo:'Embalagem fácil e silenciosa', texto:'Abre sem esforço, sem fita adesiva barulhenta e sem plástico que estala.' },
-    { icone:'textura',  titulo:'Texturas para explorar',      texto:'No mosaico, pastilhas de papel cartão, feltro e papel crepom, para sentir a diferença entre elas.' }
+    { icone:'textura',  titulo:'Texturas para explorar',      texto:'No mosaico, pastilhas de papel cartão e papel crepom, para sentir a diferença entre elas.' }
   ]
 };
+
+/* Guia de texturas — compara os materiais que a criança toca, na área sensorial e nas lembrancinhas.
+   Cada linha é um material; "criacoes" são os kits em que ele aparece (ids de CRIACOES).
+   Escreva SÓ o que é fato sobre o material e nunca diga para qual criança ele serve.
+   Para incluir "mãos depois" e "cheiro" depois de testar os produtos, acrescente a coluna em GUIA_COLUNAS e o campo em cada linha. */
+const GUIA_COLUNAS = [['toque','Toque'],['agua','Água'],['barulho','Barulho'],['espera','Espera']];
+const GUIA_TEXTURAS = [
+  { grupo:'Só na área sensorial', linhas:[
+    { material:'Areia mágica', criacoes:['areia'],
+      toque:'Granulada e soltinha: escorre entre os dedos e molda quando apertada', agua:'Não usa água', barulho:'Silenciosa', espera:'Não seca: dá para brincar de novo' },
+    { material:'Biscuit', criacoes:['biscuit'],
+      toque:'Lisa e macia, fica dura e firme depois de seca', agua:'Não usa água', barulho:'Silencioso', espera:'A peça precisa secar ao ar para ficar pronta' },
+    { material:'Massa de EVA', criacoes:['eva'],
+      toque:'Muito leve, fofa e macia', agua:'Não usa água', barulho:'Silenciosa', espera:'A peça precisa secar ao ar para ficar pronta' },
+    { material:'Massa de modelar', criacoes:['massinha'],
+      toque:'Macia e elástica', agua:'Não usa água', barulho:'Silenciosa', espera:'Bem guardada, dá para brincar de novo' } ] },
+  { grupo:'Nas lembrancinhas', linhas:[
+    { material:'Giz de cera', criacoes:['rabiscos','colorir'],
+      toque:'Seco e liso', agua:'Não usa água', barulho:'Silencioso', espera:'A obra fica pronta na hora' },
+    { material:'Tinta guache', criacoes:['pintar'],
+      toque:'Líquida e úmida, com pincel e esponja', agua:'Usa água para lavar o pincel e as mãos', barulho:'Silenciosa', espera:'A pintura precisa secar' },
+    { material:'Papel para dobrar', criacoes:['dobradura'],
+      toque:'Seco e liso', agua:'Não usa água', barulho:'Som de papel dobrando', espera:'A obra fica pronta na hora' },
+    { material:'Papel para recortar e colar', criacoes:['colagem'],
+      toque:'Seco: papel liso e papel crepom enrugado', agua:'Não usa água', barulho:'Som de tesoura e de papel amassando', espera:'A obra fica pronta na hora' },
+    { material:'Fibra de coco e sementes', criacoes:['botanico','horta'],
+      toque:'Fibrosa e áspera, úmida depois de regar', agua:'Usa água para regar', barulho:'Silenciosa', espera:'A planta leva dias para nascer' },
+    { material:'Papelão e madeira', criacoes:['engenhocas','jogo'],
+      toque:'Secos e rígidos', agua:'Não usa água', barulho:'Pouco barulho', espera:'Fica pronto na hora' },
+    { material:'Argila', criacoes:['ceramica'],
+      toque:'Fria, úmida e pesada', agua:'Usa água para modelar e para limpar', barulho:'Silenciosa', espera:'A peça seca antes de ser pintada e envernizada' } ] }
+];
+const texturaDe = criacaoId => GUIA_TEXTURAS.flatMap(g=>g.linhas).find(l=>l.criacoes.includes(criacaoId));
 
 /* Depoimentos e fotos de clientes: as seções só aparecem quando você preencher.
    Use SÓ depoimentos e fotos reais, com autorização.
@@ -1329,14 +1489,76 @@ const CENAS = {
   massinha(completo){
     let s = sombra(100,80);
     if (completo) s += caixa(164,54);
-    /* potes de massinha, bolinhas e cobrinha modeladas, cortador de estrela e rolinho */
-    const potes = completo ? [[22,COR[0]],[40,COR[3]],[58,COR[1]]] : [[34,COR[5]]];
+    /* massinha (caixa com 6 cores no mini, potes no completo), bolinhas e cobrinha modeladas, cortador de estrela e rolinho */
+    const potes = completo ? [[22,COR[0]],[40,COR[3]],[58,COR[1]]] : [];
     potes.forEach(([x,f])=>{ s += rc(x-9,98,18,26,4,'#fff','stroke="#D7D2C8" stroke-width="1.3"') + rc(x-10,93,20,8,3,f) + el(x,104,6,3,f,'opacity=".7"'); });
+    if (!completo) s += rc(12,94,52,34,3,'#fff','stroke="#D7D2C8" stroke-width="1.3"') + COR.map((f,i)=>rc(16+i*7.6,99,6,24,2,f)).join('');
     s += c(96,128,9,COR[5]) + c(112,132,7,COR[2]) + c(84,134,6,COR[1]);
     s += `<path d="M72 118 q10 -10 22 0 t22 0" fill="none" stroke="${COR[3]}" stroke-width="7" stroke-linecap="round"/>`;
     s += `<path d="M136 112 l4 8 l9 1 l-7 6 l2 9 l-8 -5 l-8 5 l2 -9 l-7 -6 l9 -1 z" fill="none" stroke="#B5BBC5" stroke-width="2.5" stroke-linejoin="round"/>`;
     s += `<g transform="rotate(-15 120 98)">${rc(100,94,40,9,4.5,MADEIRA)}${rc(94,95.5,8,6,3,MADEIRA_ESC)}${rc(138,95.5,8,6,3,MADEIRA_ESC)}</g>`;
     if (!completo) s += saquinho(162,40);
+    return s;
+  },
+  eva(completo){
+    let s = sombra(100,80);
+    if (completo) s += caixa(164,54);
+    /* escultura de massa de EVA já seca, exposta numa base com a ficha da obra, como num museu */
+    s += rc(66,132,68,10,3,MADEIRA) + rc(72,126,56,8,2,MADEIRA_ESC);
+    s += el(100,112,22,16,COR[4]) + c(100,86,15,COR[4]) + el(88,73,5,8,COR[4],'transform="rotate(-18 88 73)"') + el(112,73,5,8,COR[4],'transform="rotate(18 112 73)"');
+    s += el(100,114,12,9,COR[1]) + c(94,84,2,INK) + c(106,84,2,INK) + el(100,90,3,2,COR[5]) + el(80,116,5,7,COR[4]) + el(120,116,5,7,COR[4]);
+    s += rc(140,118,30,20,2,'#fff','stroke="#D7D2C8" stroke-width="1.2"') + `<path d="M145 125 h20 M145 130 h14 M145 134 h17" stroke="#B8A58A" stroke-width="1.2"/>`;
+    /* pacotes de massa lacrados, bolinhas e cobrinha ainda por modelar, espátula */
+    s += rc(18,112,30,20,4,COR[4]) + rc(22,117,22,10,2,'#fff','opacity=".85"') + rc(26,98,30,20,4,COR[1]) + rc(30,103,22,10,2,'#fff','opacity=".85"');
+    s += c(40,142,6,COR[1]) + c(54,144,5,COR[4]) + `<path d="M150 146 q8 -6 16 0 t16 0" fill="none" stroke="${COR[1]}" stroke-width="5" stroke-linecap="round"/>`;
+    s += `<g transform="rotate(-16 64 80)">${rc(61,58,6,42,3,MADEIRA)}${el(64,58,6,8,MADEIRA_ESC)}</g>`;
+    if (!completo) s += saquinho(160,36);
+    return s;
+  },
+  ninho(completo){
+    let s = sombra(100,80);
+    /* ninho de palha com três ovos de madeira: um cru, um listrado e um de bolinhas; guache e pincel */
+    const ovo = (x,y,f,rot) => `<ellipse cx="${x}" cy="${y}" rx="15" ry="20" fill="${f}" stroke="#B8895A" stroke-width="1.3" transform="rotate(${rot} ${x} ${y})"/>`;
+    s += ovo(72,92,'#E9CFA6',-12) + ovo(104,84,'#F48FB1',4) + ovo(134,94,'#7FC4E8',14);
+    s += `<path d="M91 78 h26 M90 86 h28 M92 94 h24" stroke="#fff" stroke-width="2.6" stroke-linecap="round" transform="rotate(4 104 84)"/>`;
+    s += [[128,86],[138,92],[130,100],[140,102]].map(([x,y])=>c(x,y,2.4,'#F5B83D')).join('');
+    s += `<path d="M44 104 Q100 150 160 104 Q150 140 100 142 Q54 140 44 104 Z" fill="#D9B46A"/>`;
+    s += `<path d="M52 112 q20 16 44 18 M70 122 q28 12 58 -2 M106 132 q26 -4 44 -22 M60 108 q8 14 22 18" stroke="#B8895A" stroke-width="1.4" fill="none" stroke-linecap="round"/>`;
+    s += pote(26,66,'#F48FB1') + pote(42,66,'#7FC4E8') + pote(34,52,'#F5B83D') + pincel(176,60,18);
+    return s;
+  },
+  casinha(completo){
+    let s = sombra(100,80);
+    /* casinha de madeira com o telhado já pintado, cordão para pendurar e um passarinho chegando */
+    s += `<path d="M96 22 Q100 14 104 22" stroke="#D9C49E" stroke-width="1.8" fill="none"/><path d="M100 22 V34" stroke="#D9C49E" stroke-width="1.8"/>`;
+    s += rc(72,62,56,70,3,'#E9CFA6','stroke="#B8895A" stroke-width="1.5"');
+    s += `<path d="M62 66 L100 32 L138 66 Z" fill="#C8463A" stroke="#B8895A" stroke-width="1.5" stroke-linejoin="round"/>`;
+    s += c(100,88,11,'#8A6238') + rc(98,110,4,16,2,'#B8895A') + `<path d="M76 124 h48" stroke="#3E9A75" stroke-width="5" stroke-linecap="round"/>`;
+    s += `<g transform="translate(148 74)"><ellipse cx="0" cy="0" rx="11" ry="8" fill="#3A9AD9"/><circle cx="9" cy="-6" r="5.5" fill="#3A9AD9"/><path d="M14 -6 l6 2 l-6 2 z" fill="#F5B83D"/><circle cx="10" cy="-7" r="1.1" fill="#2B2235"/><path d="M-10 0 l-9 -4 l2 8 z" fill="#2F7FB8"/></g>`;
+    s += pote(30,128,'#C8463A') + pote(46,128,'#3E9A75') + pote(38,114,'#F5B83D') + pincel(170,104,22);
+    return s;
+  },
+  fantoches(completo){
+    let s = sombra(100,80);
+    /* dois fantoches de saquinho de papel, com cabelo e rosto de papel colado, cola bastão e giz */
+    const saco = (x,y) => rc(x-22,y,44,74,3,KRAFT) + rc(x-22,y,44,26,3,'#C9A574');
+    s += saco(66,60) + rc(44,52,44,12,5,'#9B6BE0') + c(57,72,3.2,'#fff') + c(75,72,3.2,'#fff') + c(57,72,1.4,INK) + c(75,72,1.4,INK);
+    s += `<path d="M56 98 q10 9 20 0" stroke="${INK}" stroke-width="2" fill="none" stroke-linecap="round"/>` + c(52,92,3.4,'#F48FB1','opacity=".7"') + c(80,92,3.4,'#F48FB1','opacity=".7"');
+    s += saco(124,54) + `<path d="M102 56 l6 -12 l6 10 l6 -12 l6 12 l6 -10 l6 12 l6 -10 l2 10 z" fill="#4CB38A"/>`;
+    s += c(115,66,3.2,'#fff') + c(133,66,3.2,'#fff') + c(115,66,1.4,INK) + c(133,66,1.4,INK) + `<path d="M116 92 h16" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`;
+    s += `<path d="M112 100 l12 8 l12 -8 l-6 14 h-12 z" fill="#F27B5B"/>`;
+    s += rc(160,96,12,34,3,'#fff','stroke="#D5C9B2" stroke-width="1"') + rc(160,96,12,10,3,'#C8463A') + giz(24,100,-14,'#3A9AD9') + giz(180,60,20,'#F5B83D');
+    return s;
+  },
+  estrela(completo){
+    let s = sombra(100,80);
+    /* duas estrelas de madeira com cordão, uma já pintada, guache e pincel */
+    const est = (x,y,r,f,rot) => { const pts=[]; for(let k=0;k<10;k++){ const a=-Math.PI/2+k*Math.PI/5, rr=k%2?r*0.45:r; pts.push((x+rr*Math.cos(a)).toFixed(1)+','+(y+rr*Math.sin(a)).toFixed(1)); } return `<polygon points="${pts.join(' ')}" fill="${f}" stroke="#B8895A" stroke-width="1.5" stroke-linejoin="round" transform="rotate(${rot} ${x} ${y})"/>`; };
+    s += `<path d="M70 34 Q74 46 70 56" stroke="#D9C49E" stroke-width="1.6" fill="none"/>` + est(70,84,30,'#E9CFA6',-6);
+    s += `<path d="M122 52 Q126 62 122 72" stroke="#D9C49E" stroke-width="1.6" fill="none"/>` + est(122,98,26,'#C8463A',8);
+    s += [[116,92],[128,100],[120,106],[126,88]].map(([x,y])=>c(x,y,2.2,'#fff')).join('') + `<path d="M108 100 l28 0" stroke="#F5B83D" stroke-width="2.5" transform="rotate(8 122 98)"/>`;
+    s += pote(36,128,'#C8463A') + pote(52,128,'#3E9A75') + pote(44,114,'#F5B83D') + pincel(150,104,24);
+    s += saquinho(170,40);
     return s;
   },
   areia(completo){
@@ -1352,53 +1574,51 @@ const CENAS = {
     else s += saquinho(160,44);
     return s;
   },
-  costura(completo){
-    let s = sombra(100,80);
-    if (completo) s += caixa(162,58) + rc(14,118,44,24,3,COR[2]) + rc(20,112,44,24,3,COR[1]) + rc(26,106,44,24,3,COR[5]);
-    /* dinossauro de feltro com pontos em volta */
-    const x = completo?104:92, y = 102;
-    s += [[-18,-26],[-6,-32],[6,-32],[18,-26]].map(([a,b])=>`<path d="M${x+a-6} ${y+b+8} L${x+a} ${y+b-4} L${x+a+6} ${y+b+8} Z" fill="${COR[1]}"/>`).join('');
-    s += c(x,y,28,COR[2]) + c(x,y,24,'none','stroke="#fff" stroke-width="1.8" stroke-dasharray="4 3"');
-    s += c(x-9,y-4,3,INK) + c(x+9,y-4,3,INK) + `<path d="M${x-8} ${y+8} q8 6 16 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`;
-    if (!completo) s += c(x,y-36,7,'none','stroke="#B5BBC5" stroke-width="3"');
-    /* agulha sem ponta com a lã */
-    s += `<path d="M${x+26} ${y+10} C${x+44} ${y+30} ${x+30} ${y+44} ${x+52} ${y+40}" fill="none" stroke="${COR[0]}" stroke-width="2.5" stroke-linecap="round"/>`;
-    s += `<g transform="rotate(35 ${x+56} ${y+36})">${rc(x+53,y+18,6,34,3,'#C9CED6')}${el(x+56,y+23,1.5,4,'#fff')}</g>`;
-    s += c(completo?40:158,completo?82:128,completo?12:15,COR[3]) + `<path d="M${completo?30:146} ${completo?78:122} q10 6 20 0 M${completo?31:147} ${completo?86:132} q10 6 18 -2" fill="none" stroke="#fff" stroke-width="1.5" opacity=".6"/>`;
-    if (!completo) s += saquinho(34,90);
-    return s;
-  },
-  tecelagem(completo){
+  botanico(completo){
     let s = sombra(100,80);
     if (completo) s += caixa(164,56);
-    const x = completo?84:92, w = completo?68:56;
-    /* tapeçaria em listras e franjas, presa num palito de madeira */
-    s += rc(x-w/2-6,38,w+12,6,3,MADEIRA);
-    s += rc(x-w/2,44,w,72,2,KRAFT);
-    const listras = [COR[0],COR[1],COR[3],COR[2],COR[5]];
-    listras.forEach((f,k)=>{ s += rc(x-w/2+4,48+k*13,w-8,12,2,f); });
-    s += Array.from({length:Math.floor((w-8)/6)},(_,t)=>`<path d="M${x-w/2+6+t*6} 113 V${132+(t%2)*4}" stroke="${listras[t%5]}" stroke-width="2.5" stroke-linecap="round"/>`).join('');
-    /* novelo de lã */
-    s += c(completo?150:154,130,11,COR[4]) + `<path d="M${completo?142:146} 126 q8 5 16 0 M${completo?142:146} 133 q8 5 15 -1" stroke="#fff" stroke-width="1.4" fill="none" opacity=".6"/>`;
-    if (completo) s += c(34,132,9,COR[1]);
-    else s += saquinho(34,52);
+    const VASO = '#B9895B', VASO_E = '#9C7048';
+    const vaso = (x,h) => `<path d="M${x-16} 104 L${x-12} 140 H${x+12} L${x+16} 104 Z" fill="${VASO}"/>` + rc(x-18,98,36,8,2,VASO_E)
+      + `<path d="M${x} 98 V${98-h}" stroke="#4E9A4A" stroke-width="3" stroke-linecap="round"/>`
+      + el(x-7,98-h+6,8,4.5,'#6FBF5E','transform="rotate(-25 '+(x-7)+' '+(98-h+6)+')"') + el(x+7,98-h+2,8,4.5,'#7FCB6A','transform="rotate(25 '+(x+7)+' '+(98-h+2)+')"');
+    s += completo ? vaso(46,22) + vaso(84,30) + vaso(122,16) : vaso(84,30) + c(78,122,3,COR[1]) + c(90,128,3,COR[3]);
+    /* diário com régua e pacotinho de sementes */
+    if (!completo){
+      s += rc(118,96,34,44,2,'#fff','stroke="#D7D2C8"') + rc(118,96,34,7,2,'#6FAF5E') + `<path d="M124 112 h22 M124 120 h18 M124 128 h20" stroke="#C9C2B4" stroke-width="1.5"/>`;
+      s += rc(50,120,20,24,2,'#F3E4C8','stroke="#D9C49E"') + c(60,130,4,'#6FAF5E');
+      s += saquinho(160,44);
+    } else s += rc(130,128,30,8,1,MADEIRA) + [0,1,2,3,4,5].map(k=>`<path d="M${133+k*5} 128 v3" stroke="#8B6B45" stroke-width="1"/>`).join('');
     return s;
   },
-  macrame(completo){
+  engenhocas(completo){
     let s = sombra(100,80);
     if (completo) s += caixa(164,56);
-    const COR_C = '#D8BF98', ESC = '#B08A5E';
-    const x = completo?78:96;
-    /* palito (completo) ou argola (mini) com cordões, nós quadrados e franjas */
-    s += completo ? rc(x-36,40,72,6,3,MADEIRA) : c(x,40,9,'none','stroke="'+MADEIRA+'" stroke-width="4"');
-    const cords = completo ? [-28,-20,-12,-4,4,12,20,28] : [-12,-4,4,12];
-    cords.forEach(dx=>{ s += `<path d="M${x+dx/ (completo?1:2)} ${completo?46:49} Q${x+dx} 80 ${x+dx} 120" stroke="${COR_C}" stroke-width="3.2" fill="none"/>`; });
-    const nos = completo ? [[x-16,66],[x+16,66],[x,82],[x-16,98],[x+16,98]] : [[x,68],[x,92]];
-    nos.forEach(([a,b])=>{ s += el(a,b,7,5,ESC) + el(a,b,4,3,'#E9D8BC'); });
-    s += `<path d="M${x-(completo?30:14)} 120 L${x-(completo?32:15)} 140 M${x} 120 L${x} 142 M${x+(completo?30:14)} 120 L${x+(completo?32:15)} 140" stroke="${ESC}" stroke-width="2" stroke-linecap="round"/>`;
-    /* pulseira de nós com as sobras */
-    s += el(completo?150:150,128,16,6,'none',`stroke="${COR[2]}" stroke-width="5" stroke-dasharray="4 2"`);
-    if (!completo) s += saquinho(160,44);
+    /* catavento de papelão colorido num palito de madeira */
+    const x = completo?70:88, y = 70;
+    s += `<path d="M${x} ${y} V142" stroke="${MADEIRA_ESC}" stroke-width="4" stroke-linecap="round"/>`;
+    const p = [[COR[0],0],[COR[1],90],[COR[3],180],[COR[2],270]];
+    p.forEach(([f,r])=>{ s += `<path d="M${x} ${y} L${x} ${y-28} Q${x+18} ${y-26} ${x} ${y} Z" fill="${f}" transform="rotate(${r} ${x} ${y})"/>`; });
+    s += c(x,y,4,MADEIRA) + `<path d="M${x+30} ${y-20} q6 4 0 8 M${x+36} ${y-24} q8 6 0 14" stroke="#9AC4DD" stroke-width="2" fill="none" stroke-linecap="round"/>`;
+    /* periscópio de papelão */
+    const px = completo?126:136;
+    s += rc(px,68,16,62,2,KRAFT) + rc(px,68,30,16,2,KRAFT) + rc(px+22,71,6,10,1,'#CFE6F2') + rc(px-6,114,6,14,1,'#CFE6F2');
+    if (!completo) s += saquinho(34,52);
+    return s;
+  },
+  jogo(completo){
+    let s = sombra(100,80);
+    if (completo) s += caixa(164,56);
+    /* tabuleiro com caminho colorido desenhado pela criança */
+    const x0 = completo?28:22, y0 = 54, w = 104, h = 82;
+    s += rc(x0,y0,w,h,4,'#FBF8F1','stroke="#D7D2C8" stroke-width="1.5"');
+    const casas = [[0,3],[1,3],[2,3],[3,3],[4,3],[5,3],[5,2],[5,1],[4,1],[3,1],[2,1],[1,1],[1,0],[2,0]];
+    casas.forEach(([cx,cy],k)=>{ s += rc(x0+8+cx*15,y0+8+cy*17,13,13,3,COR[k%6]); });
+    s += `<path d="M${x0+86} ${y0+12} l4 8 l9 1 l-7 6 l2 9 l-8 -5 l-8 5 l2 -9 l-7 -6 l9 -1 z" fill="${COR[1]}"/>`;
+    /* peões e dado de madeira */
+    const peao = (x,y,f) => c(x,y-10,4.5,f) + `<path d="M${x-6} ${y} Q${x} ${y-14} ${x+6} ${y} Z" fill="${f}"/>`;
+    s += peao(x0+w+14,134,COR[3]) + peao(x0+w+26,138,COR[0]);
+    s += `<g transform="rotate(12 ${x0+w+20} 112)">${rc(x0+w+12,104,16,16,3,MADEIRA)}${c(x0+w+16,108,1.6,INK)}${c(x0+w+24,116,1.6,INK)}${c(x0+w+20,112,1.6,INK)}</g>`;
+    if (!completo) s += saquinho(170,40);
     return s;
   },
   ceramica(completo){
@@ -1420,6 +1640,9 @@ const CENAS = {
     return s;
   }
 };
+CENAS.biscuit = CENAS.eva;
+/* Horta das Férias: a mesma cena do kit de botânico com várias plantas, até ter foto */
+CENAS.horta = () => CENAS.botanico(true);
 /* Selo de idade no canto, como o "AGE 4–9" da Sculpd */
 const seloIdade = n => c(30,30,20,'#FABD32') + `<text x="30" y="26" font-size="6.5" fill="#14295C" text-anchor="middle" font-family="Outfit, sans-serif" font-weight="600" letter-spacing=".5">IDADE</text>` + tx(30,40,14,'#14295C',`${n}+`);
 function art(p, comSelo=true){
@@ -1438,7 +1661,7 @@ function testarFoto(src){
 }
 /* Procura as fotos da pasta fotos/ e, quando acha, troca as ilustrações */
 async function procurarFotos(){
-  const tarefas = [testarFoto(FOTO.topo), testarFoto(FOTO.historia), ...CRIACOES.map(cr=>testarFoto(FOTO.criacao(cr.id))), ...FAIXAS.map(f=>testarFoto(FOTO.faixa(f.id)))];
+  const tarefas = [testarFoto(FOTO.topo), testarFoto(FOTO.historia), ...CRIACOES.map(cr=>testarFoto(FOTO.criacao(cr.id)))];
   tarefas.push(...PRODUTOS.filter(p=>!(p.fotos && p.fotos.length)).map(async p=>{
     const achadas = [];
     for (let i=1; i<=5; i++){ const src = FOTO.produto(p.id,i); if (!(await testarFoto(src))) break; achadas.push(src); }
@@ -1466,7 +1689,7 @@ const criacaoDe = p => CRIACOES.find(c=>c.id===p.criacao);
 const porKit = o => o.preco / +o.n;
 const preco = (p,oi) => p.opcoes[oi].preco;
 const sku = (p,oi) => `${p.cod}-${p.opcoes[oi].n}`;
-const versaoTxt = p => p.versao==='mini' ? 'Lembrancinha' : 'Presente';
+const versaoTxt = p => (p.versao==='mini' && !p.porUnidade) ? 'Lembrancinha' : 'Presente';
 const idadeTxt = n => `A partir de ${n} ${n===1?'ano':'anos'}`;
 const FOLHA = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13 C3 6 7 3 13 3 C13 9 10 13 3 13 Z M3 13 L9 7"/></svg>`;
 const icone = (d, cor='#0A5272', w=1.8) => `<svg viewBox="0 0 36 36" fill="none" stroke="${cor}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -1474,6 +1697,8 @@ const ICONES = {
   bolo:   '<path d="M8 30 H28 V20 H8 Z M6 30 H30 M12 20 V16 M18 20 V15 M24 20 V16"/><path d="M12 13 q-1.5 -2 0 -4 q1.5 2 0 4 Z M18 12 q-1.5 -2 0 -4 q1.5 2 0 4 Z M24 13 q-1.5 -2 0 -4 q1.5 2 0 4 Z"/><path d="M8 24 q2.5 2 5 0 q2.5 2 5 0 q2.5 2 5 0 q2.5 2 5 0"/>',
   balao:  '<ellipse cx="18" cy="13" rx="8" ry="9.5"/><path d="M16.5 22.5 L18 25 L19.5 22.5 M18 25 q-3 4 0 7 q3 3 0 4"/><path d="M14 10 q1 -3 4 -3.5"/>',
   arvore: '<path d="M18 4 L27 16 H22 L29 26 H7 L14 16 H9 Z M18 26 V32 M14 32 H22"/><path d="M18 1.5 V4"/>',
+  ovo:    '<path d="M18 5 C10 5 7 17 7 22 C7 28 12 32 18 32 C24 32 29 28 29 22 C29 17 26 5 18 5 Z"/><path d="M8 19 l4 3 l4 -3 l4 3 l4 -3 l4 3 M9 26 q3 -2 6 0 t6 0 t6 0"/>',
+  sol:    '<circle cx="18" cy="18" r="6"/><path d="M18 4 V8 M18 28 V32 M4 18 H8 M28 18 H32 M8 8 L11 11 M25 25 L28 28 M8 28 L11 25 M25 11 L28 8"/>',
   escola: '<path d="M6 16 L18 8 L30 16 M9 15 V30 H27 V15 M15 30 V23 H21 V30 M18 8 V3 L23 4.5 L18 6"/>',
   caixa:  '<rect x="7" y="15" width="22" height="15" rx="2"/><path d="M5 10 H31 V15 H5 Z M18 10 V30 M14 6 L18 10 L22 6"/>',
   folha:  '<path d="M8 28 C8 15 15 8 28 8 C28 21 21 28 8 28 Z M8 28 L19 17"/>',
@@ -1497,25 +1722,30 @@ const BENEFICIOS = [
 ];
 const PASSOS = [
   ['Escolha a atividade','Dez atividades, a partir de 1 ano','<path d="M6 10h24v20H6z M6 16h24 M12 10V6 M24 10V6"/><path d="M12 22l4 4 8-8"/>'],
-  ['Diga quantas crianças','Pacotes de 10, 20 ou 30 kits','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
+  ['Diga quantas crianças','Pacotes de 12, 24 ou 36 kits, que você pode combinar por idade','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
   ['Envie pelo WhatsApp','Confirmamos o pedido e o pagamento','<path d="M31 18a12 12 0 0 1-17.8 10.5L5 31l2.4-7.6A12 12 0 1 1 31 18z"/><path d="M13 16h10 M13 21h6"/>'],
   ['Receba tudo pronto','É só entregar na festa','<path d="M7 16h22v15H7z M5 11h26v5H5z M18 11v20 M18 11c-3-6-9-6-9-2s6 2 9 2c3 0 9 2 9-2s-6-4-9 2"/>']
 ];
 
-const estado = { ocasiao:null, lista:null, dOpt:0 };
+const estado = { lista:null };
 let carrinho = [];   // {pid, opt, qtd, msg}
 let sel = null;      // produto aberto: {p, opt, qtd, foto}
 
+/* Kits com estoque (LOJA.disponiveis) e o link "Avise-me" dos que ainda não têm */
+const disponivel = p => LOJA.disponiveis.includes(p.id);
+const waAvise = p => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero ser avisado(a) quando o ${p.nome} da ${LOJA.nome} estiver disponível.`)}`;
+
 /* Card de produto (vitrine) */
 function cardProduto(p){
-  const cr = criacaoDe(p);
+  const cr = criacaoDe(p), ok = disponivel(p);
   return `<article class="pcard">
-    <button type="button" class="pcard-img" data-pid="${p.id}" aria-label="Ver ${esc(p.nome)}">${imagemProduto(p)}</button>
+    <button type="button" class="pcard-img" data-pid="${p.id}" aria-label="Ver ${esc(p.nome)}">${imagemProduto(p)}${ok ? '' : '<span class="em-breve">Em breve</span>'}</button>
     <div class="pcard-tags"><span class="pill" style="background:${cr.cor}">${esc(cr.nome)}</span><span class="pill claro">${versaoTxt(p)}</span>${ehSensorial(p)?'<span class="pill sens">Sensorial</span>':''}</div>
     <h3><button type="button" data-pid="${p.id}">${esc(p.nome)}</button></h3>
     <p class="resumo">${esc(p.resumo)}</p>
     <div class="pcard-preco">${p.porUnidade ? `<b>${brl(p.opcoes[0].preco)}</b>` : `<b>${brl(porKit(p.opcoes[0]))}</b> por kit`}</div>
-    <button type="button" class="cta" data-pid="${p.id}">Escolher</button>
+    ${ok ? `<button type="button" class="cta" data-pid="${p.id}">Escolher</button>`
+         : `<a class="btn-out" href="${waAvise(p)}" target="_blank" rel="noopener">Em breve · Avise-me</a>`}
   </article>`;
 }
 
@@ -1538,30 +1768,27 @@ function renderHome(){
   $('grid-criacoes').innerHTML = ESCADA.map(cr=>{
     const src = FOTO.criacao(cr.id), img = fotosOk.has(src) ? imgFoto(src, cr.titulo, cr.idade) : imagemProduto(prod(cr.id+'-mini'));
     return `<button type="button" class="cri-card" style="background:${cr.cor}" data-col="criacao:${cr.id}">
-      <h3>${esc(cr.titulo)}</h3><p>${esc(cr.desc)}</p><span class="ver">Ver os kits →</span>
+      <h3>${esc(cr.titulo)}</h3><span class="preco">A partir de <b>${brl(porKit(prod(cr.id+'-mini').opcoes[0]))}</b> por kit</span><span class="ver">Ver os kits →</span>
       <span class="img">${img}</span></button>`; }).join('');
-  /* Uma seção por faixa de idade */
-  $('faixas-lista').innerHTML = FAIXAS.map(f=>{
-    const crs = ESCADA.filter(cr=>cr.idade>=f.de && cr.idade<=f.ate), src = FOTO.faixa(f.id);
-    const img = fotosOk.has(src) ? `<img class="foto-unica" src="${src}" alt="Crianças criando: ${faixaTxt(f).toLowerCase()}">`
-      : crs.slice(0,3).map((cr,i)=>`<div class="h${i+1}">${imagemProduto(prod(cr.id+'-mini'))}</div>`).join('');
-    return `<article class="faixa">
-      <div class="faixa-img"><div class="hero-art">${img}</div></div>
-      <div class="faixa-txt"><p class="eyebrow">${faixaTxt(f)}</p><h2 class="sec-title">${esc(f.titulo)}</h2><p>${esc(f.texto)}</p>
-        <ul class="faixa-cri">${crs.map(cr=>{ const m = prod(cr.id+'-mini');
-          return `<li><button type="button" data-col="criacao:${cr.id}"><b style="background:${cr.cor}">${cr.idade}+</b><span class="t"><strong>${esc(cr.nome)}</strong><small>${esc(cr.titulo)} · ${brl(porKit(m.opcoes[0]))} por kit</small></span><span aria-hidden="true">→</span></button></li>`; }).join('')}</ul>
-        <button type="button" class="btn-out" data-col="faixa:${f.id}">Ver os kits: ${faixaTxt(f).toLowerCase()}</button></div>
-    </article>`; }).join('');
-  renderDestaque();
-  $('beneficios').innerHTML = BENEFICIOS.map(b=>`<div><svg viewBox="0 0 150 150" aria-hidden="true">${b.svg}</svg><h3>${esc(b.titulo)}</h3><p>${esc(b.texto)}</p></div>`).join('');
-  $('oc-row').innerHTML = OCASIOES.map(o=>`
-    <button type="button" class="oc-card" role="listitem" style="background:${o.cor}" data-oc="${o.id}" aria-pressed="${o.id===estado.ocasiao}">
-      ${icone(ICONES[o.icone],'#101123')}<span><b>${esc(o.nome)}</b><span>${esc(o.sub)}</span></span></button>`).join('');
-  const oc = OCASIOES.find(o=>o.id===estado.ocasiao);
-  $('oc-result').innerHTML = oc && oc.produtos ? `
-    <div class="sec-head"><h3>Sugestões para ${esc(oc.nome)}</h3><span class="small">${oc.produtos.some(id=>!prod(id).porUnidade)?'Preço por kit · pedidos a partir de 10 unidades':'Preço por unidade'}</span></div>
-    <div class="pgrid">${oc.produtos.map(prod).filter(Boolean).map(cardProduto).join('')}</div>` : '';
-  $('banner-art').innerHTML = art(prod('pintar-completo'), false);
+  /* Espaço de Natal: só aparece na temporada */
+  const hojeN = new Date(), mostrarNatal = hojeN.getMonth() >= 9 && !(hojeN.getMonth()===11 && hojeN.getDate()>25);
+  $('natal-especial').hidden = !mostrarNatal || !prod('estrela-mini');
+  if (mostrarNatal && prod('estrela-mini')) $('natal-art').innerHTML = imagemProduto(prod('estrela-mini'));
+  /* Área sensorial na página inicial: um cartão por kit, igual aos das criações */
+  $('sens-row').innerHTML = SENSORIAIS.map(p=>{ const cr = criacaoDe(p);
+    return `<button type="button" class="cri-card" style="background:${cr.cor}" data-pid="${p.id}">
+      <h3>${esc(cr.titulo)}</h3><span class="preco">A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por kit</span><span class="ver">Ver o kit →</span>
+      <span class="img">${imagemProduto(p)}</span></button>`; }).join('');
+  /* Datas sazonais: foto do kit da data, com a idade, e o preço */
+  $('oc-row').innerHTML = OCASIOES.filter(o=>o.sazonal && prod(o.produtos[0])).map(o=>{
+    const p = prod(o.produtos[0]);
+    return `<button type="button" class="cri-card" style="background:${o.cor}" data-oc="${o.id}">
+      <h3>${esc(o.nome)}</h3><span class="sub">${esc(o.sub)}</span><span class="preco"><b>${brl(p.opcoes[0].preco)}</b> o kit</span><span class="ver">Ver o kit →</span>
+      <span class="img">${imagemProduto(p)}</span></button>`; }).join('');
+  /* Para quem cuida: cada cartão abre o WhatsApp com a mensagem pronta daquele público */
+  $('cuida-row').innerHTML = CUIDA.map(c=>`<a class="cri-card" style="background:${c.cor}" href="${waCuida(c.quem)}" target="_blank" rel="noopener">
+      <h3>${esc(c.nome)}</h3><span class="sub">${esc(c.sub)}</span><span class="ver">Pedir orçamento →</span>
+      <span class="img">${imgFoto(c.foto, `Kit para ${c.nome.toLowerCase()}`)}</span></a>`).join('');
   $('passos').innerHTML = PASSOS.map(([t,s,d])=>`<li><span class="passo-ico">${icone(d)}</span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
   $('eco-grid').innerHTML = COMPROMISSOS.map(c=>`<div class="eco-item">${icone(ICONES[c.icone],'#2E6B55')}<b>${esc(c.titulo)}</b><span>${esc(c.texto)}</span></div>`).join('');
   $('grid-depo').innerHTML = DEPOIMENTOS.map(d=>`<figure class="depo"><span class="estrelas" aria-label="${d.nota||5} de 5 estrelas">${'★'.repeat(d.nota||5)}</span><p style="margin:0">“${esc(d.texto)}”</p><b>${esc(d.nome)}</b></figure>`).join('');
@@ -1571,83 +1798,68 @@ function renderHome(){
     return `<figure><img src="${esc(f.src)}" alt="${esc(legenda ? `Mãozinha de ${legenda}` : (f.alt||'Mãozinha de uma criança'))}" loading="lazy">${legenda ? `<figcaption>${esc(legenda)}</figcaption>` : ''}</figure>`; }).join('');
   $('grid-fotos').hidden = FOTOS_CLIENTES.length===0;
   $('mural-vazio').hidden = FOTOS_CLIENTES.length>0;
-  $('sens-home-lista').innerHTML = ['Areia mágica, massinha e argila', ...SENSORIAL.adaptacoes.slice(0,3).map(a=>a.titulo)].map(t=>`<li>${esc(t)}</li>`).join('');
-  $('sens-produtos').innerHTML = PRODUTOS.filter(ehBrinquedoSensorial).map(cardProduto).join('');
+  $('sens-produtos').innerHTML = SENSORIAIS.map(cardProduto).join('');
   $('sens-intro').textContent = SENSORIAL.intro;
-  $('sens-grid').innerHTML = SENSORIAL.adaptacoes.map(a=>`<div class="sens-item">${icone(ICONES[a.icone],'#6B5BD6')}<b>${esc(a.titulo)}</b><span>${esc(a.texto)}</span></div>`).join('');
+  $('guia-corpo').innerHTML = GUIA_TEXTURAS.map(g=>`<tr class="grupo"><th scope="colgroup" colspan="${GUIA_COLUNAS.length+1}">${esc(g.grupo)}</th></tr>`
+    + g.linhas.map(l=>{
+        const kits = PRODUTOS.filter(p=>l.criacoes.includes(p.criacao)).map(p=>`<button type="button" data-pid="${p.id}">${esc(p.nome)}</button>`).join(', ');
+        return `<tr><th scope="row">${esc(l.material)}${kits?`<span class="kits">${kits}</span>`:''}</th>`
+          + GUIA_COLUNAS.map(([k,rot])=>`<td data-l="${rot}">${esc(l[k])}</td>`).join('') + `</tr>`; }).join('')).join('');
   $('foot-loja').innerHTML = [...ESCADA.map(cr=>`<li><button type="button" data-col="criacao:${cr.id}">${esc(cr.titulo)}</button></li>`),
-    `<li><button type="button" data-col="completos">Presentear</button></li>`, `<li><button type="button" data-col="todos">Todos os kits</button></li>`].join('');
+    `<li><button type="button" data-col="todos">Todos os kits</button></li>`].join('');
 }
 
-/* Kit em destaque, com escolha do pacote e botão de comprar ali mesmo */
-function renderDestaque(){
-  const p = prod(DESTAQUE.pid); $('destaque').hidden = !p; if (!p) return;
-  const cr = criacaoDe(p), o = p.opcoes[estado.dOpt] || p.opcoes[0];
-  $('destaque').innerHTML = `<div class="wrap destaque-in">
-    <button type="button" class="destaque-img pcard-img" data-pid="${p.id}" aria-label="Ver ${esc(p.nome)}">${imagemProduto(p)}</button>
-    <div class="destaque-txt">
-      <p class="eyebrow">${esc(DESTAQUE.eyebrow)}</p><h2>${esc(p.nome)}</h2>
-      <p class="small">${esc(cr.titulo)} · ${idadeTxt(cr.idade)}</p>
-      <p>${esc(p.descricao)}</p>
-      <div class="pd-price"><span class="big">${brl(o.preco)}</span></div>
-      <p class="small">${p.porUnidade ? '' : `${brl(porKit(o))} por kit · `}${LOJA.descontoPix>0 ? `${brl(o.preco*(1-LOJA.descontoPix/100))} no Pix` : ''}</p>
-      ${p.porUnidade ? '' : `<div class="d-opts">${p.opcoes.map((x,i)=>`<button type="button" class="d-opt" data-dopt="${i}" aria-pressed="${x===o}">${esc(x.nome)}</button>`).join('')}</div>`}
-      <div class="destaque-acts"><button type="button" class="cta" id="d-add">Adicionar ao carrinho</button><button type="button" class="btn-out" data-pid="${p.id}">Ver detalhes do kit</button></div>
-    </div></div>`;
-}
-$('destaque').addEventListener('click', e=>{
-  const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.dopt){ estado.dOpt = +b.dataset.dopt; renderDestaque(); return; }
-  if (b.id==='d-add'){
-    const p = prod(DESTAQUE.pid), opt = p.opcoes[estado.dOpt] ? estado.dOpt : 0;
-    const ex = carrinho.find(i=>i.pid===p.id && i.opt===opt && !i.msg && !i.sens);
-    ex ? ex.qtd++ : carrinho.push({pid:p.id, opt, qtd:1, msg:'', sens:false});
-    atualizarBadge(); avisar('Adicionado ao carrinho');
-  }
-});
-/* Setas do carrossel das criações */
-document.querySelectorAll('[data-car]').forEach(b=>b.addEventListener('click',()=>{
-  const g = $('grid-criacoes'); g.scrollBy({ left: +b.dataset.car * g.clientWidth * .9, behavior: matchMedia('(prefers-reduced-motion:reduce)').matches ? 'auto' : 'smooth' });
-}));
 
 /* Menu (barra azul com painéis em colunas) */
 const noDesktop = () => matchMedia('(min-width:1100px)').matches;
+/* Link do WhatsApp com a mensagem pronta para quem cuida (escolas, clínicas, consultórios, empresas) */
+const waCuida = quem => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de kits da ${LOJA.nome}${quem?` para ${quem}`:''}.`)}`;
 function montarMenu(){
   const doTipo = id => PRODUTOS.filter(p=>p.criacao===id);
   const ocasiao = o => o.alvo ? { nome:o.nome, sub:o.sub, nav:o.alvo } : { nome:o.nome, sub:o.sub, col:'oc:'+o.id };
   const precoTxt = p => p.porUnidade ? brl(p.opcoes[0].preco) : `${brl(porKit(p.opcoes[0]))} por kit`;
-  /* Painéis "Lembrancinhas" e "Presentear": os kits divididos por faixa de idade (colunas curtas, painel baixo),
-     mais as ocasiões e o bloco da área sensorial com os brinquedos sensoriais daquela versão */
+  /* Painel "Criar": os kits divididos por faixa de idade (colunas curtas, painel baixo) e a festa de aniversário */
   const painelVersao = (versao, verTudo, colTudo) => [
     ...FAIXAS.map(f=>({ titulo:faixaTxt(f), col:'faixa:'+f.id,
       itens: PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return p.versao===versao && !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; })
         .map(p=>({ nome:`${criacaoDe(p).idade}+ · ${p.nome}`, sub:precoTxt(p), pid:p.id })) })),
-    { titulo:'Ocasiões', itens:[ ...OCASIOES.map(ocasiao), { nome:verTudo, col:colTudo } ] },
-    { titulo:'Área sensorial', go:'sensorial', destaque:true, itens:[
-      ...PRODUTOS.filter(p=>p.versao===versao && ehBrinquedoSensorial(p)).map(p=>({ nome:p.nome, sub:`Brinquedo sensorial · ${precoTxt(p)}`, pid:p.id })),
-      { nome:'Versão sensorial dos kits', sub:'Mosaico com instruções em figuras', col:'sensorial' },
-      { nome:'Conhecer a área →', go:'sensorial' } ] }
+    { titulo:'Para a festa', destaque:true, itens:[ ...OCASIOES.filter(o=>o.id==='aniversario').map(ocasiao), { nome:verTudo, col:colTudo } ] }
   ];
-  /* Menu organizado pelo que o cliente quer fazer: lembrancinhas para a festa, presente, área sensorial */
+  /* Menu com os quatro verbos da marca: Criar (lembrancinhas por idade), Sentir (área sensorial),
+     Celebrar (datas sazonais) e Cuidar (para quem cuida) */
   return [
-    { nome:'Lembrancinhas', colunas: painelVersao('mini', 'Ver todas as lembrancinhas →', 'minis') },
-    { nome:'Presentear', colunas: painelVersao('completo', 'Ver todos os presentes →', 'completos') },
-    { nome:'Área sensorial', colunas:[
-      { titulo:'Brinquedos sensoriais', col:'sensorial', itens: PRODUTOS.filter(p=>p.versao==='mini' && ehBrinquedoSensorial(p)).map(p=>({ nome:p.nome, sub:`Lembrancinha · ${precoTxt(p)}`, pid:p.id })) },
-      { titulo:'Para presentear', col:'sensorial', itens: PRODUTOS.filter(p=>p.versao==='completo' && ehBrinquedoSensorial(p)).map(p=>({ nome:p.nome, sub:`Presente · ${precoTxt(p)}`, pid:p.id })) },
-      { titulo:'Versão sensorial dos kits', col:'sensorial', itens: PRODUTOS.filter(p=>p.sensorial).map(p=>({ nome:`${criacaoDe(p).idade}+ · ${p.nome}`, sub:`${versaoTxt(p)} · ${precoTxt(p)}`, pid:p.id })) },
+    { nome:'Criar', colunas: painelVersao('mini', 'Ver todas as lembrancinhas →', 'minis') },
+    { nome:'Sentir', colunas:[
+      { titulo:'Só nesta área', col:'sensorial', itens: SENSORIAIS.filter(p=>p.versao==='mini').map(p=>({ nome:p.nome, sub:`Lembrancinha · ${precoTxt(p)}`, pid:p.id })) },
       { titulo:'Conheça a área', go:'sensorial', destaque:true, itens:[
-        { nome:'O que muda no kit sensorial', sub:'Instruções em figuras, material por etapa, embalagem fácil de abrir', go:'sensorial' },
+        { nome:'Guia de texturas', sub:'Compare o toque, a água, o barulho e a espera de cada material', guia:true },
         { nome:'Tirar dúvidas pelo WhatsApp', sub:'Mandamos fotos e a descrição de cada item', go:'sensorial' },
         { nome:'Conhecer a área →', go:'sensorial' } ] } ]},
-    { nome:'Escolas e empresas', nav:'empresas' },
+    { nome:'Celebrar', colunas:[
+      { titulo:'Datas especiais', nav:'ocasioes', itens: OCASIOES.filter(o=>o.sazonal && prod(o.produtos[0])).map(o=>({ nome:o.nome, sub:`${o.sub} · ${precoTxt(prod(o.produtos[0]))}`, col:'oc:'+o.id })) },
+      { titulo:'Como funciona', destaque:true, nav:'ocasioes', itens:[
+        { nome:'Um kit por data', sub:'Vendido por unidade, para presentear', nav:'ocasioes' },
+        { nome:'Ver todas as datas →', nav:'ocasioes' } ] } ]},
+    { nome:'Cuidar', colunas:[
+      { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
+      { titulo:'O que oferecemos', nav:'empresas', itens:[
+        { nome:'Mini kits compactos', sub:'Caixinha pequena para entregar no dia a dia', nav:'empresas' },
+        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 12, 24 ou 36', col:'minis' },
+        { nome:'Natal e fim de ano', sub:'Oficina de Natal, com orçamento para a turma', col:'oc:natal' } ] },
+      { titulo:'Como funciona', nav:'empresas', itens:[
+        { nome:'A partir de 24 unidades', sub:'Pedidos maiores, com preço especial', nav:'empresas' },
+        { nome:'Pedidos recorrentes', sub:'Todo mês, sem precisar pedir de novo', nav:'empresas' },
+        { nome:'Com a sua marca', sub:'Tag com o nome ou a logo da escola ou da clínica', nav:'empresas' } ] },
+      { titulo:'Peça um orçamento', destaque:true, nav:'empresas', itens:[
+        { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
+        { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
     { nome:'Nossa história', go:'historia' },
-    { nome:'Ajuda', nav:'como' }
+    { nome:'Ajuda', go:'ajuda' }
   ];
 }
 function renderMenu(){
-  const alvo = i => i.pid ? `data-pid="${i.pid}"` : i.col ? `data-col="${i.col}"` : i.go ? `data-go="${i.go}"` : `data-nav="${i.nav}"`;
-  const link = i => `<li><a href="#" ${alvo(i)}>${esc(i.nome)}${i.sub?`<small>${esc(i.sub)}</small>`:''}</a></li>`;
+  const alvo = i => i.guia ? 'data-guia' : i.href ? `href="${i.href}" target="_blank" rel="noopener"` : i.pid ? `data-pid="${i.pid}"` : i.col ? `data-col="${i.col}"` : i.go ? `data-go="${i.go}"` : `data-nav="${i.nav}"`;
+  const link = i => `<li><a ${i.href?'':'href="#"'} ${alvo(i)}>${esc(i.nome)}${i.sub?`<small>${esc(i.sub)}</small>`:''}</a></li>`;
   $('menu').innerHTML = montarMenu().map(m => m.colunas ? `
     <details class="dd"><summary>${esc(m.nome)}</summary>
       <div class="mega"><div class="mega-in">${m.colunas.filter(c=>c.itens.length).map(c=>`
@@ -1667,10 +1879,10 @@ document.querySelector('header.top').addEventListener('mouseleave',()=>{ if (noD
 document.addEventListener('keydown', e=>{ if (e.key==='Escape') fecharMenu(); });
 
 /* Navegação entre telas */
-const TELAS = ['home','colecao','product','cart','sensorial','historia'];
+const TELAS = ['home','colecao','product','cart','sensorial','historia','ajuda'];
 function ir(view){
   TELAS.forEach(v=>{ $('view-'+v).hidden = v!==view; });
-  $('footer').hidden = !['home','colecao','sensorial','historia'].includes(view);
+  $('footer').hidden = !['home','colecao','sensorial','historia','ajuda'].includes(view);
   $('confete-faixa').hidden = $('footer').hidden;
   fecharMenu(); window.scrollTo(0,0);
   if (view==='cart') renderCarrinho();
@@ -1681,16 +1893,17 @@ function abrirColecao(chave){
   let titulo='', desc='', lista=[];
   if (tipo==='criacao'){ const cr = CRIACOES.find(x=>x.id===valor); titulo=cr.titulo; desc=`${cr.desc} Idade sugerida: ${idadeTxt(cr.idade).toLowerCase()}, e depois dela qualquer idade aproveita.`; lista=PRODUTOS.filter(p=>p.criacao===valor); }
   else if (tipo==='completos'){ titulo='Presentear'; desc='As versões completas: mais material, guia com projetos e caixa com a nossa marca.'; lista=PRODUTOS.filter(p=>p.versao==='completo'); }
-  else if (tipo==='minis'){ titulo='Lembrancinhas'; desc='As versões mini, em pacotes de 10, 20 ou 30 kits: uma criação para cada convidado.'; lista=PRODUTOS.filter(p=>p.versao==='mini'); }
+  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
   else if (tipo==='faixa'){ const f = FAIXAS.find(x=>x.id===valor); titulo=faixaTxt(f); desc=f.texto; lista=PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; }); }
-  else if (tipo==='sensorial'){ titulo='Sensorial'; desc='Brinquedos sensoriais para apertar, moldar e brincar de novo, e os kits que também vêm na versão sensorial: instruções em figuras, material separado por etapa e embalagem fácil de abrir.'; lista=[...PRODUTOS.filter(ehBrinquedoSensorial), ...PRODUTOS.filter(p=>p.sensorial)]; }
-  else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod); }
+  else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; biscuit, que seca e fica firme; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
+  else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod);
+    if (lista.length===1 && lista[0]){ abrirProduto(lista[0].id); return; } }   // data com um kit só: abre direto a página dele
   else if (tipo==='busca'){
     const sem = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(), q = sem(valor||'');
     titulo=`Resultados para “${valor}”`;
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
-  else { titulo='Todos os kits'; desc='As dez criações, em versão mini (lembrancinha) e completa (presente).'; lista=PRODUTOS; }
+  else { titulo='Todos os kits'; desc='As dez criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS; }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
   $('col-extra').hidden = tipo!=='sensorial';
@@ -1715,12 +1928,10 @@ document.addEventListener('click', e=>{
     e.preventDefault(); fecharMenu();
     const oc = OCASIOES.find(x=>x.id===o.dataset.oc);
     if (oc.alvo){ navegar(oc.alvo); return; }
-    estado.ocasiao = oc.id; if ($('view-home').hidden) ir('home'); renderHome();
-    const carrossel = o.classList.contains('oc-card');
-    (carrossel ? $('oc-result') : $('ocasioes')).scrollIntoView({block: carrossel ? 'nearest' : 'start'});
-    return;
+    abrirColecao('oc:'+oc.id); return;
   }
   if (!e.target.closest('.dd')) document.querySelectorAll('.dd[open]').forEach(d=>d.open=false);
+  if (e.target.closest('[data-guia]')){ e.preventDefault(); fecharMenu(); ir('sensorial'); $('guia-texturas').scrollIntoView(); return; }
   const g = e.target.closest('[data-go]'); if (g){ ir(g.dataset.go); return; }
   const p = e.target.closest('[data-pid]'); if (p){ abrirProduto(p.dataset.pid); }
 });
@@ -1736,11 +1947,17 @@ function abrirProduto(pid){
   $('p-desc').textContent = p.descricao;
   $('p-selos').innerHTML = (p.selos||[]).map(s=>`<span class="selo">${FOLHA}${esc(s)}</span>`).join('');
   $('p-itens').innerHTML = p.itens.map(t=>`<li>${esc(t)}</li>`).join('');
-  $('p-seguranca').textContent = `Idade sugerida para começar: ${idadeTxt(cr.idade).toLowerCase()}. Depois disso, qualquer idade aproveita, inclusive os adultos. ${cr.seguranca} Use sempre com a supervisão de um adulto.`;
+  const tex = texturaDe(cr.id);
+  $('p-tex-wrap').hidden = !tex;
+  $('p-tex').innerHTML = tex ? `<dl class="pd-tex">${GUIA_COLUNAS.map(([k,rot])=>`<dt>${rot}</dt><dd>${esc(tex[k])}</dd>`).join('')}</dl>` : '';
+  $('p-seguranca').textContent =`Idade sugerida para começar: ${idadeTxt(cr.idade).toLowerCase()}. Depois disso, qualquer idade aproveita, inclusive os adultos. ${cr.seguranca} Use sempre com a supervisão de um adulto.`;
   $('p-prazo').textContent = LOJA.prazo; $('p-prazo2').textContent = LOJA.prazo + '.';
   $('p-checks').innerHTML = [idadeTxt(cr.idade), p.embalagem, (p.selos||[])[0]].filter(Boolean).map(t=>`<li>${esc(t)}</li>`).join('');
   $('p-rating').hidden = !p.avaliacoes;
   if (p.avaliacoes) $('p-rating').innerHTML = `<span class="estrelas">${'★'.repeat(Math.round(p.avaliacoes.nota))}</span> ${p.avaliacoes.total}`;
+  const ok = disponivel(p);
+  $('add').hidden = !ok; $('p-msg-btn').hidden = !ok;
+  $('p-avise').hidden = ok; $('p-avise').href = waAvise(p);
   $('p-pacotes-wrap').hidden = !!p.porUnidade;
   $('p-qty-row').hidden = !p.porUnidade;
   $('p-sens-wrap').hidden = !p.sensorial; $('p-sens').checked = false;
@@ -1748,7 +1965,7 @@ function abrirProduto(pid){
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   $('p-benef').innerHTML = [
     [ico('<path d="M3 7h11v9H3z M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), 'Enviamos para todo o Brasil'],
-    [ico('<path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.3"/>'), LOJA.descontoPix>0 ? `${LOJA.descontoPix}% de desconto no Pix` : 'Pix e cartão'],
+    [ico('<path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.3"/>'), LOJA.cashbackPix>0 ? `${LOJA.cashbackPix}% de cashback no Pix` : (LOJA.cartao ? 'Pix e cartão' : 'Pagamento no Pix')],
     [ico('<path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/>'), 'Atendimento pelo WhatsApp']
   ].map(([s,t])=>`<div>${s}<span>${esc(t)}</span></div>`).join('');
   renderProduto(); ir('product');
@@ -1764,9 +1981,9 @@ function renderProduto(){
   $('p-price').textContent = brl(v);
   $('p-de').textContent = eco ? brl(base) : '';
   $('p-eco').textContent = eco ? `Economize ${eco}%` : '';
-  $('p-pix').textContent = LOJA.descontoPix>0 ? `${brl(v*(1-LOJA.descontoPix/100))} no Pix` : '';
-  $('p-parc').textContent = LOJA.parcelas>1 ? `ou ${LOJA.parcelas}x de ${brl(v/LOJA.parcelas)} sem juros` : '';
-  $('p-parc-logo').textContent = LOJA.parcelas>1 ? `${LOJA.parcelas}x sem juros` : '';
+  $('p-pix').textContent = LOJA.cashbackPix>0 ? `No Pix: ${brl(v*LOJA.cashbackPix/100)} de cashback` : '';
+  $('p-parc').textContent = LOJA.cartao && LOJA.parcelas>1 ? `ou ${LOJA.parcelas}x de ${brl(v/LOJA.parcelas)} sem juros` : '';
+  $('p-parc-logo').textContent = LOJA.cartao && LOJA.parcelas>1 ? `${LOJA.parcelas}x sem juros` : '';
   $('p-sku').textContent = `Código: ${sku(p,opt)}` + (p.porUnidade ? '' : ` · ${brl(porKit(o))} por kit`);
   $('q-val').textContent = qtd;
   const ecos = p.opcoes.map(x=>{ const b = porKit(p.opcoes[0]) * +x.n; return b > x.preco ? Math.round((1 - x.preco/b)*100) : 0; });
@@ -1802,9 +2019,10 @@ function itemDet(i){ const p = prod(i.pid), o = p.opcoes[i.opt];
   return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por kit`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
 function totais(){
   const sub = carrinho.reduce((s,i)=>s+preco(prod(i.pid),i.opt)*i.qtd,0);
-  const pix = document.querySelector('input[name=pag]:checked').value==='Pix';
+  const pag = document.querySelector('input[name=pag]:checked').value, pix = pag.startsWith('Pix'), metade = pag.startsWith('Pix em 2');
   const desc = pix ? sub*LOJA.descontoPix/100 : 0;
-  return {sub, desc, total: sub-desc};
+  const cash = pix ? sub*LOJA.cashbackPix/100 : 0;   // crédito para a próxima compra (não abate desta)
+  return {sub, desc, cash, total: sub-desc, entrada: metade ? Math.round((sub-desc)*50)/100 : 0};
 }
 function renderCarrinho(){
   const vazio = carrinho.length===0;
@@ -1822,6 +2040,8 @@ function renderCarrinho(){
   const t = totais();
   $('s-sub').textContent = brl(t.sub); $('s-disc').textContent = '− '+brl(t.desc);
   $('s-disc-row').hidden = t.desc===0; $('s-total').textContent = brl(t.total);
+  $('s-cash').textContent = brl(t.cash); $('s-cash-row').hidden = t.cash===0;
+  $('s-ent-row').hidden = $('s-rest-row').hidden = !t.entrada; $('s-ent').textContent = brl(t.entrada); $('s-rest').textContent = brl(t.total-t.entrada);
 }
 $('c-items').addEventListener('click',e=>{
   const b = e.target.closest('button'); if(!b) return;
@@ -1850,11 +2070,26 @@ $('checkout').addEventListener('submit',e=>{
   if (!validar()) return;
   const t = totais(), pag = document.querySelector('input[name=pag]:checked').value;
   const dataFesta = $('data').value ? $('data').value.split('-').reverse().join('/') : '—';
+  /* Número do pedido: data e hora + 3 letras, o mesmo na mensagem do WhatsApp e na planilha */
+  const agora = new Date(), dois = n => String(n).padStart(2,'0');
+  const pedido = `DB-${agora.getFullYear()}${dois(agora.getMonth()+1)}${dois(agora.getDate())}-${dois(agora.getHours())}${dois(agora.getMinutes())}-`
+    + Array.from({length:3}, ()=>'ABCDEFGHJKLMNPQRSTUVWXYZ'[Math.floor(Math.random()*24)]).join('');
+  if (LOJA.pedidosUrl){
+    const itens = carrinho.map(i=>{ const p=prod(i.pid), o=p.opcoes[i.opt];
+      return { kit:p.nome, atividade:criacaoDe(p).titulo, codigo:sku(p,i.opt), pacote:o.nome, quantidade:i.qtd,
+               totalKits:(+o.n||1)*i.qtd, valor:preco(p,i.opt)*i.qtd, mensagem:i.msg||'' }; });
+    /* text/plain evita a checagem de CORS; o pedido segue para o WhatsApp mesmo se a planilha falhar */
+    fetch(LOJA.pedidosUrl, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:$('cep').value,
+        dataFesta, obs:$('obs').value.trim(), pagamento:pag, total:t.total, entrada:t.entrada, itens }) }).catch(()=>{});
+  }
   const linhas = carrinho.map(i=>{ const p=prod(i.pid); return `• ${i.qtd}x ${p.nome} (${itemDet(i).join(', ')}) [${sku(p,i.opt)}] — ${brl(preco(p,i.opt)*i.qtd)}`; });
   const msg = [
-    `Olá! Quero fazer um pedido na ${LOJA.nome}:`, '', ...linhas, '',
+    `Olá! Quero fazer um pedido na ${LOJA.nome}:`, `Pedido ${pedido}`, '', ...linhas, '',
     `Subtotal: ${brl(t.sub)}`, t.desc>0 ? `Desconto Pix: − ${brl(t.desc)}` : null,
-    `Total (sem frete): ${brl(t.total)}`, `Pagamento: ${pag}`, '',
+    `Total (sem frete): ${brl(t.total)}`, `Pagamento: ${pag}`,
+    t.entrada ? `Entrada (50%): ${brl(t.entrada)} · Restante antes do envio ou da retirada: ${brl(t.total-t.entrada)}, mais o frete` : null,
+    t.cash>0 ? `Cashback para a próxima compra: ${brl(t.cash)}` : null, '',
     '*Festa*', `Data da festa: ${dataFesta}`, `Observações: ${$('obs').value.trim()||'—'}`, '',
     '*Entrega*', `Cliente: ${$('cliente').value.trim()}`, `CEP: ${$('cep').value}`
   ].filter(l=>l!==null).join('\n');
@@ -1865,15 +2100,22 @@ function avisar(txt){ const t=$('toast'); t.textContent=txt; t.hidden=false; cle
 
 /* Textos da loja, links e campanha */
 $('wa-link').href = `https://wa.me/${LOJA.whatsapp}`;
-$('empresas-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de kits da ${LOJA.nome} para escola ou empresa.`)}`;
+$('ajuda-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre os kits da ${LOJA.nome}.`)}`;
+if (LOJA.parcelas>1) $('cartao-label').textContent = `Cartão de crédito (em até ${LOJA.parcelas}x sem juros)`;
+/* Enquanto o cartão não estiver ativo, o site mostra só o Pix */
+if (!LOJA.cartao){ $('cartao-opcao').remove(); document.querySelectorAll('.so-cartao').forEach(x=>x.remove()); }
+$('personagens-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento da Linha Personagens da ${LOJA.nome}. O tema da festa é: `)}`;
+$('empresas-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de kits da ${LOJA.nome} para escola, clínica, consultório ou empresa.`)}`;
 /* Mural das Mãozinhas: a mensagem já pede a autorização, que fica registrada na conversa */
 $('mural-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero enviar a mãozinha do meu artista para o Mural das Mãozinhas da ${LOJA.nome}.\n\nPrimeiro nome da criança: \nIdade: \n\nAutorizo a publicação da foto da mãozinha no site e no Instagram da ${LOJA.nome}, só com o primeiro nome e a idade.`)}`;
 $('mural-insta').href = `https://instagram.com/${LOJA.instagram}`;
 $('mural-insta').textContent = `Marque @${LOJA.instagram}`;
-$('insta-link').textContent = `@${LOJA.instagram} no Instagram`;
-$('sens-wa').href =`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre a versão sensorial dos kits da ${LOJA.nome}.`)}`;
-$('insta-link').href = $('foot-insta').href = `https://instagram.com/${LOJA.instagram}`;
-if (LOJA.descontoPix>0){ $('pix-label').textContent=`Pix (${LOJA.descontoPix}% de desconto)`; $('f-pix').textContent=`${LOJA.descontoPix}% de desconto no Pix`; }
+$('sens-wa').href =`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre os kits da área sensorial da ${LOJA.nome}.`)}`;
+$('foot-insta').href = `https://instagram.com/${LOJA.instagram}`;
+if (LOJA.cashbackPix>0){
+  $('pix-label').textContent=`Pix à vista (100%): o pedido entra primeiro na fila de produção (${LOJA.cashbackPix}% de cashback para a próxima compra)`; $('pix2-label').textContent=`Pix em 2 vezes: 50% para iniciar a produção e 50% mais o frete antes do envio ou da retirada (${LOJA.cashbackPix}% de cashback)`; $('f-pix').textContent=`${LOJA.cashbackPix}% de cashback no Pix`;
+  $('cash-regra').textContent=`Cashback: pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na ${LOJA.nome}, válido por ${LOJA.cashbackMeses} meses a partir desta compra. No Pix em 2 vezes, o crédito vale depois do pagamento da segunda parte, e o pedido só é enviado ou retirado com o valor total pago. O crédito não reduz o valor deste pedido, não é convertido em dinheiro e não é transferível.`;
+}
 if (CAMPANHA){
   const hoje = new Date(); hoje.setHours(0,0,0,0);
   const dias = Math.round((new Date(CAMPANHA.data+'T00:00:00') - hoje)/86400000);
@@ -1881,9 +2123,9 @@ if (CAMPANHA){
     const [,m,d] = CAMPANHA.data.split('-');
     $('aviso').innerHTML = `<b>${esc(CAMPANHA.nome)}</b> é dia ${d}/${m} · ${dias===0?'é hoje!':`faltam ${dias} dia${dias>1?'s':''}`} · Veja as sugestões →`;
     $('aviso').dataset.oc = CAMPANHA.ocasiao; $('aviso').hidden = false;
-    estado.ocasiao = CAMPANHA.ocasiao;
   }
 }
+if ($('aviso').hidden && AVISO_FIXO){ $('aviso').innerHTML = AVISO_FIXO; $('aviso').dataset.nav = 'criacoes'; $('aviso').hidden = false; }
 
 renderMenu();
 renderHome();

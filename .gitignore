@@ -1,0 +1,9 @@
+# Este repositório é público (GitHub Pages): só entra o que o site usa.
+# Planilha de custos, CCMEI, fotos originais, cintas e testes ficam fora.
+/*
+!/index.html
+!/img/
+!/fotos/
+!/CNAME
+!/.gitignore
+/fotos/LEIA-ME.txt
