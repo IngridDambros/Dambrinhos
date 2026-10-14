@@ -494,6 +494,13 @@
   .dam-opcoes{display:flex;flex-wrap:wrap;gap:6px}
   .dam-opcoes button{all:unset;cursor:pointer;padding:7px 12px;border-radius:18px;border:1.5px solid var(--azul);color:var(--azul);background:#fff;font-size:13px;font-weight:600}
   .dam-opcoes button:hover{background:var(--azul);color:#fff}
+  .dam-temas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .dam-temas button{all:unset;cursor:pointer;display:grid;gap:3px;align-content:start;padding:12px;border-radius:14px;background:#fff;border:1.5px solid var(--linha);text-align:left}
+  .dam-temas button:hover,.dam-temas button:focus-visible{border-color:var(--azul)}
+  .dam-temas b{font-size:14px;line-height:1.2;color:var(--ink)}
+  .dam-temas span{font-size:12px;line-height:1.3;color:var(--muted)}
+  .dam-temas .ico{font-size:22px;line-height:1}
+  .dam-temas button:last-child:nth-child(odd){grid-column:1/-1}
   .dam-pe{padding:10px 14px;background:#fff;border-top:1px solid var(--linha);display:flex;gap:8px}
   .dam-pe button,.dam-pe a{flex:1;min-height:42px;font-size:14px;padding:0 10px}
   @media print{.dam-btn,.dam{display:none!important}}
@@ -949,7 +956,7 @@
   <div class="dam-topo"><span id="dam-ico-topo"></span><div><b id="dam-titulo">Dam</b><span>A mãozinha da Dambrinhos · respostas rápidas</span></div>
     <button class="dam-fechar" id="dam-fechar" type="button" aria-label="Fechar">×</button></div>
   <div class="dam-conversa" id="dam-conversa" aria-live="polite"></div>
-  <div class="dam-pe"><button class="btn-out" id="dam-menu" type="button">Ver as perguntas</button><a class="cta" id="dam-ingrid" href="#" target="_blank" rel="noopener">Falar com a Ingrid</a></div>
+  <div class="dam-pe"><button class="btn-out" id="dam-menu" type="button">Ver os temas</button><a class="cta" id="dam-ingrid" href="#" target="_blank" rel="noopener">Falar com a Ingrid</a></div>
 </div>
 
 <script>
@@ -2260,6 +2267,16 @@ const DAM_PERGUNTAS = [
   { id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' },
 ];
 
+/* Temas: a primeira tela mostra só estes cartões; ao tocar, aparecem as perguntas daquele tema */
+const DAM_TEMAS = [
+  { id:'escolher', ico:'🎨', t:'Escolher o kit', sub:'Idades, o que vem e texturas', perguntas:['idade','misturar','dentro','disponiveis','texturas'] },
+  { id:'pagar',    ico:'💳', t:'Preços e pagamento', sub:'Valores, Pix e cashback', perguntas:['precos','pagar','cashback'] },
+  { id:'pedido',   ico:'📦', t:'Pedido e entrega', sub:'Como pedir, prazo e frete', perguntas:['pedir','prazo','entrega'] },
+  { id:'cuidado',  ico:'🛡️', t:'Segurança', sub:'Selo do INMETRO e alergias', perguntas:['seguranca','alergia'] },
+  { id:'cuidar',   ico:'🏫', t:'Escolas e empresas', sub:'Kits para alunos e pacientes', perguntas:['cuidar'] },
+];
+const damTemaDe = idPergunta => DAM_TEMAS.find(t=>t.perguntas.includes(idPergunta));
+
 function damFalar(html, eu){
   const b = document.createElement('div'); b.className = 'dam-msg' + (eu ? ' eu' : ''); b.innerHTML = html;
   $('dam-conversa').appendChild(b); return b;
@@ -2271,22 +2288,36 @@ function damOpcoes(lista){
 }
 function damMenu(){
   damFalar('Sobre o que você quer saber?');
-  damOpcoes(DAM_PERGUNTAS.map(p=>({ t:p.q, id:p.id })));
+  const box = document.createElement('div'); box.className = 'dam-temas';
+  box.innerHTML = DAM_TEMAS.filter(t=>t.perguntas.some(id=>DAM_PERGUNTAS.find(p=>p.id===id)))
+    .map(t=>`<button type="button" data-dam="tema:${t.id}"><span class="ico" aria-hidden="true">${t.ico}</span><b>${esc(t.t)}</b><span>${esc(t.sub)}</span></button>`).join('');
+  $('dam-conversa').appendChild(box); box.scrollIntoView({block:'end'});
 }
+function damTema(id){
+  const t = DAM_TEMAS.find(x=>x.id===id); if (!t) return;
+  const ps = t.perguntas.map(i=>DAM_PERGUNTAS.find(p=>p.id===i)).filter(Boolean);
+  if (ps.length === 1){ damResponder(ps[0].id); return; }
+  damFalar(esc(t.t), true);
+  damOpcoes([...ps.map(p=>({ t:p.q, id:p.id })), { t:'← Voltar aos temas', id:'menu' }]);
+}
+/* Depois de cada resposta: voltar ao mesmo tema ou à lista de temas */
+const damDepois = idPergunta => { const t = damTemaDe(idPergunta);
+  return [ ...(t && t.perguntas.length > 1 ? [{ t:`Mais sobre ${t.t.toLowerCase()}`, id:'tema:'+t.id }] : []), { t:'Voltar aos temas', id:'menu' } ]; };
 function damResponder(id){
   if (id.startsWith('idade:')){
     const n = +id.split(':')[1], cr = ESCADA.find(c=>c.idade===n), p = cr && prod(cr.id+'-mini');
     damFalar(`${n} ano${n>1?'s':''}`, true);
     damFalar(p ? `Para ${n} ano${n>1?'s':''}, o kit indicado é o ${damKit(p)}, por ${damPreco(p)}. ${esc(p.resumo)}<br><br>A idade é a sugerida para começar: depois dela, qualquer idade aproveita. Para crianças a partir de 3 anos, também há os kits de texturas e das datas especiais.`
                  : 'Não encontrei um kit para essa idade. Fale com a Ingrid que ela te ajuda a escolher.');
-    damOpcoes([{ t:'Ver outra idade', id:'idade' }, { t:'Outras perguntas', id:'menu' }]); return;
+    damOpcoes([{ t:'Ver outra idade', id:'idade' }, ...damDepois('idade')]); return;
   }
   if (id==='menu'){ damMenu(); return; }
+  if (id.startsWith('tema:')){ damTema(id.slice(5)); return; }
   const p = DAM_PERGUNTAS.find(x=>x.id===id); if (!p) return;
   damFalar(esc(p.q), true);
   damFalar(p.a());
   if (p.wa) $('dam-ingrid').href = damWa(p.wa);
-  damOpcoes(p.segue ? p.segue() : [{ t:'Outras perguntas', id:'menu' }]);
+  damOpcoes(p.segue ? p.segue() : damDepois(p.id));
 }
 function damAbrir(){
   $('dam').hidden = false; $('dam-btn').hidden = true;
