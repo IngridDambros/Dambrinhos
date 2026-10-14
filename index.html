@@ -993,7 +993,7 @@ const LOJA = {
   cartao: false,               // cartão de crédito no site (false = só Pix, por enquanto)
   parcelas: 3,                 // parcelas sem juros no cartão, quando ele for ativado
   // kits com material em estoque: podem ser comprados. Os outros aparecem como "Em breve", com o botão "Avise-me".
-  disponiveis: ['massinha-mini', 'dobradura-mini'],
+  disponiveis: 'todos',       // 'todos' = todos os kits podem ser comprados. Para voltar a mostrar "Em breve", troque por uma lista, ex.: ['massinha-mini']
   prazo: 'Pronto em até 15 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
 };
 
@@ -1815,7 +1815,7 @@ let carrinho = [];   // {pid, opt, qtd, msg}
 let sel = null;      // produto aberto: {p, opt, qtd, foto}
 
 /* Kits com estoque (LOJA.disponiveis) e o link "Avise-me" dos que ainda não têm */
-const disponivel = p => LOJA.disponiveis.includes(p.id);
+const disponivel = p => LOJA.disponiveis === 'todos' || LOJA.disponiveis.includes(p.id);
 const waAvise = p => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero ser avisado(a) quando o ${p.nome} da ${LOJA.nome} estiver disponível.`)}`;
 
 /* Card de produto (vitrine) */
@@ -2288,7 +2288,7 @@ const DAM_PERGUNTAS = [
 
 /* Temas: a primeira tela mostra só estes cartões; ao tocar, aparecem as perguntas daquele tema */
 const DAM_TEMAS = [
-  { id:'escolher', ico:'🎨', t:'Escolher o kit', sub:'Idades, o que vem e texturas', perguntas:['idade','misturar','dentro','disponiveis','texturas'] },
+  { id:'escolher', ico:'🎨', t:'Escolher o kit', sub:'Idades, o que vem e texturas', perguntas:['idade','misturar','dentro', ...(LOJA.disponiveis === 'todos' ? [] : ['disponiveis']),'texturas'] },
   { id:'pagar',    ico:'💳', t:'Preços e pagamento', sub:'Valores, Pix e cashback', perguntas:['precos','pagar','cashback'] },
   { id:'pedido',   ico:'📦', t:'Pedido e entrega', sub:'Como pedir, prazo e frete', perguntas:['pedir','prazo','entrega'] },
   { id:'cuidado',  ico:'🛡️', t:'Segurança', sub:'Selo do INMETRO e alergias', perguntas:['seguranca','alergia'] },
