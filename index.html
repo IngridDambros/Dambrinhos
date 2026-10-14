@@ -1086,13 +1086,16 @@ const FAIXAS = [
 
 /* Fotos reais: salve o arquivo na pasta fotos/ com o nome abaixo e ele aparece sozinho no lugar da
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
+/* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
+   em vez de mostrarem a antiga que ficou guardada */
+const FOTOS_VERSAO = '2026-10-14b';
 const FOTO = {
-  topo:    'fotos/topo.jpg',
-  historia:'fotos/historia.jpg',
-  criacao: id => `fotos/criacao-${id}.jpg`,
-  faixa:   id => `fotos/idade-${id}.jpg`,
-  produto: (pid,i) => `fotos/${pid}-${i}.jpg`,
-  galeria: i => `fotos/galeria-${i}.jpg`
+  topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
+  historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
+  criacao: id => `fotos/criacao-${id}.jpg?v=${FOTOS_VERSAO}`,
+  faixa:   id => `fotos/idade-${id}.jpg?v=${FOTOS_VERSAO}`,
+  produto: (pid,i) => `fotos/${pid}-${i}.jpg?v=${FOTOS_VERSAO}`,
+  galeria: i => `fotos/galeria-${i}.jpg?v=${FOTOS_VERSAO}`
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
