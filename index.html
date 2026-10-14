@@ -501,6 +501,22 @@
   .dam-temas span{font-size:12px;line-height:1.3;color:var(--muted)}
   .dam-temas .ico{font-size:22px;line-height:1}
   .dam-temas button:last-child:nth-child(odd){grid-column:1/-1}
+  .dam{position:fixed}
+  .dam-msg{flex:none}
+  .dam-msg.com-lista{padding-bottom:0;overflow:hidden}
+  .dam-msg .dam-resp{all:unset;box-sizing:border-box;width:calc(100% + 26px);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;margin:10px -13px 0;padding:11px 0;border-top:1px solid var(--linha);color:var(--azul);font-weight:700;font-size:14px;text-decoration:none!important}
+  .dam-msg .dam-resp:hover{background:#F4F7FA}
+  .dam-msg .dam-resp svg{width:18px;height:18px}
+  .dam-folha{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;background:rgba(16,17,35,.35)}
+  .dam-folha[hidden]{display:none}
+  .dam-folha-in{background:#fff;border-radius:20px 20px 0 0;max-height:82%;display:flex;flex-direction:column}
+  .dam-folha-topo{display:flex;align-items:center;padding:14px 16px 10px;border-bottom:1px solid var(--linha)}
+  .dam-folha-topo b{flex:1;text-align:center;font-size:16px}
+  .dam-folha-lista{overflow:auto;padding:4px 0 10px}
+  .dam-folha-lista button{all:unset;cursor:pointer;display:block;width:calc(100% - 32px);padding:12px 16px;border-bottom:1px solid #F0EADF}
+  .dam-folha-lista button:hover,.dam-folha-lista button:focus-visible{background:#F4F7FA}
+  .dam-folha-lista b{display:block;font-size:14.5px;font-weight:600;color:var(--ink)}
+  .dam-folha-lista span{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
   .dam-pe{padding:10px 14px;background:#fff;border-top:1px solid var(--linha);display:flex;gap:8px}
   .dam-pe button,.dam-pe a{flex:1;min-height:42px;font-size:14px;padding:0 10px}
   @media print{.dam-btn,.dam{display:none!important}}
@@ -956,7 +972,10 @@
   <div class="dam-topo"><span id="dam-ico-topo"></span><div><b id="dam-titulo">Dam</b><span>A mãozinha da Dambrinhos · respostas rápidas</span></div>
     <button class="dam-fechar" id="dam-fechar" type="button" aria-label="Fechar">×</button></div>
   <div class="dam-conversa" id="dam-conversa" aria-live="polite"></div>
-  <div class="dam-pe"><button class="btn-out" id="dam-menu" type="button">Ver os temas</button><a class="cta" id="dam-ingrid" href="#" target="_blank" rel="noopener">Falar com a Ingrid</a></div>
+  <div class="dam-folha" id="dam-folha" hidden><div class="dam-folha-in" role="dialog" aria-labelledby="dam-folha-titulo">
+    <div class="dam-folha-topo"><button class="dam-fechar" id="dam-folha-fechar" type="button" aria-label="Fechar a lista" style="margin:0">×</button><b id="dam-folha-titulo"></b><span style="width:36px"></span></div>
+    <div class="dam-folha-lista" id="dam-folha-lista"></div></div></div>
+  <div class="dam-pe"><button class="btn-out" id="dam-menu" type="button">Ver os assuntos</button><a class="cta" id="dam-ingrid" href="#" target="_blank" rel="noopener">Falar com a Ingrid</a></div>
 </div>
 
 <script>
@@ -2281,43 +2300,52 @@ function damFalar(html, eu){
   const b = document.createElement('div'); b.className = 'dam-msg' + (eu ? ' eu' : ''); b.innerHTML = html;
   $('dam-conversa').appendChild(b); return b;
 }
-function damOpcoes(lista){
-  const box = document.createElement('div'); box.className = 'dam-opcoes';
-  box.innerHTML = lista.map(o=>`<button type="button" ${o.pid ? `data-pid="${o.pid}"` : `data-dam="${o.id}"`}>${esc(o.t)}</button>`).join('');
-  $('dam-conversa').appendChild(box); box.scrollIntoView({block:'end'});
+/* Balão com o botão "Responder": ao tocar, sobe uma lista com as opções (como as listas do WhatsApp) */
+const DAM_LISTAS = [];
+const ICO_LISTA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1" fill="currentColor"/><circle cx="3.5" cy="12" r="1" fill="currentColor"/><circle cx="3.5" cy="18" r="1" fill="currentColor"/></svg>';
+function damLista(texto, titulo, itens){
+  const n = DAM_LISTAS.push({ titulo, itens }) - 1;
+  const b = damFalar(`${texto}<button type="button" class="dam-resp" data-lista="${n}">${ICO_LISTA}Responder</button>`);
+  b.classList.add('com-lista'); b.scrollIntoView({block:'end'});
 }
+function damAbrirLista(n){
+  const l = DAM_LISTAS[n]; if (!l) return;
+  $('dam-folha-titulo').textContent = l.titulo;
+  $('dam-folha-lista').innerHTML = l.itens.map(o=>`<button type="button" ${o.pid ? `data-pid="${o.pid}"` : `data-dam="${o.id}"`} data-txt="${esc(o.t)}"><b>${esc(o.t)}</b>${o.sub ? `<span>${esc(o.sub)}</span>` : ''}</button>`).join('');
+  $('dam-folha').hidden = false; $('dam-folha-lista').querySelector('button')?.focus();
+}
+const damFecharLista = () => { $('dam-folha').hidden = true; };
 function damMenu(){
-  damFalar('Sobre o que você quer saber?');
-  const box = document.createElement('div'); box.className = 'dam-temas';
-  box.innerHTML = DAM_TEMAS.filter(t=>t.perguntas.some(id=>DAM_PERGUNTAS.find(p=>p.id===id)))
-    .map(t=>`<button type="button" data-dam="tema:${t.id}"><span class="ico" aria-hidden="true">${t.ico}</span><b>${esc(t.t)}</b><span>${esc(t.sub)}</span></button>`).join('');
-  $('dam-conversa').appendChild(box); box.scrollIntoView({block:'end'});
+  damLista('Como eu posso ajudar você?', 'Escolha um assunto',
+    DAM_TEMAS.filter(t=>t.perguntas.some(id=>DAM_PERGUNTAS.find(p=>p.id===id))).map(t=>({ t:`${t.ico}  ${t.t}`, sub:t.sub, id:'tema:'+t.id })));
 }
 function damTema(id){
   const t = DAM_TEMAS.find(x=>x.id===id); if (!t) return;
   const ps = t.perguntas.map(i=>DAM_PERGUNTAS.find(p=>p.id===i)).filter(Boolean);
   if (ps.length === 1){ damResponder(ps[0].id); return; }
   damFalar(esc(t.t), true);
-  damOpcoes([...ps.map(p=>({ t:p.q, id:p.id })), { t:'← Voltar aos temas', id:'menu' }]);
+  damLista('Certo! O que você quer saber?', t.t, [...ps.map(p=>({ t:p.q, id:p.id })), { t:'Voltar aos assuntos', id:'menu' }]);
 }
 /* Depois de cada resposta: voltar ao mesmo tema ou à lista de temas */
 const damDepois = idPergunta => { const t = damTemaDe(idPergunta);
-  return [ ...(t && t.perguntas.length > 1 ? [{ t:`Mais sobre ${t.t.toLowerCase()}`, id:'tema:'+t.id }] : []), { t:'Voltar aos temas', id:'menu' } ]; };
+  return [ ...(t && t.perguntas.length > 1 ? [{ t:`Mais sobre ${t.t.toLowerCase()}`, id:'tema:'+t.id }] : []), { t:'Outros assuntos', id:'menu' } ]; };
+const damMais = idPergunta => damLista('Posso ajudar em mais alguma coisa?', 'Escolha uma opção', damDepois(idPergunta));
 function damResponder(id){
   if (id.startsWith('idade:')){
     const n = +id.split(':')[1], cr = ESCADA.find(c=>c.idade===n), p = cr && prod(cr.id+'-mini');
     damFalar(`${n} ano${n>1?'s':''}`, true);
     damFalar(p ? `Para ${n} ano${n>1?'s':''}, o kit indicado é o ${damKit(p)}, por ${damPreco(p)}. ${esc(p.resumo)}<br><br>A idade é a sugerida para começar: depois dela, qualquer idade aproveita. Para crianças a partir de 3 anos, também há os kits de texturas e das datas especiais.`
                  : 'Não encontrei um kit para essa idade. Fale com a Ingrid que ela te ajuda a escolher.');
-    damOpcoes([{ t:'Ver outra idade', id:'idade' }, ...damDepois('idade')]); return;
+    damLista('Posso ajudar em mais alguma coisa?', 'Escolha uma opção', [{ t:'Ver outra idade', id:'idade' }, ...damDepois('idade')]); return;
   }
   if (id==='menu'){ damMenu(); return; }
   if (id.startsWith('tema:')){ damTema(id.slice(5)); return; }
   const p = DAM_PERGUNTAS.find(x=>x.id===id); if (!p) return;
   damFalar(esc(p.q), true);
-  damFalar(p.a());
   if (p.wa) $('dam-ingrid').href = damWa(p.wa);
-  damOpcoes(p.segue ? p.segue() : damDepois(p.id));
+  if (p.segue){ damLista(p.a(), p.q, p.segue()); return; }
+  damFalar(p.a());
+  damMais(p.id);
 }
 function damAbrir(){
   $('dam').hidden = false; $('dam-btn').hidden = true;
@@ -2331,12 +2359,16 @@ function damFechar(){ $('dam').hidden = true; $('dam-btn').hidden = $('view-cart
 $('dam-ico-btn').innerHTML = DAM_SVG; $('dam-ico-topo').innerHTML = DAM_SVG;
 $('dam-ingrid').href = damWa('Olá! Tenho uma dúvida sobre os kits da Dambrinhos.');
 $('dam-btn').onclick = damAbrir; $('dam-fechar').onclick = damFechar;
-$('dam-menu').onclick = ()=>damMenu();
+$('dam-menu').onclick = ()=>{ damMenu(); damAbrirLista(DAM_LISTAS.length - 1); };
+$('dam-folha-fechar').onclick = damFecharLista;
+$('dam-folha').addEventListener('click', e=>{ if (e.target === $('dam-folha')) damFecharLista(); });
 $('dam').addEventListener('click', e=>{
-  const b = e.target.closest('[data-dam]'); if (b){ damResponder(b.dataset.dam); return; }
+  const l = e.target.closest('[data-lista]'); if (l){ damAbrirLista(+l.dataset.lista); return; }
+  const b = e.target.closest('[data-dam]'); if (b){ damFecharLista(); damResponder(b.dataset.dam); return; }
+  if (e.target.closest('#dam-folha [data-pid]')) damFecharLista();
   if (e.target.closest('[data-pid],[data-guia]')) $('dam').hidden = true, $('dam-btn').hidden = false;
 });
-document.addEventListener('keydown', e=>{ if (e.key==='Escape' && !$('dam').hidden) damFechar(); });
+document.addEventListener('keydown', e=>{ if (e.key!=='Escape' || $('dam').hidden) return; if (!$('dam-folha').hidden) damFecharLista(); else damFechar(); });
 /* No carrinho, a barra de finalizar fica embaixo: o botão do Dam some para não cobri-la */
 const _irOriginal = ir;
 ir = function(view){ _irOriginal(view); if ($('dam').hidden) $('dam-btn').hidden = view === 'cart'; };
