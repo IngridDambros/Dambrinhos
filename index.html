@@ -467,6 +467,10 @@
   .summary .disc{color:var(--verde)}
   .summary .total{font-weight:700;font-size:18px;padding-top:8px;border-top:1px solid var(--linha)}
   .note{padding:14px 16px;border-radius:14px;background:#E9F0EC;font-size:14px}
+  /* Dados do cliente e endereço no carrinho */
+  .duas-col{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+  .field .dica{font-size:12px;color:var(--muted)}
+  .lembrar{font-weight:500}
   .bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--linha);padding:14px 20px calc(18px + env(safe-area-inset-bottom,0px));z-index:5}
   .bar .cta{width:100%}
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:24px;font-weight:600;font-size:14px;z-index:20}
@@ -834,9 +838,28 @@
             <div class="field"><label for="obs">Observações</label><textarea id="obs" name="obs" rows="3"></textarea></div>
           </section>
           <section>
-            <h2>Seus dados e entrega</h2>
-            <div class="field" id="f-cliente"><label for="cliente">Seu nome *</label><input id="cliente" name="cliente" type="text" autocomplete="name"></div>
-            <div class="field" id="f-cep"><label for="cep">CEP *</label><input id="cep" name="cep" type="text" inputmode="numeric" placeholder="00000-000" maxlength="9" autocomplete="postal-code"></div>
+            <h2>Seus dados</h2>
+            <div class="field" id="f-cliente"><label for="cliente">Nome completo *</label><input id="cliente" name="cliente" type="text" autocomplete="name"></div>
+            <div class="field" id="f-zap"><label for="zap">WhatsApp com DDD *</label><input id="zap" name="zap" type="tel" inputmode="numeric" placeholder="(21) 99999-9999" maxlength="15" autocomplete="tel-national"></div>
+            <div class="field" id="f-email"><label for="email">E-mail (opcional)</label><input id="email" name="email" type="email" autocomplete="email"></div>
+          </section>
+          <section>
+            <h2>Entrega</h2>
+            <label class="radio"><input type="radio" name="entrega" value="Envio" checked> <span>Envio para o meu endereço</span></label>
+            <label class="radio"><input type="radio" name="entrega" value="Retirada"> <span>Retirada (combinamos o local pelo WhatsApp)</span></label>
+            <div id="end-campos">
+              <div class="field" id="f-doc"><label for="doc">CPF ou CNPJ de quem vai receber *</label><input id="doc" name="doc" type="text" inputmode="numeric" maxlength="18" autocomplete="off"><span class="dica">Os Correios pedem esse número na declaração de conteúdo do envio.</span></div>
+              <div class="field" id="f-cep"><label for="cep">CEP *</label><input id="cep" name="cep" type="text" inputmode="numeric" placeholder="00000-000" maxlength="9" autocomplete="postal-code"><span class="dica" id="cep-dica"></span></div>
+              <div class="field" id="f-rua"><label for="rua">Rua ou avenida *</label><input id="rua" name="rua" type="text" autocomplete="address-line1"></div>
+              <div class="duas-col">
+                <div class="field" id="f-num"><label for="num">Número *</label><input id="num" name="num" type="text" autocomplete="address-line2"></div>
+                <div class="field"><label for="compl">Complemento</label><input id="compl" name="compl" type="text" placeholder="Apto, bloco"></div>
+              </div>
+              <div class="duas-col">
+                <div class="field" id="f-bairro"><label for="bairro">Bairro *</label><input id="bairro" name="bairro" type="text"></div>
+                <div class="field" id="f-cidade"><label for="cidade">Cidade / UF *</label><input id="cidade" name="cidade" type="text" autocomplete="address-level2"></div>
+              </div>
+            </div>
             <p class="small" style="margin:0">O valor do frete é confirmado pelo WhatsApp. Pedido pronto em até 15 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 1 mês de antecedência da festa.</p>
           </section>
           <section style="margin-top:24px">
@@ -855,6 +878,8 @@
             <div class="disc" id="s-cash-row"><span>Cashback para a próxima compra</span><span id="s-cash">R$ 0,00</span></div>
           </section>
           <p class="small" id="cash-regra" style="margin:10px 0 0"></p>
+          <label class="radio lembrar" style="margin-top:16px"><input type="checkbox" id="lembrar"> <span>Lembrar meus dados neste aparelho, para o próximo pedido</span></label>
+          <p class="small" style="margin:6px 0 0">Usamos seus dados só para produzir, entregar e falar com você sobre o pedido.</p>
           <div class="note" style="margin-top:16px">Ao finalizar, seu pedido é enviado para o nosso WhatsApp. Lá confirmamos o pedido e enviamos os dados para pagamento.</div>
         </form>
       </div>
@@ -2052,14 +2077,46 @@ $('c-items').addEventListener('click',e=>{
   atualizarBadge(); renderCarrinho();
 });
 document.querySelectorAll('input[name=pag]').forEach(r=>r.addEventListener('change',renderCarrinho));
-$('cep').addEventListener('input',e=>{ let v=e.target.value.replace(/\D/g,'').slice(0,8); e.target.value = v.length>5 ? v.slice(0,5)+'-'+v.slice(5) : v; });
+$('cep').addEventListener('input',e=>{ let v=e.target.value.replace(/\D/g,'').slice(0,8); e.target.value = v.length>5 ? v.slice(0,5)+'-'+v.slice(5) : v; if (v.length===8) buscarCep(v); });
+/* Endereço pelo CEP (ViaCEP, serviço gratuito). Se falhar, a pessoa preenche à mão. */
+function buscarCep(cep){
+  $('cep-dica').textContent = 'Buscando o endereço...';
+  fetch(`https://viacep.com.br/ws/${cep}/json/`).then(r=>r.json()).then(d=>{
+    if (d.erro){ $('cep-dica').textContent = 'CEP não encontrado. Confira o número ou preencha o endereço.'; return; }
+    $('rua').value = d.logradouro || $('rua').value; $('bairro').value = d.bairro || $('bairro').value;
+    $('cidade').value = d.localidade ? `${d.localidade}/${d.uf}` : $('cidade').value;
+    $('cep-dica').textContent = ''; $('num').focus();
+  }).catch(()=>{ $('cep-dica').textContent = ''; });
+}
+/* WhatsApp: (21) 99999-9999 · CPF: 000.000.000-00 · CNPJ: 00.000.000/0000-00 */
+$('zap').addEventListener('input',e=>{ const v=e.target.value.replace(/\D/g,'').slice(0,11);
+  e.target.value = v.length>6 ? `(${v.slice(0,2)}) ${v.slice(2,v.length-4)}-${v.slice(-4)}` : v.length>2 ? `(${v.slice(0,2)}) ${v.slice(2)}` : v; });
+$('doc').addEventListener('input',e=>{ const v=e.target.value.replace(/\D/g,'').slice(0,14);
+  e.target.value = v.length<=11
+    ? v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})\.(\d{3})(\d)/,'$1.$2.$3').replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/,'$1.$2.$3-$4')
+    : v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/,'$1.$2.$3/$4-$5'); });
+const ehRetirada = () => document.querySelector('input[name=entrega]:checked').value === 'Retirada';
+document.querySelectorAll('input[name=entrega]').forEach(r=>r.addEventListener('change',()=>{ $('end-campos').hidden = ehRetirada(); }));
+/* Lembrar meus dados: fica só no navegador da própria pessoa (localStorage), e só se ela marcar */
+const CAMPOS_CLIENTE = ['cliente','zap','email','doc','cep','rua','num','compl','bairro','cidade'];
+try {
+  const salvo = JSON.parse(localStorage.getItem('dambrinhos-cliente') || 'null');
+  if (salvo){ CAMPOS_CLIENTE.forEach(id=>{ if (salvo[id]) $(id).value = salvo[id]; }); $('lembrar').checked = true; }
+} catch(e){}
 
 /* Finalizar → WhatsApp */
+const endereco = () => [`${$('rua').value.trim()}, ${$('num').value.trim()}`, $('compl').value.trim(), $('bairro').value.trim(),
+  $('cidade').value.trim(), `CEP ${$('cep').value}`].filter(Boolean).join(' · ');
 function validar(){
   let ok=true, primeiro=null;
-  [['cliente','f-cliente','Informe seu nome.'],['cep','f-cep','Informe um CEP com 8 números.']].forEach(([id,box,msg])=>{
+  const digitos = id => $(id).value.replace(/\D/g,'').length;
+  const regras = [['cliente','f-cliente','Informe seu nome completo.'],['zap','f-zap','Informe o WhatsApp com DDD.']];
+  if (!ehRetirada()) regras.push(['doc','f-doc','Informe um CPF (11 números) ou CNPJ (14 números).'],['cep','f-cep','Informe um CEP com 8 números.'],
+    ['rua','f-rua','Informe a rua ou avenida.'],['num','f-num','Informe o número.'],['bairro','f-bairro','Informe o bairro.'],['cidade','f-cidade','Informe a cidade.']);
+  ['f-doc','f-cep','f-rua','f-num','f-bairro','f-cidade'].forEach(b=>{ $(b).classList.remove('err'); $(b).querySelector('.err-msg')?.remove(); });
+  regras.forEach(([id,box,msg])=>{
     const elx=$(id), w=$(box); w.classList.remove('err'); w.querySelector('.err-msg')?.remove();
-    const vazio = id==='cep' ? elx.value.replace(/\D/g,'').length!==8 : !elx.value.trim();
+    const vazio = id==='cep' ? digitos(id)!==8 : id==='zap' ? digitos(id)<10 : id==='doc' ? ![11,14].includes(digitos(id)) : !elx.value.trim();
     if (vazio){ ok=false; w.classList.add('err'); w.insertAdjacentHTML('beforeend',`<span class="err-msg">${msg}</span>`); primeiro ??= elx; }
   });
   if (primeiro) primeiro.focus();
@@ -2069,6 +2126,10 @@ $('checkout').addEventListener('submit',e=>{
   e.preventDefault();
   if (!validar()) return;
   const t = totais(), pag = document.querySelector('input[name=pag]:checked').value;
+  try {
+    if ($('lembrar').checked) localStorage.setItem('dambrinhos-cliente', JSON.stringify(Object.fromEntries(CAMPOS_CLIENTE.map(id=>[id,$(id).value]))));
+    else localStorage.removeItem('dambrinhos-cliente');
+  } catch(e){}
   const dataFesta = $('data').value ? $('data').value.split('-').reverse().join('/') : '—';
   /* Número do pedido: data e hora + 3 letras, o mesmo na mensagem do WhatsApp e na planilha */
   const agora = new Date(), dois = n => String(n).padStart(2,'0');
@@ -2080,7 +2141,8 @@ $('checkout').addEventListener('submit',e=>{
                totalKits:(+o.n||1)*i.qtd, valor:preco(p,i.opt)*i.qtd, mensagem:i.msg||'' }; });
     /* text/plain evita a checagem de CORS; o pedido segue para o WhatsApp mesmo se a planilha falhar */
     fetch(LOJA.pedidosUrl, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:$('cep').value,
+      body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:ehRetirada() ? 'Retirada' : $('cep').value,
+        whatsapp:$('zap').value, email:$('email').value.trim(), documento:$('doc').value, endereco:ehRetirada() ? 'Retirada' : endereco(),
         dataFesta, obs:$('obs').value.trim(), pagamento:pag, total:t.total, entrada:t.entrada, itens }) }).catch(()=>{});
   }
   const linhas = carrinho.map(i=>{ const p=prod(i.pid); return `• ${i.qtd}x ${p.nome} (${itemDet(i).join(', ')}) [${sku(p,i.opt)}] — ${brl(preco(p,i.opt)*i.qtd)}`; });
@@ -2091,7 +2153,9 @@ $('checkout').addEventListener('submit',e=>{
     t.entrada ? `Entrada (50%): ${brl(t.entrada)} · Restante antes do envio ou da retirada: ${brl(t.total-t.entrada)}, mais o frete` : null,
     t.cash>0 ? `Cashback para a próxima compra: ${brl(t.cash)}` : null, '',
     '*Festa*', `Data da festa: ${dataFesta}`, `Observações: ${$('obs').value.trim()||'—'}`, '',
-    '*Entrega*', `Cliente: ${$('cliente').value.trim()}`, `CEP: ${$('cep').value}`
+    '*Cliente*', `Nome: ${$('cliente').value.trim()}`, `WhatsApp: ${$('zap').value}`, $('email').value.trim() ? `E-mail: ${$('email').value.trim()}` : null, '',
+    '*Entrega*', ehRetirada() ? 'Retirada (combinar o local)' : `Envio para: ${endereco()}`,
+    ehRetirada() ? null : `CPF/CNPJ de quem recebe: ${$('doc').value}`
   ].filter(l=>l!==null).join('\n');
   window.open(`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank');
 });
