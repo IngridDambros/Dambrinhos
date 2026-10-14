@@ -534,6 +534,8 @@
   .wa{display:inline-flex;align-items:center;gap:8px;margin-top:16px;min-height:46px;padding:0 20px;border-radius:24px;background:#fff;color:var(--ink);font-weight:600;text-decoration:none}
   .foot-base{border-top:1px solid rgba(255,255,255,.15);padding-top:18px;font-size:13px;color:rgba(255,255,255,.6);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 </style>
+  <!-- Contador de visitas: GoatCounter (sem cookies e sem dados pessoais). Painel: https://dambrinhos.goatcounter.com -->
+  <script data-goatcounter="https://dambrinhos.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 <body>
 
@@ -2163,6 +2165,14 @@ try {
   if (salvo){ CAMPOS_CLIENTE.forEach(id=>{ if (salvo[id]) $(id).value = salvo[id]; }); $('lembrar').checked = true; }
 } catch(e){}
 
+/* Contador: registra cliques importantes no GoatCounter (se ele não carregar, não faz nada) */
+function contar(evento, titulo){ try { window.goatcounter && window.goatcounter.count({ path:evento, title:titulo||evento, event:true }); } catch(e){} }
+document.addEventListener('click', e=>{
+  const a = e.target.closest('a[href*="wa.me"]'); if (!a) return;
+  const nomes = { 'dam-ingrid':'whatsapp-dam', 'empresas-wa':'whatsapp-cuidar', 'p-avise':'whatsapp-avise-me', 'wa-link':'whatsapp-rodape', 'ajuda-wa':'whatsapp-ajuda', 'mural-wa':'whatsapp-mural', 'sens-wa':'whatsapp-sensorial' };
+  contar(nomes[a.id] || (a.closest('#cuida-row') ? 'whatsapp-cuidar' : 'whatsapp-outros'), (a.textContent||'WhatsApp').trim().slice(0,60));
+}, true);
+
 /* Finalizar → WhatsApp */
 const endereco = () => [`${$('rua').value.trim()}, ${$('num').value.trim()}`, $('compl').value.trim(), $('bairro').value.trim(),
   $('cidade').value.trim(), `CEP ${$('cep').value}`].filter(Boolean).join(' · ');
@@ -2217,6 +2227,7 @@ $('checkout').addEventListener('submit',e=>{
     '*Entrega*', ehRetirada() ? 'Retirada (combinar o local)' : `Envio para: ${endereco()}`,
     ehRetirada() ? null : `CPF/CNPJ de quem recebe: ${$('doc').value}`
   ].filter(l=>l!==null).join('\n');
+  contar('pedido-whatsapp', `Pedido finalizado (${brl(t.total)})`);
   window.open(`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(msg)}`,'_blank');
 });
 
