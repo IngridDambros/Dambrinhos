@@ -1025,8 +1025,8 @@ const CRIACOES = [
     desc:'Semente, terra de fibra de coco e um vasinho biodegradável para plantar, esperar e acompanhar a planta crescer no diário do botânico.',
     seguranca:'Sementes em pacotinho lacrado, de empresa registrada no Ministério da Agricultura. Terra de fibra de coco, vasinho biodegradável. Não é para comer: lave as mãos depois de mexer na terra.' },
   { id:'engenhocas', nome:'Engenhocas', titulo:'Kit de engenhocas',       idade:8, cor:'#E3955A', fundo:'#FBEBDD',
-    desc:'Papelão, palitos de madeira e elástico para construir um brinquedo que funciona de verdade: um catavento que gira ou um periscópio para espiar.',
-    seguranca:'Papelão pré-marcado, palitos de madeira e elástico. Use a tesoura sem ponta e peça ajuda a um adulto para furar o papelão.' },
+    desc:'Ferramentas de inventor e um caderno de projetos para transformar caixas, rolos e tampinhas de casa em engenhocas que funcionam de verdade.',
+    seguranca:'Tesoura sem ponta. Furar tampinhas, cortar garrafa PET ou papelão grosso é sempre tarefa de um adulto.' },
   { id:'jogo',     nome:'Crie seu jogo', titulo:'Kit crie seu jogo',       idade:9, cor:'#5B8FD1', fundo:'#E3EDF9',
     desc:'Um tabuleiro em branco, peões e dado de madeira e cartas para a criança inventar as regras, desenhar o caminho e jogar com os amigos.',
     seguranca:'Peões e dado de madeira são peças pequenas: guarde longe de crianças menores de 3 anos.' },
@@ -1090,7 +1090,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-10-15c';
+const FOTOS_VERSAO = '2026-10-15d';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1194,10 +1194,10 @@ const PRODUTOS = [
     itens:['3 pastilhas de fibra de coco','3 vasinhos biodegradáveis','3 pacotinhos de sementes lacrados','1 regador pequeno','3 plaquinhas de madeira','1 lupa','Diário do botânico'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
   { id:'engenhocas-mini', criacao:'engenhocas', versao:'mini', nome:'Mini Engenhocas', cod:'EG-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Um catavento de papelão que gira de verdade.',
-    descricao:'Papelão já marcado, palito de madeira e um alfinete-bucha de madeira para a criança recortar, montar e decorar um catavento que gira com o vento. O manual explica por que ele gira.',
-    selos:['Funciona de verdade','Papelão e madeira','Saquinho reutilizável'],
-    itens:['Folha de papelão com o molde do catavento','1 palito de madeira','1 eixo de madeira para girar','Manual em figuras: recortar, montar e decorar'],
+    embalagem:'Saquinho de algodão cru', resumo:'Ferramentas de inventor para criar engenhocas com o que tem em casa.',
+    descricao:'A gente manda as ferramentas e as ideias; a sucata vem de casa. O manual traz a lista do que começar a guardar (caixinhas, rolos, tampinhas, garrafa PET) e quatro engenhocas guiadas: um carrinho de caixinha, um telefone de copo, uma pista de bolinha na parede e um catavento. No mini caderno, a criança desenha, mede e dá nome às próprias invenções, como um inventor de verdade.',
+    selos:['Usa o que tem em casa','Caderno do inventor','Saquinho reutilizável'],
+    itens:['Manual do Inventor: lista "comece a guardar" e 4 engenhocas em figuras','1 mini caderno quadriculado para os projetos','1 tesoura sem ponta','1 régua de 15 cm','1 lápis','1 borracha','1 cola bastão'],
     opcoes:pacotes(49.99) },
   { id:'engenhocas-completo', criacao:'engenhocas', versao:'completo', nome:'Ateliê de Engenhocas', cod:'EG-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Catavento, periscópio e carrinho de elástico para construir.',
