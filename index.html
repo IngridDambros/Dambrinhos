@@ -576,7 +576,7 @@
         <div class="hero-txt">
           <p class="eyebrow">Sem tela. Sem lixo no dia seguinte.</p>
           <h1>Lembrancinhas feitas pelas mãos da criança.</h1>
-          <p>Do primeiro rabisco à primeira peça de cerâmica: dez criações, a partir de 1 ano. Cada convidado leva para casa uma criação que é só dele. A embalagem leva a nossa marca e combina com qualquer tema de festa.</p>
+          <p>Do primeiro rabisco à primeira peça de cerâmica: nove criações, a partir de 1 ano. Cada convidado leva para casa uma criação que é só dele. A embalagem leva a nossa marca e combina com qualquer tema de festa.</p>
           <div class="hero-ctas">
             <a class="cta" href="#criacoes">O que a criança vai criar?</a>
             <button class="btn-out" type="button" data-col="todos">Ver todos os kits</button>
@@ -789,7 +789,7 @@
     </section>
 
     <section class="sec">
-      <div class="sec-head"><h2 class="sec-title">Texturas para explorar</h2><span class="small">Só nesta área: areia que escorre, biscuit que fica firme, massa de EVA leve e massa de modelar macia.</span></div>
+      <div class="sec-head"><h2 class="sec-title">Texturas para explorar</h2><span class="small">Só nesta área: areia que escorre, massa de EVA leve e massa de modelar macia.</span></div>
       <div class="pgrid" id="sens-produtos"></div>
     </section>
 
@@ -806,7 +806,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha a textura: areia, biscuit, massa de EVA ou massa de modelar.</li>
+          <li>Escolha a textura: areia, massa de EVA ou massa de modelar.</li>
           <li>Escolha o pacote e adicione ao carrinho.</li>
           <li>Quer mais de uma textura na mesma festa? Combine pacotes de kits diferentes.</li>
         </ol>
@@ -999,7 +999,7 @@ const LOJA = {
   prazo: 'Pronto em até 15 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
 };
 
-/* As dez criações, em ordem de idade. cor = fundo do cartão grande; fundo = fundo da ilustração;
+/* As nove criações, em ordem de idade. cor = fundo do cartão grande; fundo = fundo da ilustração;
    idade = idade SUGERIDA para começar (depois dela, qualquer idade aproveita). Ela nunca pode ser menor
    que a idade indicada pelo fabricante de cada item do kit. seguranca = aparece em "Idade e segurança". */
 const CRIACOES = [
@@ -1030,7 +1030,7 @@ const CRIACOES = [
   { id:'jogo',     nome:'Crie seu jogo', titulo:'Kit crie seu jogo',       idade:9, cor:'#5B8FD1', fundo:'#E3EDF9',
     desc:'Um tabuleiro em branco, peões e dado de madeira e cartas para a criança inventar as regras, desenhar o caminho e jogar com os amigos.',
     seguranca:'Peões e dado de madeira são peças pequenas: guarde longe de crianças menores de 3 anos.' },
-  { id:'ceramica', nome:'Cerâmica', titulo:'Kit de cerâmica',          idade:10, cor:'#C9744B', fundo:'#F8E8DD',
+  { id:'ceramica', nome:'Cerâmica', titulo:'Kit de cerâmica',          idade:9, cor:'#C9744B', fundo:'#F8E8DD',
     desc:'O grande projeto: argila que seca ao ar, sem forno, para modelar uma peça de verdade do zero, pintar e envernizar. A última obra da escadinha.',
     seguranca:'A argila seca ao ar e não vai ao forno. A peça é decorativa e de uso seco: não serve para comida nem para água. Tinta e verniz à base de água, lacrados, com selo do INMETRO.' },
   /* Brinquedos sensoriais: ficam FORA da escadinha (linha:'sensorial') e aparecem só na área sensorial.
@@ -1069,6 +1069,11 @@ const CRIACOES = [
     desc:'Massa de EVA colorida, muito leve e fofa, para apertar, enrolar e modelar. Depois de seca, vira uma obra de arte para guardar.',
     seguranca:'A massa de EVA vem lacrada na embalagem do fabricante, com o selo do INMETRO, e é indicada a partir de 3 anos. Seca ao ar e não vai ao forno. Não é comestível.' }
 ];
+/* Crie seu Jogo DESATIVADO (a Cerâmica passou para 9+ e a escadinha ficou com nove criações) e Biscuit DESATIVADO
+   (difícil achar massa com selo do INMETRO). Os dados continuam guardados. Para reativar, tire o id da lista abaixo
+   e a linha equivalente depois de PRODUTOS. */
+const CRIACOES_DESATIVADAS = ['jogo','biscuit'];
+CRIACOES.splice(0, CRIACOES.length, ...CRIACOES.filter(cr=>!CRIACOES_DESATIVADAS.includes(cr.id)));
 /* Só as criações da escadinha (1+ a 9+), sem os brinquedos sensoriais */
 const ESCADA = CRIACOES.filter(cr=>!cr.linha);
 
@@ -1081,9 +1086,7 @@ const FAIXAS = [
   { id:'4-6', de:4, ate:6, titulo:'Mãos mais firmes',
     texto:'A criança já quer fazer sozinha, e o papel vira a matéria-prima: primeiro ela dobra com as mãos, depois recorta e cola, e por fim monta um mosaico peça por peça. Cada kit tem começo, meio e fim, e um prepara o outro. O resultado é uma obra que ela mostra com orgulho.' },
   { id:'7-9', de:7, ate:9, titulo:'Pequenos inventores',
-    texto:'A criança já lê, escreve e quer fazer sozinha. Agora ela planta e espera a semente crescer, constrói um brinquedo que funciona de verdade e inventa o próprio jogo para jogar com os amigos. Projetos que pedem paciência, curiosidade e imaginação.' },
-  { id:'10', de:10, ate:10, rotulo:'A partir de 10 anos', titulo:'O grande projeto',
-    texto:'Para fechar o ciclo, a criança cria do zero uma peça de cerâmica com argila que seca ao ar: modela com as técnicas de verdade, pinta e enverniza. Do primeiro rabisco à primeira peça de cerâmica, a última obra da escadinha.' }
+    texto:'A criança já lê, escreve e quer fazer sozinha. Agora ela planta e espera a semente crescer, constrói engenhocas que funcionam de verdade e, para fechar o ciclo, cria do zero uma peça de cerâmica: modela, pinta e enverniza. Do primeiro rabisco à primeira peça de cerâmica, a última obra da escadinha.' }
 ];
 
 /* Fotos reais: salve o arquivo na pasta fotos/ com o nome abaixo e ele aparece sozinho no lugar da
@@ -1103,7 +1106,7 @@ const FOTO = {
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
    Lembrancinhas: pacotes(preço por kit) de 12, 24 ou 36 kits (1, 2 ou 3 caixas de transporte 50×30×22, com 12 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
    Preço por kit de acordo com a fase: A fase da descoberta (1+ a 3+) 40,99 · Mãos mais firmes (4+ a 6+) 44,99 ·
-   Pequenos inventores (7+ a 9+) e O grande projeto (10+) 49,99. Área sensorial: Massa de modelar 30,99, Areia 34,99, Biscuit e Massa de EVA 39,99.
+   Pequenos inventores (7+ a 9+) 49,99. Área sensorial: Massa de modelar 30,99, Areia 34,99, Massa de EVA 39,99.
    Não há desconto no Pix: quem paga no Pix ganha cashback (LOJA.cashbackPix) para a próxima compra.
    fotos: ['fotos/arquivo.jpg', ...] quando tiver fotos reais (sem fotos, mostra a ilustração).
    avaliacoes: { nota: 4.9, total: 32 } SÓ com avaliações reais. */
@@ -1320,11 +1323,13 @@ const PRODUTOS = [
 /* Kits completos (presente) DESATIVADOS por enquanto: o foco é vender em quantidade (festas e "Para quem cuida").
    Os dados continuam guardados acima. Para reativar, apague a linha do PRODUTOS.splice abaixo. */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.versao==='mini'));
-/* Kit de argila DESATIVADO: a área sensorial tem só produtos exclusivos (areia, biscuit, massa de EVA e massa de modelar).
+/* Kit de argila DESATIVADO: a área sensorial tem só produtos exclusivos (areia, massa de EVA e massa de modelar).
    Para reativar, apague a linha abaixo. */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='modelar'));
 /* Teatro de Fantoches DESATIVADO: o Dia das Crianças agora é a Casinha de Passarinho. Para reativar, apague a linha abaixo. */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='fantoches'));
+/* Crie seu Jogo e Biscuit DESATIVADOS (ver CRIACOES_DESATIVADAS) */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.includes(p.criacao)));
 
 /* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato e a tela não têm espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
@@ -1381,7 +1386,7 @@ const COMPROMISSOS = [
    Escreva aqui SÓ o que o kit sensorial tem de verdade, e nunca prometa efeito terapêutico
    (palavras como "acalma", "trata" ou "desenvolve" podem virar propaganda enganosa pelo CDC). */
 const SENSORIAL = {
-  intro: 'Uma área pensada para crianças autistas e para todas as crianças que gostam de explorar texturas. Aqui estão materiais que só existem nesta área, cada um com uma textura diferente para a festa: a areia mágica, que escorre e molda; o biscuit, liso, que seca e fica firme; a massa de EVA, leve e fofa, que seca e vira uma peça leve; e a massa de modelar, macia e elástica.',
+  intro: 'Uma área pensada para crianças autistas e para todas as crianças que gostam de explorar texturas. Aqui estão materiais que só existem nesta área, cada um com uma textura diferente para a festa: a areia mágica, que escorre e molda; a massa de EVA, leve e fofa, que seca e vira uma peça leve; e a massa de modelar, macia e elástica.',
   adaptacoes: [
     { icone:'figuras',  titulo:'Instruções em figuras',       texto:'Um passo a passo com desenhos simples, uma etapa por cartão, no lugar de texto corrido.' },
     { icone:'etapas',   titulo:'Material separado por etapa', texto:'Saquinhos numerados (1, 2, 3), para a criança saber o que vem agora e o que vem depois.' },
@@ -1401,8 +1406,6 @@ const GUIA_TEXTURAS = [
   { grupo:'Só na área sensorial', linhas:[
     { material:'Areia mágica', criacoes:['areia'],
       toque:'Granulada e soltinha: escorre entre os dedos e molda quando apertada', agua:'Não usa água', barulho:'Silenciosa', espera:'Não seca: dá para brincar de novo' },
-    { material:'Biscuit', criacoes:['biscuit'],
-      toque:'Lisa e macia, fica dura e firme depois de seca', agua:'Não usa água', barulho:'Silencioso', espera:'A peça precisa secar ao ar para ficar pronta' },
     { material:'Massa de EVA', criacoes:['eva'],
       toque:'Muito leve, fofa e macia', agua:'Não usa água', barulho:'Silenciosa', espera:'A peça precisa secar ao ar para ficar pronta' },
     { material:'Massa de modelar', criacoes:['massinha'],
@@ -1418,8 +1421,8 @@ const GUIA_TEXTURAS = [
       toque:'Seco: papel liso e papel crepom enrugado', agua:'Não usa água', barulho:'Som de tesoura e de papel amassando', espera:'A obra fica pronta na hora' },
     { material:'Fibra de coco e sementes', criacoes:['botanico','horta'],
       toque:'Fibrosa e áspera, úmida depois de regar', agua:'Usa água para regar', barulho:'Silenciosa', espera:'A planta leva dias para nascer' },
-    { material:'Papelão e madeira', criacoes:['engenhocas','jogo'],
-      toque:'Secos e rígidos', agua:'Não usa água', barulho:'Pouco barulho', espera:'Fica pronto na hora' },
+    { material:'Sucata de casa: caixas, rolos e tampinhas', criacoes:['engenhocas'],
+      toque:'Secos e rígidos', agua:'Não usa água', barulho:'Som de tesoura e de papelão', espera:'Fica pronto na hora' },
     { material:'Argila', criacoes:['ceramica'],
       toque:'Fria, úmida e pesada', agua:'Usa água para modelar e para limpar', barulho:'Silenciosa', espera:'A peça seca antes de ser pintada e envernizada' } ] }
 ];
@@ -1983,7 +1986,7 @@ function abrirColecao(chave){
   else if (tipo==='completos'){ titulo='Presentear'; desc='As versões completas: mais material, guia com projetos e caixa com a nossa marca.'; lista=PRODUTOS.filter(p=>p.versao==='completo'); }
   else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
   else if (tipo==='faixa'){ const f = FAIXAS.find(x=>x.id===valor); titulo=faixaTxt(f); desc=f.texto; lista=PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; }); }
-  else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; biscuit, que seca e fica firme; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
+  else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
   else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod);
     if (lista.length===1 && lista[0]){ abrirProduto(lista[0].id); return; } }   // data com um kit só: abre direto a página dele
   else if (tipo==='busca'){
@@ -1991,7 +1994,7 @@ function abrirColecao(chave){
     titulo=`Resultados para “${valor}”`;
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
-  else { titulo='Todos os kits'; desc='As dez criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS; }
+  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS; }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
   $('col-extra').hidden = tipo!=='sensorial';
@@ -2296,7 +2299,7 @@ const DAM_PERGUNTAS = [
   { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido. Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
   { id:'seguranca', q:'Os materiais são seguros? Têm selo do INMETRO?', a:()=>`Os materiais que exigem certificação vêm <b>lacrados na embalagem do fabricante</b>, com o selo do INMETRO e a idade indicada. A gente nunca separa itens de uma embalagem lacrada.<br><br>Cada kit tem uma idade sugerida para começar, e as atividades são feitas sempre com um adulto por perto. A seção "Idade e segurança", na página do kit, traz os detalhes.` },
   { id:'alergia', q:'E se a criança tiver alergia?', a:()=>`Cada material vem <b>lacrado na embalagem original do fabricante</b>, com a composição no rótulo. Antes de entregar o kit para a criança, confira na embalagem se há algum ingrediente ao qual ela tenha alergia. As massas de modelar, por exemplo, costumam levar amido, que pode conter trigo.<br><br>Quer saber a marca e a composição antes de fazer o pedido? Toque em <b>Falar com a Ingrid</b> que ela envia as fotos das embalagens.`, wa:'Olá! Antes de fazer o pedido, queria ver a marca e a composição dos materiais do kit. A criança tem alergia a: ' },
-  { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, o biscuit, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
+  { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
   { id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' },
 ];
 
