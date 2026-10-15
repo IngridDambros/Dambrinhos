@@ -647,8 +647,8 @@
         <p class="eyebrow">Guardado como arte</p>
         <h2>Feito pelas mãos da criança. Guardado como arte.</h2>
         <p>Todo kit Dambrinhos traz a ficha da obra, como as etiquetas de museu: os pais anotam o nome do artista, a idade, a data e o nome que a criança escolher para a criação dela.</p>
-        <p>Nos kits de 1 a 3 anos (Rabiscos, Colorir e Pintar), a obra já vem com moldura, com espaço para esse registro. É a primeira obra de arte da criança, pronta para a parede.</p>
-        <button class="cta" type="button" data-col="faixa:1-3">Ver os kits com moldura</button>
+        <p>Nos kits de 1 a 3 anos, a obra já sai pronta para a parede: no Rabiscos e no Colorir, ela vem com porta-retrato de madeira; no Pintar, a própria tela já é o quadro. É a primeira obra de arte da criança.</p>
+        <button class="cta" type="button" data-col="faixa:1-3">Ver os kits de 1 a 3 anos</button>
       </div>
     </section>
 
@@ -1004,19 +1004,19 @@ const LOJA = {
    que a idade indicada pelo fabricante de cada item do kit. seguranca = aparece em "Idade e segurança". */
 const CRIACOES = [
   { id:'rabiscos', nome:'Rabiscos', titulo:'Kit de primeiros rabiscos', idade:1, cor:'#8FB3DE', fundo:'#E8F0FA',
-    desc:'Giz de cera para bebês, papel grosso e uma moldura para a primeira obra de arte ir para a parede.',
+    desc:'Giz de cera para bebês, papel grosso e um porta-retrato de madeira para a primeira obra de arte ir para a parede.',
     seguranca:'O giz é próprio para bebês: tem formato de argola, para segurar com a mão inteira, vem em cartela lacrada com selo do INMETRO e é indicado pelo fabricante a partir de 1 ano. Use sempre com um adulto por perto.' },
   { id:'colorir',  nome:'Colorir',  titulo:'Kit de colorir',            idade:2, cor:'#9CC56B', fundo:'#EEF6E3',
-    desc:'Desenhos exclusivos de traço grosso e giz de cera para bebês: a criança escolhe as cores e a obra vai para a moldura.',
+    desc:'Desenhos exclusivos de traço grosso e giz de cera para bebês: a criança escolhe as cores e a obra vai para o porta-retrato.',
     seguranca:'O giz é próprio para bebês: tem formato de argola, para segurar com a mão inteira, vem em cartela lacrada com selo do INMETRO e é indicado pelo fabricante a partir de 1 ano. Use sempre com um adulto por perto.' },
   { id:'pintar',   nome:'Pintar',   titulo:'Kit de pintura em tela',    idade:3, cor:'#5DAA9B', fundo:'#E3F1EE',
-    desc:'Uma tela, as três cores primárias e um godê para criar as outras: a primeira obra de arte da criança, com as cores que ela mesma inventou.',
-    seguranca:'A tinta guache é à base de água e sai com água e sabão. O pincel tem cabo grosso, fácil de segurar.' },
+    desc:'Uma tela, seis cores de tinta guache, pincéis e esponja: a criança pinta do jeito dela, e a própria tela já é o quadro da primeira obra de arte.',
+    seguranca:'A tinta guache é à base de água, vem lacrada com selo do INMETRO e sai com água e sabão. Pinte sempre com um adulto por perto.' },
   { id:'dobradura',nome:'Dobradura', titulo:'Kit de dobradura',       idade:4, cor:'#E8879C', fundo:'#FCEBEF',
-    desc:'Folhas exclusivas com as linhas de dobra impressas: a criança dobra bichinhos de papel, cola num cenário e a obra vai para a moldura.',
+    desc:'Folhas exclusivas com as linhas de dobra impressas: a criança dobra bichinhos de papel, desenha o rostinho e cola tudo num cenário.',
     seguranca:'Só papel, cola bastão e as mãos: sem tesoura e sem peças pequenas.' },
   { id:'colagem',  nome:'Corte e colagem', titulo:'Kit de corte e colagem', idade:5, cor:'#E09BBE', fundo:'#FBE9F1',
-    desc:'Papéis coloridos, papel crepom, formas, tesoura sem ponta e cola para recortar e montar um cenário que vai para a moldura.',
+    desc:'Papéis coloridos, papel crepom, formas, tesoura sem ponta e cola para recortar e montar um cenário do jeito da criança.',
     seguranca:'Tesoura sem ponta, própria para crianças, e cola com selo do INMETRO.' },
   { id:'mosaico',  nome:'Mosaico',  titulo:'Kit de mosaico',            idade:6, cor:'#B89B2F', fundo:'#F5EFD8',
     desc:'Pastilhas coloridas para montar um porta-copos ou um espelho, peça por peça.',
@@ -1077,7 +1077,7 @@ const ESCADA = CRIACOES.filter(cr=>!cr.linha);
 const faixaTxt = f => f.rotulo || `De ${f.de} a ${f.ate} anos`;
 const FAIXAS = [
   { id:'1-3', de:1, ate:3, titulo:'A fase da descoberta',
-    texto:'É quando a criança descobre que a mão deixa marca: o primeiro rabisco, a primeira cor escolhida, a primeira pincelada. Não existe certo ou errado, só curiosidade e um mundo inteiro para imaginar. Por isso, nos três kits dessa fase, a obra vem com moldura: o que hoje parece um rabisco é a lembrança mais bonita de amanhã.' },
+    texto:'É quando a criança descobre que a mão deixa marca: o primeiro rabisco, a primeira cor escolhida, a primeira pincelada. Não existe certo ou errado, só curiosidade e um mundo inteiro para imaginar. Por isso, nessa fase, a obra já sai pronta para a parede: com porta-retrato no Rabiscos e no Colorir, e na própria tela no Pintar. O que hoje parece um rabisco é a lembrança mais bonita de amanhã.' },
   { id:'4-6', de:4, ate:6, titulo:'Mãos mais firmes',
     texto:'A criança já quer fazer sozinha, e o papel vira a matéria-prima: primeiro ela dobra com as mãos, depois recorta e cola, e por fim monta um mosaico peça por peça. Cada kit tem começo, meio e fim, e um prepara o outro. O resultado é uma obra que ela mostra com orgulho.' },
   { id:'7-9', de:7, ate:9, titulo:'Pequenos inventores',
@@ -1110,10 +1110,10 @@ const FOTO = {
 const pacotes = porKit => [12,24,36].map(n => ({ nome:`${n} kits`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com moldura para a primeira obra.',
-    descricao:'Giz de cera para bebês, em formato de argola e fácil de segurar com a mão inteira, papel grosso e uma moldura para a primeira obra de arte ir direto para a parede. A moldura tem espaço para os pais anotarem o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
-    selos:['Moldura para a primeira obra','Giz próprio para bebês (1+)','Selo do INMETRO'],
-    itens:['6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 bloco de papel grosso A5 (10 folhas)','1 moldura de papel cartão com a nossa marca, para o desenho A5, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
+    embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com porta-retrato para a primeira obra.',
+    descricao:'Giz de cera para bebês, em formato de argola e fácil de segurar com a mão inteira, papel grosso e um porta-retrato de madeira para a primeira obra de arte ir direto para a parede. Na ficha da obra, os pais anotam o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
+    selos:['Porta-retrato de madeira','Giz próprio para bebês (1+)','Selo do INMETRO'],
+    itens:['6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','10 folhas de papel grosso 10×15 cm','1 porta-retrato de madeira 10×15 cm para a primeira obra','Cartão com a receita de massinha caseira'],
     opcoes:pacotes(40.99) },
   { id:'rabiscos-completo', criacao:'rabiscos', versao:'completo', nome:'Ateliê de Rabiscos', cod:'RB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Muitas cores, rolo de papel e moldura de madeira para a obra favorita.',
@@ -1122,10 +1122,10 @@ const PRODUTOS = [
     itens:['8 gizes de cera jumbo','1 rolo de papel kraft (3 m)','1 bloco de papel grosso A4 (20 folhas)','1 moldura de MDF para o desenho A4, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
     opcoes:[{nome:'1 kit', n:'001', preco:89}] },
   { id:'colorir-mini', criacao:'colorir', versao:'mini', nome:'Mini Colorir', cod:'CL-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Desenhos exclusivos, giz de cera para bebês e uma moldura para a obra.',
-    descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com o giz de cera para bebês, em formato de argola, e a obra preferida vai para a moldura, com a ficha da obra.',
+    embalagem:'Saquinho de algodão cru', resumo:'Desenhos exclusivos, giz de cera para bebês e um porta-retrato para a obra.',
+    descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com o giz de cera para bebês, em formato de argola, e a obra preferida vai para o porta-retrato de madeira, com a ficha da obra.',
     selos:['Desenhos exclusivos','Giz próprio para bebês (1+)','Selo do INMETRO'],
-    itens:['3 desenhos exclusivos Dambrinhos para colorir (papel grosso A5)','6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 moldura de papel cartão com a nossa marca, com espaço para o nome, a idade e a data'],
+    itens:['3 desenhos exclusivos Dambrinhos para colorir (papel grosso 10×15 cm)','6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 porta-retrato de madeira 10×15 cm para a obra preferida'],
     opcoes:pacotes(40.99) },
   { id:'colorir-completo', criacao:'colorir', versao:'completo', nome:'Ateliê de Colorir', cod:'CL-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Um livro de desenhos exclusivos, 12 canetinhas e moldura.',
@@ -1134,10 +1134,10 @@ const PRODUTOS = [
     itens:['1 livrinho com 12 desenhos exclusivos Dambrinhos (papel grosso A4)','12 canetinhas laváveis de ponta jumbo','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data'],
     opcoes:[{nome:'1 kit', n:'001', preco:79}] },
   { id:'pintar-mini', criacao:'pintar', versao:'mini', nome:'Mini Tela', cod:'PT-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Três cores, um godê e a mágica de criar as outras seis.',
-    descricao:'O kit vem com as três cores primárias: azul, vermelho e amarelo. No godê de 6 espaços, a criança e os pais seguem o cartão da técnica e criam as outras cores: verde, laranja, roxo e os tons entre elas. São 9 cores para pintar uma tela de 20×20 cm com esponja e pincel de cabo grosso. Depois de seca, a tela ganha a moldura com o nome, a idade e a data, e vai direto para a parede.',
-    selos:['Moldura para a obra','Cria 9 cores com 3','Saquinho reutilizável'],
-    itens:['1 tela 20×20 cm','3 potes de tinta guache nas cores primárias: azul, vermelho e amarelo','1 godê com 6 espaços para misturar as cores','1 pincel de cabo grosso','1 esponja grande','Cartão da técnica, que ensina a misturar as cores primárias e criar mais 6 cores','1 moldura de papel cartão para a tela, com espaço para o nome, a idade e a data'],
+    embalagem:'Saquinho de algodão cru', resumo:'Uma tela, seis cores e pincéis: a própria tela já é o quadro.',
+    descricao:'Uma tela de 10×15 cm, seis cores de tinta guache e um kit de pintura com pincéis, godê e pincéis de espuma. A criança pinta do jeito dela, com pincel, esponja ou as próprias mãos, e mistura as cores no godê se quiser. Depois de seca, a própria tela já é o quadro: vai direto para a parede, com a ficha da obra.',
+    selos:['A tela já é o quadro','Seis cores','Saquinho reutilizável'],
+    itens:['1 tela 10×15 cm','1 caixa de tinta guache com 6 cores, lacrada','1 kit de pintura, lacrado: 3 pincéis, 1 godê, 1 pincel com batedor de espuma e 1 pincel de espuma'],
     opcoes:pacotes(40.99) },
   { id:'pintar-completo', criacao:'pintar', versao:'completo', nome:'Ateliê de Pintura', cod:'PT-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Duas telas, seis cores e esponjas para pintar à vontade.',
@@ -1146,10 +1146,10 @@ const PRODUTOS = [
     itens:['2 telas 20×20 cm','6 potes de tinta guache','2 pincéis de cabo grosso','3 esponjas de formatos diferentes','1 avental de algodão cru','2 molduras para as telas, com espaço para o nome, a idade e a data','Guia com 3 ideias de pintura'],
     opcoes:[{nome:'1 kit', n:'001', preco:119}] },
   { id:'dobradura-mini', criacao:'dobradura', versao:'mini', nome:'Mini Dobradura', cod:'DB-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Bichinhos de papel para dobrar, colar num cenário e emoldurar.',
-    descricao:'Folhas exclusivas Dambrinhos, já coloridas e com as linhas de dobra impressas: a criança segue as linhas e dobra três bichinhos. Eles vêm sem rosto, só com a silhueta e as cores; com o giz de cera, é ela quem desenha os olhinhos e os detalhes. Depois cola tudo no cenário e a obra vai para a moldura.',
+    embalagem:'Saquinho de algodão cru', resumo:'Bichinhos de papel para dobrar, desenhar o rostinho e colar num cenário.',
+    descricao:'Folhas exclusivas Dambrinhos, já coloridas e com as linhas de dobra impressas: a criança segue as linhas e dobra três bichinhos. Eles vêm sem rosto, só com a silhueta e as cores; com o giz de cera, é ela quem desenha os olhinhos e os detalhes. Depois cola tudo no cenário, e a cena pronta ganha a ficha da obra.',
     selos:['Folhas com linhas de dobra','Rostinho desenhado pela criança','Saquinho reutilizável'],
-    itens:['6 folhas exclusivas Dambrinhos com linhas de dobra impressas (para 3 bichinhos sem rosto)','1 manual em figuras para cada bichinho, uma dobra por quadrinho','1 giz de cera com 6 cores, para desenhar o rostinho e os detalhes','1 cenário impresso para colar os bichinhos','1 cola bastão','1 moldura de papel cartão com espaço para o nome, a idade e a data'],
+    itens:['6 folhas exclusivas Dambrinhos com linhas de dobra impressas (para 3 bichinhos sem rosto)','1 manual em figuras para cada bichinho, uma dobra por quadrinho','1 giz de cera com 6 cores, para desenhar o rostinho e os detalhes','1 cenário impresso para colar os bichinhos','1 cola bastão'],
     opcoes:pacotes(44.99) },
   { id:'dobradura-completo', criacao:'dobradura', versao:'completo', nome:'Ateliê de Dobradura', cod:'DB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Oito bichinhos em dois níveis, dois cenários e moldura.',
@@ -1158,10 +1158,10 @@ const PRODUTOS = [
     itens:['20 folhas exclusivas Dambrinhos com linhas de dobra impressas (8 bichinhos)','Manual em figuras com dois níveis de dificuldade','2 cenários impressos','1 cola bastão','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
   { id:'colagem-mini', criacao:'colagem', versao:'mini', nome:'Mini Recorte e Cola', cod:'CC-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Um cenário para recortar, colar e emoldurar.',
-    descricao:'Uma base de papel cartão e papéis coloridos para a criança recortar formas e montar um cenário: uma cidade, o fundo do mar ou uma floresta, do jeito dela. Com bolinhas de papel crepom, a cena ganha volume, e a obra pronta vai para a moldura.',
-    selos:['Tesoura sem ponta','Cenário para emoldurar','Saquinho reutilizável'],
-    itens:['1 base de papel cartão para o cenário','Cartão com 3 ideias de cenário: cidade, fundo do mar e floresta','Tiras e folhas de papel colorido','Formas de papel para recortar e colar','Papel crepom para amassar e fazer bolinhas','1 tesoura sem ponta','1 cola bastão','1 moldura de papel cartão com espaço para o nome, a idade e a data'],
+    embalagem:'Saquinho de algodão cru', resumo:'Um cenário para recortar e colar do jeito da criança.',
+    descricao:'Uma base de papel cartão e papéis coloridos para a criança recortar formas e montar um cenário: uma cidade, o fundo do mar ou uma floresta, do jeito dela. Com bolinhas de papel crepom, a cena ganha volume, e a obra pronta ganha a ficha da obra.',
+    selos:['Tesoura sem ponta','Três ideias de cenário','Saquinho reutilizável'],
+    itens:['1 base de papel cartão para o cenário','Cartão com 3 ideias de cenário: cidade, fundo do mar e floresta','Tiras e folhas de papel colorido','Formas de papel para recortar e colar','Papel crepom para amassar e fazer bolinhas','1 tesoura sem ponta','1 cola bastão'],
     opcoes:pacotes(44.99) },
   { id:'colagem-completo', criacao:'colagem', versao:'completo', nome:'Ateliê de Colagem', cod:'CC-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Papéis, papel crepom e moldes para três cenários emoldurados.',
@@ -1326,9 +1326,9 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='modelar')
 /* Teatro de Fantoches DESATIVADO: o Dia das Crianças agora é a Casinha de Passarinho. Para reativar, apague a linha abaixo. */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='fantoches'));
 
-/* Ficha da obra: vai em todos os kits da escadinha (no Rabiscos, o registro já fica na própria moldura) */
+/* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato e a tela não têm espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
-PRODUTOS.filter(p=>!['rabiscos','colorir','pintar','dobradura'].includes(p.criacao) && (ESCADA.some(cr=>cr.id===p.criacao) || ['modelar','biscuit','eva'].includes(p.criacao))).forEach(p=>p.itens.push(FICHA_DA_OBRA));
+PRODUTOS.filter(p=>ESCADA.some(cr=>cr.id===p.criacao) || ['modelar','biscuit','eva'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
 const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='sensorial';
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
