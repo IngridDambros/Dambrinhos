@@ -679,7 +679,7 @@
     <section class="sec" id="afetiva-home">
       <div class="sec-head">
         <div><p class="eyebrow">Lembrar</p><h2 class="sec-title">Papelaria afetiva</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Toppers e caixas com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
         <button class="btn-out" type="button" data-go="afetiva">Conhecer a papelaria afetiva</button>
       </div>
       <div class="criacoes ocasioes" id="afetiva-row"></div>
@@ -886,11 +886,18 @@
         <p class="crumbs"><button type="button" data-go="home">Início</button> / Lembrar</p>
         <p class="eyebrow">Lembrar · papelaria afetiva</p>
         <h1>O rostinho de cada fase, no centro da festa.</h1>
-        <p>Toppers e caixas com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você manda a foto que tem, e a gente cuida do recorte, das cores e do acessório de cada tema.</p>
+        <p>Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você manda a foto que tem, e a gente cuida do recorte, das cores e do acessório de cada tema.</p>
       </div>
     </section>
 
-    <!-- A papelaria afetiva tem três partes: Toppers, Varal e Caixas (Varal e Caixas: em breve) -->
+    <!-- A papelaria afetiva tem três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) -->
+    <section class="sec" id="afe-caixas">
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Caixas</h2></div><span class="small">Pacotes de 12, 24 ou 36 caixas, com 12 caixas em cada embalagem.</span></div>
+      <p class="afe-fundos-tit">Veja as caixas por fundo:</p>
+      <div class="pd-fundos afe-fundos" id="afetiva-fundos"></div>
+      <div class="criacoes ocasioes" id="afetiva-caixas"></div>
+    </section>
+
     <section class="sec" id="afe-toppers">
       <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Toppers</h2></div><span class="small">Pacotes de 12, 24 ou 36 toppers, com 12 toppers em cada embalagem.</span></div>
       <div class="criacoes ocasioes" id="afetiva-produtos"></div>
@@ -906,24 +913,17 @@
       <p class="afe-breve"><b>Em breve.</b> Estamos preparando o varal com o rostinho da criança.</p>
     </section>
 
-    <section class="sec" id="afe-caixas">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Caixas</h2></div><span class="small">Pacotes de 12, 24 ou 36 caixas, com 12 caixas em cada embalagem.</span></div>
-      <p class="afe-fundos-tit">Veja as caixas por fundo:</p>
-      <div class="pd-fundos afe-fundos" id="afetiva-fundos"></div>
-      <div class="criacoes ocasioes" id="afetiva-caixas"></div>
-    </section>
-
     <div class="sens-duas">
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: toppers (de festa, topo de bolo, mesversário ou datas especiais) ou caixas.</li>
+          <li>Escolha o que você quer: caixas ou toppers (de festa, topo de bolo, mesversário ou datas especiais).</li>
           <li>Escolha o pacote de 12, 24 ou 36 unidades e finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte o tema. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
         </ol>
         <div class="hist-acts" style="margin-top:0">
-          <button class="cta" type="button" data-col="afetiva">Ver toppers e caixas</button>
+          <button class="cta" type="button" data-col="afetiva">Ver caixas e toppers</button>
           <a class="btn-out" id="afetiva-wa" href="#" target="_blank" rel="noopener">Tirar dúvidas pelo WhatsApp</a>
         </div>
       </section>
@@ -1544,9 +1544,10 @@ const CUIDA = [
 /* Lembrar: papelaria afetiva — os produtos ficam em PRODUTOS (versao:'afetiva'); aqui só a cor de cada cartão */
 const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'afetiva-topo-bolo':'#F7DDE5', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
   'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2' };
-const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva');
+const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabética: a parte (Caixas, Toppers) e depois o nome
+  .sort((a,b)=>a.grupo.localeCompare(b.grupo,'pt') || a.nome.localeCompare(b.nome,'pt'));
 /* As partes da papelaria afetiva (Varal: em breve, sem produtos ainda) */
-const GRUPOS_AFETIVA = { toppers:'Toppers', varal:'Varal', caixas:'Caixas' };
+const GRUPOS_AFETIVA = { caixas:'Caixas', toppers:'Toppers', varal:'Varal' };
 const afetivosDe = g => AFETIVOS.filter(p=>p.grupo===g);
 /* Datas da papelaria afetiva: [quando, data, acessório] */
 const DATAS_AFETIVAS = [
@@ -2225,10 +2226,10 @@ function montarMenu(){
         { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
         { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
     { nome:'Lembrar', colunas:[
-      /* Papelaria afetiva em três partes: Toppers, Varal e Caixas (Varal e Caixas: em breve) */
+      /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
+      { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Toppers', col:'afetiva:toppers', itens: afetivosDe('toppers').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
       { titulo:'Varal', go:'afetiva', itens:[ { nome:'Em breve', sub:'O varal com o rostinho da criança', go:'afetiva' } ] },
-      { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Como funciona', destaque:true, go:'afetiva', itens:[
         { nome:'Pacotes de 12, 24 ou 36', sub:'12 unidades em cada embalagem', go:'afetiva' },
         { nome:'Depois do pedido e pagamento', sub:'Você manda a foto pelo WhatsApp e recebe a arte para aprovar', go:'afetiva' },
@@ -2287,7 +2288,7 @@ function abrirColecao(chave){
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
   else if (tipo==='afetiva'){ titulo = fundo ? `Caixas · ${nomeFundo(fundo)}` : valor ? GRUPOS_AFETIVA[valor] : 'Papelaria afetiva'; lista = valor ? afetivosDe(valor) : AFETIVOS;
-    desc=`${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Toppers e caixas'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
+    desc=`${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas e toppers'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
   else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
