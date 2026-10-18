@@ -384,7 +384,8 @@
   .pd-modo-op{display:grid;gap:2px;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit}
   .pd-modo-op span{font-size:13px;color:var(--muted)}
   .pd-modo-op[aria-pressed="true"]{border-color:var(--azul);background:var(--ceu-claro)}
-  .pd-cores{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .pd-cores{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+  @media (max-width:560px){.pd-cores{grid-template-columns:repeat(3,minmax(0,1fr))}}
   .pd-cor{display:grid;gap:6px;justify-items:center;padding:8px 6px 10px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit;font-size:13px;font-weight:600}
   .pd-cor svg{width:100%;aspect-ratio:1;border-radius:10px;display:block;border:1px solid var(--linha)}
   .pd-cor[aria-pressed="true"]{border-color:var(--azul);background:var(--ceu-claro)}
@@ -1964,6 +1965,7 @@ function padraoFundo(fundo, id, cor){
 const CORES_CAIXA = [
   { id:'amarelo',  nome:'Amarelo',  hex:'#E9BE4C' },
   { id:'azul',     nome:'Azul',     hex:'#6FA8DC' },
+  { id:'laranja',  nome:'Laranja',  hex:'#F0A066' },
   { id:'rosa',     nome:'Rosa',     hex:'#E89AB5' },
   { id:'verde',    nome:'Verde',    hex:'#86B98A' },
   { id:'vermelho', nome:'Vermelho', hex:'#E06C5F' }
