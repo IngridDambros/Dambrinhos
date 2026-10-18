@@ -362,6 +362,19 @@
   }
   .sens-aviso{margin:16px 0 72px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--linha);font-size:15px;color:var(--muted)}
   .sens-aviso b{color:var(--ink)}
+
+  /* Lembrar: papelaria afetiva (toppers de rostinho, mesversário, datas especiais) */
+  .afe-hero{background:var(--rosa-claro)}
+  .afe-hero .sens-hero-in{max-width:860px}
+  .afe-datas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  @media (min-width:760px){.afe-datas{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media (min-width:1100px){.afe-datas{grid-template-columns:repeat(5,minmax(0,1fr))}}
+  .afe-data{background:#fff;border-radius:16px;padding:16px;display:grid;gap:4px;align-content:start}
+  .afe-data small{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--framboesa)}
+  .afe-data b{font-size:17px;line-height:1.2}
+  .afe-data span{font-size:14px;color:var(--muted)}
+  .afe-sigilo{background:var(--menta-claro)}
+  .afe-sigilo ul{margin:0 0 16px;padding-left:20px;display:grid;gap:6px}
   .insta p{color:var(--muted);margin:10px 0 20px;font-size:17px}
 
   /* Coleção */
@@ -638,6 +651,17 @@
       <div class="cuida-pe"><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
     </section>
 
+    <!-- Lembrar: papelaria afetiva com o rostinho da criança. As imagens do site são ilustrações ou exemplos fictícios:
+         NUNCA publicar o rosto de um cliente. Fotos de exemplo: fotos/afetiva-<id>.jpg (ver AFETIVA no script). -->
+    <section class="sec" id="afetiva-home">
+      <div class="sec-head">
+        <div><p class="eyebrow">Lembrar</p><h2 class="sec-title">Papelaria afetiva</h2>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Toppers e topo de bolo com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
+        <button class="btn-out" type="button" data-go="afetiva">Conhecer a papelaria afetiva</button>
+      </div>
+      <div class="criacoes ocasioes" id="afetiva-row"></div>
+    </section>
+
     <!-- Assinatura da marca: toda criação vira arte, com a ficha da obra -->
     <section class="arte" id="arte">
       <!-- img/ficha-da-obra.jpg: versão leve de "Ficha da Obra.png" -->
@@ -823,6 +847,52 @@
     <p class="sens-aviso"><b>Importante:</b> nossos kits são atividades de criação, e não um recurso terapêutico. Cada criança é única, então você conhece melhor do que ninguém o que funciona para ela.</p>
   </div>
 
+  <!-- ====== LEMBRAR: PAPELARIA AFETIVA (textos e produtos em AFETIVA e DATAS_AFETIVAS, no script) ====== -->
+  <div id="view-afetiva" class="wrap" hidden>
+    <section class="sens-hero afe-hero full">
+      <div class="wrap sens-hero-in">
+        <p class="crumbs"><button type="button" data-go="home">Início</button> / Lembrar</p>
+        <p class="eyebrow">Lembrar · papelaria afetiva</p>
+        <h1>O rostinho de cada fase, no centro da festa.</h1>
+        <p>Toppers e topo de bolo com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você manda a foto que tem, e a gente cuida do recorte, das cores e do acessório de cada tema.</p>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head"><h2 class="sec-title">O que fazemos</h2><span class="small">Sob encomenda. Peça um orçamento pelo WhatsApp.</span></div>
+      <div class="criacoes ocasioes" id="afetiva-produtos"></div>
+    </section>
+
+    <section class="sec">
+      <div class="sec-head"><h2 class="sec-title">Um acessório para cada data</h2><span class="small">O mesmo rostinho, com o acessório do tema.</span></div>
+      <div class="afe-datas" id="afetiva-datas"></div>
+    </section>
+
+    <div class="sens-duas">
+      <section class="sens-box" style="background:var(--dourado)">
+        <h2>Como pedir</h2>
+        <ol>
+          <li>Escolha o que você quer: toppers, topo de bolo, mesversário ou uma data especial.</li>
+          <li>Mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz. Pode ser foto de celular ou da escola.</li>
+          <li>Conte o tema, a data da festa e a quantidade.</li>
+          <li>Você recebe a arte para aprovar antes de imprimirmos.</li>
+        </ol>
+        <a class="cta" id="afetiva-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a>
+      </section>
+      <section class="sens-box afe-sigilo">
+        <h2>Sigilo com a foto da criança</h2>
+        <ul>
+          <li>A foto é usada só para fazer o seu pedido.</li>
+          <li>Nunca publicamos o rosto de clientes, nem revelamos quem encomendou.</li>
+          <li>As imagens de exemplo deste site são fictícias, criadas por inteligência artificial.</li>
+        </ul>
+        <p>Se você quiser postar o seu topper, fique à vontade para marcar a gente: a escolha é sempre sua.</p>
+      </section>
+    </div>
+
+    <p class="sens-aviso"><b>Mesversário:</b> a cada mês, você manda uma foto nova do rostinho e escolhe o tema. Assim, o bebê aparece em cada fase, e no fim do ano você tem a coleção inteira.</p>
+  </div>
+
   <!-- ====== AJUDA (tela própria, como a Nossa história) ====== -->
   <div id="view-ajuda" class="wrap" hidden>
     <p class="crumbs pd-crumbs"><button type="button" data-go="home">Início</button> / Ajuda</p>
@@ -951,9 +1021,10 @@
       <div><h4>Loja</h4><ul id="foot-loja"></ul></div>
       <div><h4>Ajuda</h4><ul>
         <li><button type="button" data-go="ajuda">Como funciona</button></li>
-        <li><button type="button" data-nav="empresas">Cuidar: para quem cuida</button></li>
+        <li id="foot-cuidar"><button type="button" data-nav="empresas">Cuidar: para quem cuida</button></li>
         <li><button type="button" data-go="sensorial">Sentir: área sensorial</button></li>
         <li><button type="button" data-nav="ocasioes">Celebrar: datas especiais</button></li>
+        <li><button type="button" data-go="afetiva">Lembrar: papelaria afetiva</button></li>
         <li><button type="button" data-go="cart">Meu carrinho</button></li>
       </ul></div>
       <div><h4>Dambrinhos</h4><ul>
@@ -1100,7 +1171,8 @@ const FOTO = {
   criacao: id => `fotos/criacao-${id}.jpg?v=${FOTOS_VERSAO}`,
   faixa:   id => `fotos/idade-${id}.jpg?v=${FOTOS_VERSAO}`,
   produto: (pid,i) => `fotos/${pid}-${i}.jpg?v=${FOTOS_VERSAO}`,
-  galeria: i => `fotos/galeria-${i}.jpg?v=${FOTOS_VERSAO}`
+  galeria: i => `fotos/galeria-${i}.jpg?v=${FOTOS_VERSAO}`,
+  afetiva: id => `fotos/afetiva-${id}.jpg?v=${FOTOS_VERSAO}`
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
@@ -1357,6 +1429,9 @@ const OCASIOES = [
     produtos:['estrela-mini'], sazonal:true },
   { id:'escola',      nome:'Para quem cuida', sub:'Escolas, clínicas, terapeutas e consultórios',         cor:'#EDE4F6', icone:'escola', alvo:'empresas' }
 ];
+/* Cuidar DESATIVADO por enquanto (foco nas festas e na papelaria afetiva). Com false, somem a seção da página inicial,
+   o item do menu, o link do rodapé e o assunto do Dam; os textos ficam guardados abaixo. Para reativar, troque para true. */
+const MOSTRAR_CUIDAR = false;
 /* Para quem cuida — os cartões da página inicial e a coluna "Para quem" do menu.
    quem = completa a mensagem pronta do WhatsApp · foto = imagem do cartão, na pasta fotos/ */
 const CUIDA = [
@@ -1364,6 +1439,29 @@ const CUIDA = [
   { nome:'Clínicas e terapeutas', sub:'Para os pequenos pacientes, todo mês', quem:'uma clínica ou terapeuta', foto:'fotos/cuida-clinicas.jpg',     cor:'#EDE4F6' },
   { nome:'Pediatras e dentistas', sub:'Uma lembrança depois da consulta',     quem:'um consultório',          foto:'fotos/cuida-consultorios.jpg', cor:'#DCEBF7' },
   { nome:'Empresas',              sub:'Dia das Crianças e fim de ano',        quem:'uma empresa',             foto:'fotos/cuida-empresas.jpg',     cor:'#DCEFE2' }
+];
+/* Lembrar: papelaria afetiva — os cartões da página inicial, da página "Lembrar" e do menu.
+   Sob encomenda: cada cartão abre o WhatsApp com a mensagem pronta (pedido = completa a frase "Quero um orçamento de ...").
+   Imagem: fotos/afetiva-<id>.jpg quando existir (SÓ exemplos fictícios, criados por IA, nunca o rosto de um cliente);
+   sem a foto, mostra a ilustração do rostinho com o acessório (chapeu, coroa, gorro, orelhas, palha) na cor do chapéu. */
+const AFETIVA = [
+  { id:'toppers',     nome:'Toppers de rostinho', sub:'O rostinho com chapéu de festa, para os doces e o bolo', pedido:'toppers de rostinho',          cor:'#FFE8A3', acessorio:'chapeu', chapeu:'#C9396B' },
+  { id:'topo-bolo',   nome:'Topo de bolo',        sub:'O cenário do tema, com o rostinho no centro',           pedido:'um topo de bolo com rostinho', cor:'#F7DDE5', acessorio:'coroa' },
+  { id:'mesversario', nome:'Mesversário',         sub:'Um tema por mês, com o rostinho de cada fase',          pedido:'mesversário com rostinho',     cor:'#DCEBF7', acessorio:'chapeu', chapeu:'#1E459F' },
+  { id:'datas',       nome:'Datas especiais',     sub:'Páscoa, Festa Junina, Natal e outras datas',            pedido:'rostinho para uma data especial', cor:'#DCEFE2', acessorio:'gorro' }
+];
+/* Datas da papelaria afetiva: [quando, data, acessório] */
+const DATAS_AFETIVAS = [
+  ['O ano todo',     'Aniversário',      'Chapéu de festa ou coroa'],
+  ['Todo mês',       'Mesversário',      'Um tema novo a cada mês'],
+  ['Março ou abril', 'Páscoa',           'Orelhas de coelho'],
+  ['Maio',           'Dia das Mães',     'Coroa de flores'],
+  ['Junho e julho',  'Festa Junina',     'Chapéu de palha e sardinhas'],
+  ['Agosto',         'Dia dos Pais',     'Gravatinha e bigode'],
+  ['Outubro',        'Dia das Crianças', 'Chapéu de festa e balões'],
+  ['31 de outubro',  'Halloween',        'Chapéu de bruxa ou orelhas de gatinho'],
+  ['Dezembro',       'Formatura',        'Capelo de formatura'],
+  ['Dezembro',       'Natal',            'Gorro de Papai Noel ou chifres de rena']
 ];
 
 /* Faixa do topo. Sem campanha na lista, mostra o AVISO_FIXO (combinar pacotes por idade).
@@ -1750,9 +1848,41 @@ function imagemProduto(p, comSelo=true){
 function testarFoto(src){
   return new Promise(ok=>{ const im = new Image(); im.onload = ()=>{ fotosOk.add(src); ok(true); }; im.onerror = ()=>ok(false); im.src = src; });
 }
+/* Papelaria afetiva: rostinho desenhado (fictício), com contorno branco de topper, palito e o acessório do tema */
+const ACESSORIOS = {
+  chapeu: c => ({ sil:'<path d="M100 10 L80 62 H120 Z"/><circle cx="100" cy="12" r="8"/>',
+    des:`<path d="M100 14 L80 62 H120 Z" fill="${c}"/>${[[100,30],[94,42],[106,44],[90,55],[101,54],[111,57]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.8" fill="#FFF6DA"/>`).join('')}<circle cx="100" cy="12" r="7" fill="#FABD32"/>` }),
+  coroa: () => ({ sil:'<path d="M76 64 V36 L89 47 L100 30 L111 47 L124 36 V64 Z"/>',
+    des:'<path d="M78 62 V40 L89 50 L100 34 L111 50 L122 40 V62 Z" fill="#FABD32"/><rect x="78" y="55" width="44" height="7" fill="#E9A13B"/>' + [[78,40],[100,34],[122,40]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="#C9396B"/>`).join('') }),
+  gorro: () => ({ sil:'<path d="M74 66 Q88 18 138 30 Q124 40 126 66 Z"/><circle cx="139" cy="32" r="9"/>',
+    des:'<path d="M78 60 Q92 22 136 33 Q122 40 123 60 Z" fill="#CF2A2A"/><rect x="74" y="54" width="52" height="12" rx="6" fill="#FFF8EE"/><circle cx="139" cy="32" r="7" fill="#FFF8EE"/>' }),
+  orelhas: () => ({ sil:'<ellipse cx="86" cy="36" rx="13" ry="30" transform="rotate(-12 86 36)"/><ellipse cx="114" cy="36" rx="13" ry="30" transform="rotate(12 114 36)"/>',
+    des:'<ellipse cx="86" cy="38" rx="9" ry="26" transform="rotate(-12 86 38)" fill="#FBF6EF"/><ellipse cx="114" cy="38" rx="9" ry="26" transform="rotate(12 114 38)" fill="#FBF6EF"/><ellipse cx="86" cy="40" rx="4.5" ry="18" transform="rotate(-12 86 40)" fill="#F6B6C4"/><ellipse cx="114" cy="40" rx="4.5" ry="18" transform="rotate(12 114 40)" fill="#F6B6C4"/>' }),
+  palha: () => ({ sil:'<ellipse cx="100" cy="62" rx="48" ry="13"/><path d="M76 62 Q76 32 100 32 Q124 32 124 62 Z"/>',
+    des:'<ellipse cx="100" cy="62" rx="44" ry="9" fill="#E8C36A"/><path d="M80 62 Q80 36 100 36 Q120 36 120 62 Z" fill="#E8C36A"/><rect x="80" y="52" width="40" height="6" fill="#CF2A2A"/>' })
+};
+function rostinho(a){
+  const ac = ACESSORIOS[a.acessorio](a.chapeu || '#C9396B');
+  const confete = [[30,30,'#FABD32'],[170,40,'#C9396B'],[24,120,'#1E459F'],[176,118,'#6FB596'],[48,74,'#C9396B'],[154,84,'#FABD32']]
+    .map(([x,y,f])=>`<circle cx="${x}" cy="${y}" r="4" fill="${f}"/>`).join('');
+  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração de um topper com rostinho: ${esc(a.nome)}" preserveAspectRatio="xMidYMid meet">
+    <rect width="200" height="160" fill="${a.cor}"/>${confete}
+    <line x1="100" y1="120" x2="100" y2="166" stroke="#D9B98C" stroke-width="6" stroke-linecap="round"/>
+    <g fill="#fff" stroke="#fff" stroke-width="8" stroke-linejoin="round"><circle cx="100" cy="94" r="38"/>${ac.sil}</g>
+    <circle cx="100" cy="92" r="36" fill="#5A3A28"/>
+    <ellipse cx="100" cy="99" rx="29" ry="30" fill="#F4C7A1"/>
+    <path d="M70 94 Q73 64 100 63 Q127 64 130 94 Q118 80 100 81 Q82 80 70 94 Z" fill="#5A3A28"/>
+    <circle cx="89" cy="99" r="3.2" fill="#3A2A20"/><circle cx="111" cy="99" r="3.2" fill="#3A2A20"/>
+    <circle cx="82" cy="108" r="4.5" fill="#F29C9C" opacity=".65"/><circle cx="118" cy="108" r="4.5" fill="#F29C9C" opacity=".65"/>
+    <path d="M90 110 Q100 120 110 110" fill="none" stroke="#B5524A" stroke-width="2.6" stroke-linecap="round"/>
+    ${ac.des}</svg>`;
+}
+const imagemAfetiva = a => fotosOk.has(FOTO.afetiva(a.id)) ? imgFoto(FOTO.afetiva(a.id), `Exemplo fictício: ${a.nome}`) : rostinho(a);
+const waAfetiva = pedido => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de ${pedido || 'papelaria afetiva'} da ${LOJA.nome}.`)}`;
+
 /* Procura as fotos da pasta fotos/ e, quando acha, troca as ilustrações */
 async function procurarFotos(){
-  const tarefas = [testarFoto(FOTO.topo), testarFoto(FOTO.historia), ...CRIACOES.map(cr=>testarFoto(FOTO.criacao(cr.id)))];
+  const tarefas = [testarFoto(FOTO.topo), testarFoto(FOTO.historia), ...CRIACOES.map(cr=>testarFoto(FOTO.criacao(cr.id))), ...AFETIVA.map(a=>testarFoto(FOTO.afetiva(a.id)))];
   tarefas.push(...PRODUTOS.filter(p=>!(p.fotos && p.fotos.length)).map(async p=>{
     const achadas = [];
     for (let i=1; i<=5; i++){ const src = FOTO.produto(p.id,i); if (!(await testarFoto(src))) break; achadas.push(src); }
@@ -1876,10 +2006,19 @@ function renderHome(){
     return `<button type="button" class="cri-card" style="background:${o.cor}" data-oc="${o.id}">
       <h3>${esc(o.nome)}</h3><span class="sub">${esc(o.sub)}</span><span class="preco"><b>${brl(p.opcoes[0].preco)}</b> o kit</span><span class="ver">Ver o kit →</span>
       <span class="img">${imagemProduto(p)}</span></button>`; }).join('');
-  /* Para quem cuida: cada cartão abre o WhatsApp com a mensagem pronta daquele público */
+  /* Para quem cuida: cada cartão abre o WhatsApp com a mensagem pronta daquele público (desativado: MOSTRAR_CUIDAR) */
+  $('empresas').hidden = !MOSTRAR_CUIDAR;
+  $('foot-cuidar').hidden = !MOSTRAR_CUIDAR;
   $('cuida-row').innerHTML = CUIDA.map(c=>`<a class="cri-card" style="background:${c.cor}" href="${waCuida(c.quem)}" target="_blank" rel="noopener">
       <h3>${esc(c.nome)}</h3><span class="sub">${esc(c.sub)}</span><span class="ver">Pedir orçamento →</span>
       <span class="img">${imgFoto(c.foto, `Kit para ${c.nome.toLowerCase()}`)}</span></a>`).join('');
+  /* Lembrar: papelaria afetiva (mesmos cartões na página inicial e na página Lembrar) */
+  const cardsAfetiva = AFETIVA.map(a=>`<a class="cri-card" style="background:${a.cor}" href="${waAfetiva(a.pedido)}" target="_blank" rel="noopener">
+      <h3>${esc(a.nome)}</h3><span class="sub">${esc(a.sub)}</span><span class="ver">Pedir orçamento →</span>
+      <span class="img">${imagemAfetiva(a)}</span></a>`).join('');
+  $('afetiva-row').innerHTML = cardsAfetiva;
+  $('afetiva-produtos').innerHTML = cardsAfetiva;
+  $('afetiva-datas').innerHTML = DATAS_AFETIVAS.map(([q,n,a])=>`<div class="afe-data"><small>${esc(q)}</small><b>${esc(n)}</b><span>${esc(a)}</span></div>`).join('');
   $('passos').innerHTML = PASSOS.map(([t,s,d])=>`<li><span class="passo-ico">${icone(d)}</span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
   $('eco-grid').innerHTML = COMPROMISSOS.map(c=>`<div class="eco-item">${icone(ICONES[c.icone],'#2E6B55')}<b>${esc(c.titulo)}</b><span>${esc(c.texto)}</span></div>`).join('');
   $('grid-depo').innerHTML = DEPOIMENTOS.map(d=>`<figure class="depo"><span class="estrelas" aria-label="${d.nota||5} de 5 estrelas">${'★'.repeat(d.nota||5)}</span><p style="margin:0">“${esc(d.texto)}”</p><b>${esc(d.nome)}</b></figure>`).join('');
@@ -1916,8 +2055,8 @@ function montarMenu(){
         .map(p=>({ nome:`${criacaoDe(p).idade}+ · ${p.nome}`, sub:precoTxt(p), pid:p.id })) })),
     { titulo:'Para a festa', destaque:true, itens:[ ...OCASIOES.filter(o=>o.id==='aniversario').map(ocasiao), { nome:verTudo, col:colTudo } ] }
   ];
-  /* Menu com os quatro verbos da marca: Criar (lembrancinhas por idade), Sentir (área sensorial),
-     Celebrar (datas sazonais) e Cuidar (para quem cuida) */
+  /* Menu com os cinco verbos da marca: Criar (lembrancinhas por idade), Sentir (área sensorial),
+     Celebrar (datas sazonais), Cuidar (para quem cuida, desativado por enquanto) e Lembrar (papelaria afetiva) */
   return [
     { nome:'Criar', colunas: painelVersao('mini', 'Ver todas as lembrancinhas →', 'minis') },
     { nome:'Sentir', colunas:[
@@ -1931,7 +2070,7 @@ function montarMenu(){
       { titulo:'Como funciona', destaque:true, nav:'ocasioes', itens:[
         { nome:'Um kit por data', sub:'Vendido por unidade, para presentear', nav:'ocasioes' },
         { nome:'Ver todas as datas →', nav:'ocasioes' } ] } ]},
-    { nome:'Cuidar', colunas:[
+    { nome:'Cuidar', oculto:!MOSTRAR_CUIDAR, colunas:[
       { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
       { titulo:'O que oferecemos', nav:'empresas', itens:[
         { nome:'Mini kits compactos', sub:'Caixinha pequena para entregar no dia a dia', nav:'empresas' },
@@ -1944,9 +2083,15 @@ function montarMenu(){
       { titulo:'Peça um orçamento', destaque:true, nav:'empresas', itens:[
         { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
         { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
+    { nome:'Lembrar', colunas:[
+      { titulo:'Papelaria afetiva', go:'afetiva', itens: AFETIVA.map(a=>({ nome:a.nome, sub:a.sub, href:waAfetiva(a.pedido) })) },
+      { titulo:'Como funciona', destaque:true, go:'afetiva', itens:[
+        { nome:'Mande a foto que você tem', sub:'Cuidamos do recorte, das cores e do acessório', go:'afetiva' },
+        { nome:'Sigilo com a foto', sub:'Nunca publicamos o rosto de clientes', go:'afetiva' },
+        { nome:'Conhecer a papelaria afetiva →', go:'afetiva' } ] } ]},
     { nome:'Nossa história', go:'historia' },
     { nome:'Ajuda', go:'ajuda' }
-  ];
+  ].filter(m=>!m.oculto);
 }
 function renderMenu(){
   const alvo = i => i.guia ? 'data-guia' : i.href ? `href="${i.href}" target="_blank" rel="noopener"` : i.pid ? `data-pid="${i.pid}"` : i.col ? `data-col="${i.col}"` : i.go ? `data-go="${i.go}"` : `data-nav="${i.nav}"`;
@@ -1970,10 +2115,10 @@ document.querySelector('header.top').addEventListener('mouseleave',()=>{ if (noD
 document.addEventListener('keydown', e=>{ if (e.key==='Escape') fecharMenu(); });
 
 /* Navegação entre telas */
-const TELAS = ['home','colecao','product','cart','sensorial','historia','ajuda'];
+const TELAS = ['home','colecao','product','cart','sensorial','afetiva','historia','ajuda'];
 function ir(view){
   TELAS.forEach(v=>{ $('view-'+v).hidden = v!==view; });
-  $('footer').hidden = !['home','colecao','sensorial','historia','ajuda'].includes(view);
+  $('footer').hidden = !['home','colecao','sensorial','afetiva','historia','ajuda'].includes(view);
   $('confete-faixa').hidden = $('footer').hidden;
   fecharMenu(); window.scrollTo(0,0);
   if (view==='cart') renderCarrinho();
@@ -2172,8 +2317,8 @@ try {
 function contar(evento, titulo){ try { window.goatcounter && window.goatcounter.count({ path:evento, title:titulo||evento, event:true }); } catch(e){} }
 document.addEventListener('click', e=>{
   const a = e.target.closest('a[href*="wa.me"]'); if (!a) return;
-  const nomes = { 'dam-ingrid':'whatsapp-dam', 'empresas-wa':'whatsapp-cuidar', 'p-avise':'whatsapp-avise-me', 'wa-link':'whatsapp-rodape', 'ajuda-wa':'whatsapp-ajuda', 'mural-wa':'whatsapp-mural', 'sens-wa':'whatsapp-sensorial' };
-  contar(nomes[a.id] || (a.closest('#cuida-row') ? 'whatsapp-cuidar' : 'whatsapp-outros'), (a.textContent||'WhatsApp').trim().slice(0,60));
+  const nomes = { 'dam-ingrid':'whatsapp-dam', 'empresas-wa':'whatsapp-cuidar', 'p-avise':'whatsapp-avise-me', 'wa-link':'whatsapp-rodape', 'ajuda-wa':'whatsapp-ajuda', 'mural-wa':'whatsapp-mural', 'sens-wa':'whatsapp-sensorial', 'afetiva-wa':'whatsapp-afetiva' };
+  contar(nomes[a.id] || (a.closest('#cuida-row') ? 'whatsapp-cuidar' : a.closest('#afetiva-row,#afetiva-produtos') ? 'whatsapp-afetiva' : 'whatsapp-outros'), (a.textContent||'WhatsApp').trim().slice(0,60));
 }, true);
 
 /* Finalizar → WhatsApp */
@@ -2243,7 +2388,8 @@ if (LOJA.parcelas>1) $('cartao-label').textContent = `Cartão de crédito (em at
 /* Enquanto o cartão não estiver ativo, o site mostra só o Pix */
 if (!LOJA.cartao){ $('cartao-opcao').remove(); document.querySelectorAll('.so-cartao').forEach(x=>x.remove()); }
 $('personagens-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento da Linha Personagens da ${LOJA.nome}. O tema da festa é: `)}`;
-$('empresas-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de kits da ${LOJA.nome} para escola, clínica, consultório ou empresa.`)}`;
+$('afetiva-wa').href = waAfetiva('');
+$('empresas-wa').href =`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento de kits da ${LOJA.nome} para escola, clínica, consultório ou empresa.`)}`;
 /* Mural das Mãozinhas: a mensagem já pede a autorização, que fica registrada na conversa */
 $('mural-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero enviar a mãozinha do meu artista para o Mural das Mãozinhas da ${LOJA.nome}.\n\nPrimeiro nome da criança: \nIdade: \n\nAutorizo a publicação da foto da mãozinha no site e no Instagram da ${LOJA.nome}, só com o primeiro nome e a idade.`)}`;
 $('mural-insta').href = `https://instagram.com/${LOJA.instagram}`;
@@ -2300,7 +2446,7 @@ const DAM_PERGUNTAS = [
   { id:'seguranca', q:'Os materiais são seguros? Têm selo do INMETRO?', a:()=>`Os materiais que exigem certificação vêm <b>lacrados na embalagem do fabricante</b>, com o selo do INMETRO e a idade indicada. A gente nunca separa itens de uma embalagem lacrada.<br><br>Cada kit tem uma idade sugerida para começar, e as atividades são feitas sempre com um adulto por perto. A seção "Idade e segurança", na página do kit, traz os detalhes.` },
   { id:'alergia', q:'E se a criança tiver alergia?', a:()=>`Cada material vem <b>lacrado na embalagem original do fabricante</b>, com a composição no rótulo. Antes de entregar o kit para a criança, confira na embalagem se há algum ingrediente ao qual ela tenha alergia. As massas de modelar, por exemplo, costumam levar amido, que pode conter trigo.<br><br>Quer saber a marca e a composição antes de fazer o pedido? Toque em <b>Falar com a Ingrid</b> que ela envia as fotos das embalagens.`, wa:'Olá! Antes de fazer o pedido, queria ver a marca e a composição dos materiais do kit. A criança tem alergia a: ' },
   { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
-  { id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' },
+  ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
 ];
 
 /* Temas: a primeira tela mostra só estes cartões; ao tocar, aparecem as perguntas daquele tema */
