@@ -683,7 +683,7 @@
         <p class="eyebrow">Guardado como arte</p>
         <h2>Feito pelas mãos da criança. Guardado como arte.</h2>
         <p>Todo kit Dambrinhos traz a ficha da obra, como as etiquetas de museu: os pais anotam o nome do artista, a idade, a data e o nome que a criança escolher para a criação dela.</p>
-        <p>Nos kits de 1 a 3 anos, a obra já sai pronta para a parede: no Rabiscos e no Colorir, ela vem com porta-retrato de madeira; no Pintar, a própria tela já é o quadro. É a primeira obra de arte da criança.</p>
+        <p>Nos kits de 1 a 3 anos, a obra já sai pronta para a parede: no Rabiscos, no Colorir e no Pintar, ela vem com porta-retrato de madeira. É a primeira obra de arte da criança.</p>
         <button class="cta" type="button" data-col="faixa:1-3">Ver os kits de 1 a 3 anos</button>
       </div>
     </section>
@@ -1113,8 +1113,8 @@ const CRIACOES = [
   { id:'colorir',  nome:'Colorir',  titulo:'Kit de colorir',            idade:2, cor:'#9CC56B', fundo:'#EEF6E3',
     desc:'Desenhos exclusivos de traço grosso e giz de cera para bebês: a criança escolhe as cores e a obra vai para o porta-retrato.',
     seguranca:'O giz é próprio para bebês: tem formato de argola, para segurar com a mão inteira, vem em cartela lacrada com selo do INMETRO e é indicado pelo fabricante a partir de 1 ano. Use sempre com um adulto por perto.' },
-  { id:'pintar',   nome:'Pintar',   titulo:'Kit de pintura em tela',    idade:3, cor:'#5DAA9B', fundo:'#E3F1EE',
-    desc:'Uma tela, seis cores de tinta guache, pincéis e esponja: a criança pinta do jeito dela, e a própria tela já é o quadro da primeira obra de arte.',
+  { id:'pintar',   nome:'Pintar',   titulo:'Kit de pintura',           idade:3, cor:'#5DAA9B', fundo:'#E3F1EE',
+    desc:'Folhas de papel 10×15, seis cores de tinta guache e pincéis: a criança pinta do jeito dela, e a obra preferida vai para o porta-retrato de madeira.',
     seguranca:'A tinta guache é à base de água, vem lacrada com selo do INMETRO e sai com água e sabão. Pinte sempre com um adulto por perto.' },
   { id:'dobradura',nome:'Dobradura', titulo:'Kit de dobradura',       idade:4, cor:'#E8879C', fundo:'#FCEBEF',
     desc:'Folhas exclusivas com as linhas de dobra impressas: a criança dobra bichinhos de papel, desenha o rostinho e cola tudo num cenário.',
@@ -1190,7 +1190,7 @@ const ESCADA = CRIACOES.filter(cr=>!cr.linha);
 const faixaTxt = f => f.rotulo || `De ${f.de} a ${f.ate} anos`;
 const FAIXAS = [
   { id:'1-3', de:1, ate:3, titulo:'A fase da descoberta',
-    texto:'É quando a criança descobre que a mão deixa marca: o primeiro rabisco, a primeira cor escolhida, a primeira pincelada. Não existe certo ou errado, só curiosidade e um mundo inteiro para imaginar. Por isso, nessa fase, a obra já sai pronta para a parede: com porta-retrato no Rabiscos e no Colorir, e na própria tela no Pintar. O que hoje parece um rabisco é a lembrança mais bonita de amanhã.' },
+    texto:'É quando a criança descobre que a mão deixa marca: o primeiro rabisco, a primeira cor escolhida, a primeira pincelada. Não existe certo ou errado, só curiosidade e um mundo inteiro para imaginar. Por isso, nessa fase, a obra já sai pronta para a parede: com porta-retrato de madeira no Rabiscos, no Colorir e no Pintar. O que hoje parece um rabisco é a lembrança mais bonita de amanhã.' },
   { id:'4-6', de:4, ate:6, titulo:'Mãos mais firmes',
     texto:'A criança já quer fazer sozinha, e o papel vira a matéria-prima: primeiro ela dobra com as mãos, depois recorta e cola, e por fim monta um mosaico peça por peça. Cada kit tem começo, meio e fim, e um prepara o outro. O resultado é uma obra que ela mostra com orgulho.' },
   { id:'7-9', de:7, ate:9, titulo:'Pequenos inventores',
@@ -1246,11 +1246,11 @@ const PRODUTOS = [
     selos:['Desenhos exclusivos','Canetinha lavável jumbo','Caixa reciclável'],
     itens:['1 livrinho com 12 desenhos exclusivos Dambrinhos (papel grosso A4)','12 canetinhas laváveis de ponta jumbo','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data'],
     opcoes:[{nome:'1 kit', n:'001', preco:79}] },
-  { id:'pintar-mini', criacao:'pintar', versao:'mini', nome:'Mini Tela', cod:'PT-M',
-    embalagem:'Saquinho de algodão cru', resumo:'Uma tela, seis cores e pincéis: a própria tela já é o quadro.',
-    descricao:'Uma tela de 10×15 cm, seis cores de tinta guache e um kit de pintura com pincéis, godê e pincéis de espuma. A criança pinta do jeito dela, com pincel, esponja ou as próprias mãos, e mistura as cores no godê se quiser. Depois de seca, a própria tela já é o quadro: vai direto para a parede, com a ficha da obra.',
-    selos:['A tela já é o quadro','Seis cores','Saquinho reutilizável'],
-    itens:['1 tela 10×15 cm','1 caixa de tinta guache com 6 cores, lacrada','1 kit de pintura, lacrado: 3 pincéis, 1 godê, 1 pincel com batedor de espuma e 1 pincel de espuma'],
+  { id:'pintar-mini', criacao:'pintar', versao:'mini', nome:'Mini Pintura', cod:'PT-M',
+    embalagem:'Saquinho de algodão cru', resumo:'Cinco folhas, seis cores e pincéis, com porta-retrato para a obra preferida.',
+    descricao:'Cinco folhas de papel grosso 10×15 cm, seis cores de tinta guache e um kit de pintura com pincéis pequenos de ponta redonda, godê e pincéis de espuma. A criança pinta do jeito dela, com pincel, esponja ou as próprias mãos, e mistura as cores no godê se quiser. Depois de seca, a obra preferida vai para o porta-retrato de madeira, direto para a parede, com a ficha da obra.',
+    selos:['Porta-retrato de madeira','Seis cores','Saquinho reutilizável'],
+    itens:['5 folhas de papel grosso 10×15 cm','1 caixa de tinta guache com 6 cores, lacrada','1 kit de pintura, lacrado: 3 pincéis pequenos de ponta redonda, 1 godê, 1 pincel com batedor de espuma e 1 pincel de espuma','1 porta-retrato de madeira 10×15 cm para a obra preferida'],
     opcoes:pacotes(40.99) },
   { id:'pintar-completo', criacao:'pintar', versao:'completo', nome:'Ateliê de Pintura', cod:'PT-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Duas telas, seis cores e esponjas para pintar à vontade.',
@@ -1489,7 +1489,7 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='fantoches
 /* Crie seu Jogo e Biscuit DESATIVADOS (ver CRIACOES_DESATIVADAS) */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.includes(p.criacao)));
 
-/* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato e a tela não têm espaço para o registro) */
+/* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato não tem espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
 PRODUTOS.filter(p=>ESCADA.some(cr=>cr.id===p.criacao) || ['modelar','biscuit','eva'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
@@ -2049,7 +2049,7 @@ const BENEFICIOS = [
     svg:'<path d="M62 132 C38 128 30 104 36 84 L26 52 C24 44 34 40 38 48 L48 74 L44 30 C43 21 55 20 56 29 L60 70 L64 24 C65 15 77 15 77 24 L76 70 L84 32 C86 23 97 25 96 34 L90 78 L104 58 C109 51 119 57 114 65 L94 104 C88 122 78 134 62 132 Z" fill="#F4A69A"/>' },
   { titulo:'Feito pelas mãos dela', texto:'Cada kit dá o material e a ideia; o resto é com a criança. Ela escolhe as cores, as formas e cria algo que é só dela.',
     svg:'<circle cx="75" cy="32" r="17" fill="#F5A623"/><path d="M42 130 C40 92 52 60 75 60 C98 60 110 92 108 130 C108 140 92 140 92 130 C93 104 86 88 75 88 C64 88 57 104 58 130 C58 140 42 140 42 130 Z" fill="#F5A623"/>' },
-  { titulo:'Uma lembrança que fica', texto:'Cada kit traz a ficha da obra, com o nome do artista, a idade e a data. O desenho, a tela, o bichinho e o mosaico vão para a parede e para a estante, e não para o lixo.',
+  { titulo:'Uma lembrança que fica', texto:'Cada kit traz a ficha da obra, com o nome do artista, a idade e a data. O desenho, a pintura, o bichinho e o mosaico vão para a parede e para a estante, e não para o lixo.',
     svg:'<path d="M75 136 C46 136 32 116 34 96 C36 74 54 62 75 62 C96 62 114 74 116 96 C118 116 104 136 75 136 Z M75 116 C88 116 96 108 95 98 C94 86 86 80 75 80 C64 80 56 86 55 98 C54 108 62 116 75 116 Z" fill="#5DAA9B" fill-rule="evenodd"/><path d="M58 66 L52 26 M74 62 L74 20 M89 64 L96 30" fill="none" stroke="#5DAA9B" stroke-width="13" stroke-linecap="round"/>' }
 ];
 const PASSOS = [
