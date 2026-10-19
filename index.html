@@ -508,6 +508,8 @@
   .summary{padding:16px;border-radius:16px;background:#fff;border:1px solid var(--linha);display:grid;gap:8px}
   .summary div{display:flex;justify-content:space-between}
   .summary .disc{color:var(--verde)}
+  .frete-gratis{color:var(--verde);font-weight:700}
+  .frete-falta{margin:-2px 0 0;font-size:13px;color:var(--muted)}
   .summary .total{font-weight:700;font-size:18px;padding-top:8px;border-top:1px solid var(--linha)}
   .note{padding:14px 16px;border-radius:14px;background:#E9F0EC;font-size:14px}
   /* Dados do cliente e endereço no carrinho */
@@ -1051,7 +1053,7 @@
                 <div class="field" id="f-cidade"><label for="cidade">Cidade / UF *</label><input id="cidade" name="cidade" type="text" autocomplete="address-level2"></div>
               </div>
             </div>
-            <p class="small" style="margin:0">O valor do frete é confirmado pelo WhatsApp. Pedido pronto em até 15 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 1 mês de antecedência da festa.</p>
+            <p class="small" style="margin:0"><span id="frete-regra"></span> Pedido pronto em até 15 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 1 mês de antecedência da festa.</p>
           </section>
           <section style="margin-top:24px">
             <h2>Pagamento</h2>
@@ -1062,7 +1064,8 @@
           <section class="summary" style="margin-top:24px" aria-live="polite">
             <div><span>Subtotal</span><span id="s-sub">R$ 0,00</span></div>
             <div class="disc" id="s-disc-row"><span>Desconto Pix</span><span id="s-disc">− R$ 0,00</span></div>
-            <div><span>Frete</span><span>a confirmar</span></div>
+            <div><span>Frete</span><span id="s-frete">a confirmar</span></div>
+            <p class="frete-falta" id="s-frete-falta" hidden></p>
             <div class="total"><span>Total</span><span id="s-total">R$ 0,00</span></div>
             <div id="s-ent-row" hidden><span>Agora, no pedido (50%)</span><span id="s-ent">R$ 0,00</span></div>
             <div id="s-rest-row" hidden><span>Antes do envio ou da retirada (50%, mais o frete)</span><span id="s-rest">R$ 0,00</span></div>
@@ -1134,7 +1137,8 @@ const LOJA = {
   instagram: 'dambrinhosoficial',  // usuário do Instagram, sem @
   descontoPix: 0,              // % de desconto no Pix (0 = sem desconto; hoje o benefício do Pix é o cashback abaixo)
   cashbackPix: 5,              // % do valor dos produtos que vira crédito para a próxima compra, pagando no Pix
-  cashbackMeses: 12,           // validade do crédito, em meses, a partir da compra
+  cashbackMeses: 12,
+  freteGratisAcima: 600,        // frete grátis para pedidos com produtos a partir deste valor (0 = desligado)           // validade do crédito, em meses, a partir da compra
   pedidosUrl: '',              // endereço do Apps Script (termina em /exec) que grava os pedidos na planilha; vazio = não grava
   cartao: false,               // cartão de crédito no site (false = só Pix, por enquanto)
   parcelas: 3,                 // parcelas sem juros no cartão, quando ele for ativado
@@ -2481,7 +2485,7 @@ function abrirProduto(pid){
   $('p-sens-wrap').hidden = !p.sensorial; $('p-sens').checked = false;
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   $('p-benef').innerHTML = [
-    [ico('<path d="M3 7h11v9H3z M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), 'Enviamos para todo o Brasil'],
+    [ico('<path d="M3 7h11v9H3z M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), LOJA.freteGratisAcima ? `Frete grátis acima de ${brl(LOJA.freteGratisAcima)}` : 'Enviamos para todo o Brasil'],
     [ico('<path d="M20 12l-8 8-9-9V3h8z"/><circle cx="7.5" cy="7.5" r="1.3"/>'), LOJA.cashbackPix>0 ? `${LOJA.cashbackPix}% de cashback no Pix` : (LOJA.cartao ? 'Pix e cartão' : 'Pagamento no Pix')],
     [ico('<path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/>'), 'Atendimento pelo WhatsApp']
   ].map(([s,t])=>`<div>${s}<span>${esc(t)}</span></div>`).join('');
@@ -2597,7 +2601,15 @@ function renderCarrinho(){
   $('s-disc-row').hidden = t.desc===0; $('s-total').textContent = brl(t.total);
   $('s-cash').textContent = brl(t.cash); $('s-cash-row').hidden = t.cash===0;
   $('s-ent-row').hidden = $('s-rest-row').hidden = !t.entrada; $('s-ent').textContent = brl(t.entrada); $('s-rest').textContent = brl(t.total-t.entrada);
+  /* Frete grátis acima de LOJA.freteGratisAcima (na retirada não há frete) */
+  const gratis = freteGratis(t.sub), ret = ehRetirada(), falta = LOJA.freteGratisAcima - t.sub;
+  $('s-frete').textContent = ret ? 'retirada, sem frete' : gratis ? 'Grátis' : 'a confirmar';
+  $('s-frete').className = gratis && !ret ? 'frete-gratis' : '';
+  $('s-frete-falta').hidden = ret || gratis || !LOJA.freteGratisAcima;
+  if (!$('s-frete-falta').hidden) $('s-frete-falta').innerHTML = `Faltam <b>${brl(falta)}</b> para o frete grátis.`;
+  $('s-rest-row').querySelector('span').textContent = gratis || ret ? 'Antes do envio ou da retirada (50%)' : 'Antes do envio ou da retirada (50%, mais o frete)';
 }
+const freteGratis = sub => LOJA.freteGratisAcima > 0 && sub >= LOJA.freteGratisAcima;
 $('c-items').addEventListener('click',e=>{
   const b = e.target.closest('button'); if(!b) return;
   if (b.dataset.inc) carrinho[+b.dataset.inc].qtd++;
@@ -2626,7 +2638,7 @@ $('doc').addEventListener('input',e=>{ const v=e.target.value.replace(/\D/g,'').
     ? v.replace(/(\d{3})(\d)/,'$1.$2').replace(/(\d{3})\.(\d{3})(\d)/,'$1.$2.$3').replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/,'$1.$2.$3-$4')
     : v.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{0,2})/,'$1.$2.$3/$4-$5'); });
 const ehRetirada = () => document.querySelector('input[name=entrega]:checked').value === 'Retirada';
-document.querySelectorAll('input[name=entrega]').forEach(r=>r.addEventListener('change',()=>{ $('end-campos').hidden = ehRetirada(); }));
+document.querySelectorAll('input[name=entrega]').forEach(r=>r.addEventListener('change',()=>{ $('end-campos').hidden = ehRetirada(); renderCarrinho(); }));
 /* Lembrar meus dados: fica só no navegador da própria pessoa (localStorage), e só se ela marcar */
 const CAMPOS_CLIENTE = ['cliente','zap','email','doc','cep','rua','num','compl','bairro','cidade'];
 try {
@@ -2687,7 +2699,7 @@ $('checkout').addEventListener('submit',e=>{
   const msg = [
     `Olá! Quero fazer um pedido na ${LOJA.nome}:`, `Pedido ${pedido}`, '', ...linhas, '',
     `Subtotal: ${brl(t.sub)}`, t.desc>0 ? `Desconto Pix: − ${brl(t.desc)}` : null,
-    `Total (sem frete): ${brl(t.total)}`, `Pagamento: ${pag}`,
+    ehRetirada() ? `Total: ${brl(t.total)}` : freteGratis(t.sub) ? `Total: ${brl(t.total)} · Frete GRÁTIS (pedido acima de ${brl(LOJA.freteGratisAcima)})` : `Total (sem frete): ${brl(t.total)}`, `Pagamento: ${pag}`,
     t.entrada ? `Entrada (50%): ${brl(t.entrada)} · Restante antes do envio ou da retirada: ${brl(t.total-t.entrada)}, mais o frete` : null,
     t.cash>0 ? `Cashback para a próxima compra: ${brl(t.cash)}` : null, '',
     '*Festa*', $('aniv').value.trim() ? `Aniversariante: ${$('aniv').value.trim()}${$('idade').value ? `, vai completar ${$('idade').value} ano${+$('idade').value===1?'':'s'}` : ''}` : null,
@@ -2721,6 +2733,7 @@ $('sens-wa').href =`https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Ol
 $('foot-insta').href = `https://instagram.com/${LOJA.instagram}`;
 if (LOJA.cashbackPix>0){
   $('pix-label').textContent=`Pix à vista (100%): o pedido entra primeiro na fila de produção (${LOJA.cashbackPix}% de cashback para a próxima compra)`; $('pix2-label').textContent=`Pix em 2 vezes: 50% para iniciar a produção e 50% mais o frete antes do envio ou da retirada (${LOJA.cashbackPix}% de cashback)`; $('f-pix').textContent=`${LOJA.cashbackPix}% de cashback no Pix`;
+  $('frete-regra').textContent = LOJA.freteGratisAcima ? `Frete grátis em pedidos acima de ${brl(LOJA.freteGratisAcima)}; abaixo disso, o valor do frete é confirmado pelo WhatsApp.` : 'O valor do frete é confirmado pelo WhatsApp.';
   $('cash-regra').textContent=`Cashback: pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na ${LOJA.nome}, válido por ${LOJA.cashbackMeses} meses a partir desta compra. No Pix em 2 vezes, o crédito vale depois do pagamento da segunda parte, e o pedido só é enviado ou retirado com o valor total pago. O crédito não reduz o valor deste pedido, não é convertido em dinheiro e não é transferível.`;
 }
 if (CAMPANHA){
@@ -2758,7 +2771,7 @@ const DAM_PERGUNTAS = [
   { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>1 mês de antecedência</b>.` },
   { id:'pagar', q:'Quais as formas de pagamento?', a:()=>`Por enquanto, só Pix:<ul><li><b>Pix à vista (100%)</b>: o pedido entra primeiro na fila de produção;</li><li><b>Pix em 2 vezes</b>: 50% para começar a produção e 50% mais o frete antes do envio ou da retirada.</li></ul>${LOJA.cashbackPix>0 ? `E pagando no Pix você ganha ${LOJA.cashbackPix}% de cashback para a próxima compra.` : ''}` },
   ...(LOJA.cashbackPix>0 ? [{ id:'cashback', q:'Como funciona o cashback?', a:()=>`Pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na Dambrinhos, válido por ${LOJA.cashbackMeses} meses. O crédito não diminui o valor do pedido atual e não vira dinheiro.` }] : []),
-  { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido. Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
+  { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido.${LOJA.freteGratisAcima ? ` Em pedidos acima de <b>${brl(LOJA.freteGratisAcima)}</b>, o frete é <b>grátis</b>.` : ''} Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
   { id:'seguranca', q:'Os materiais são seguros? Têm selo do INMETRO?', a:()=>`Os materiais que exigem certificação vêm <b>lacrados na embalagem do fabricante</b>, com o selo do INMETRO e a idade indicada. A gente nunca separa itens de uma embalagem lacrada.<br><br>Cada kit tem uma idade sugerida para começar, e as atividades são feitas sempre com um adulto por perto. A seção "Idade e segurança", na página do kit, traz os detalhes.` },
   { id:'alergia', q:'E se a criança tiver alergia?', a:()=>`Cada material vem <b>lacrado na embalagem original do fabricante</b>, com a composição no rótulo. Antes de entregar o kit para a criança, confira na embalagem se há algum ingrediente ao qual ela tenha alergia. As massas de modelar, por exemplo, costumam levar amido, que pode conter trigo.<br><br>Quer saber a marca e a composição antes de fazer o pedido? Toque em <b>Falar com a Ingrid</b> que ela envia as fotos das embalagens.`, wa:'Olá! Antes de fazer o pedido, queria ver a marca e a composição dos materiais do kit. A criança tem alergia a: ' },
   { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
