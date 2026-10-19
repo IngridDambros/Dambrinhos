@@ -390,6 +390,12 @@
   .pd-cor svg{width:100%;aspect-ratio:1;border-radius:10px;display:block;border:1px solid var(--linha)}
   .pd-cor[aria-pressed="true"]{border-color:var(--azul);background:var(--ceu-claro)}
   .pd-cor-nota{margin:10px 0 18px}
+  /* Varal: frases (2 por linha) e campo do nome */
+  .pd-frases{grid-template-columns:1fr 1fr}
+  .pd-nome{margin:0 0 16px}
+  .pd-nome input{width:100%}
+  #p-varal-cores{grid-template-columns:repeat(7,minmax(0,1fr))}
+  @media (max-width:560px){#p-varal-cores{grid-template-columns:repeat(4,minmax(0,1fr))}}
   /* Na página Lembrar: atalhos para ver as caixas por fundo */
   .afe-fundos-tit{margin:0 0 10px;font-weight:600}
   .afe-fundos{max-width:520px}
@@ -795,6 +801,18 @@
         <div class="pd-price"><span class="big" id="p-price"></span><s id="p-de"></s><span class="pd-eco" id="p-eco"></span></div>
         <div class="pd-pay"><span id="p-pix"></span><span id="p-parc"></span></div>
         <ul class="pd-checks" id="p-checks"></ul>
+        <!-- Varal: o cliente escolhe a frase, o nome e a cor, e a prévia troca na hora -->
+        <div id="p-varal-wrap" hidden>
+          <h2 class="pd-h">Escolha a frase</h2>
+          <div class="pd-modo pd-frases" id="p-frases"></div>
+          <div class="field pd-nome" id="p-nome-wrap" hidden>
+            <label for="p-nome">Nome da criança</label>
+            <input id="p-nome" type="text" maxlength="14" autocomplete="off" placeholder="Ex.: Luiza">
+          </div>
+          <h2 class="pd-h">Escolha a cor</h2>
+          <div class="pd-cores" id="p-varal-cores"></div>
+          <p class="small pd-cor-nota" id="p-varal-nota" aria-live="polite"></p>
+        </div>
         <!-- Caixas da papelaria afetiva: o cliente escolhe o fundo e a imagem troca na hora -->
         <div id="p-fundo-wrap" hidden>
           <h2 class="pd-h">Escolha o fundo</h2>
@@ -905,7 +923,7 @@
     </section>
 
     <section class="sec" id="afe-toppers">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Toppers</h2></div><span class="small">Pacotes de 12, 24 ou 36 toppers, com 12 toppers em cada embalagem.</span></div>
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Toppers</h2></div><span class="small">Frente e verso: o rostinho aparece dos dois lados. Pacotes de 12, 24 ou 36, com 12 toppers em cada embalagem.</span></div>
       <div class="criacoes ocasioes" id="afetiva-produtos"></div>
     </section>
 
@@ -915,21 +933,21 @@
     </section>
 
     <section class="sec" id="afe-varal">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Varal</h2></div></div>
-      <p class="afe-breve"><b>Em breve.</b> Estamos preparando o varal com o rostinho da criança.</p>
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Varal</h2></div><span class="small">Escolha o formato, a frase e a cor. Uma bandeirinha para cada letra.</span></div>
+      <div class="criacoes ocasioes" id="afetiva-varal"></div>
     </section>
 
     <div class="sens-duas">
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas ou toppers (de festa, topo de bolo, mesversário ou datas especiais).</li>
-          <li>Escolha o pacote de 12, 24 ou 36 unidades e finalize o pedido pelo carrinho, como nos kits.</li>
+          <li>Escolha o que você quer: caixas, toppers (de festa, topo de bolo, mesversário ou datas especiais) ou o varal de bandeirinhas.</li>
+          <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte o tema. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
         </ol>
         <div class="hist-acts" style="margin-top:0">
-          <button class="cta" type="button" data-col="afetiva">Ver caixas e toppers</button>
+          <button class="cta" type="button" data-col="afetiva">Ver tudo</button>
           <a class="btn-out" id="afetiva-wa" href="#" target="_blank" rel="noopener">Tirar dúvidas pelo WhatsApp</a>
         </div>
       </section>
@@ -1241,6 +1259,18 @@ const FOTO = {
    Não há desconto no Pix: quem paga no Pix ganha cashback (LOJA.cashbackPix) para a próxima compra.
    fotos: ['fotos/arquivo.jpg', ...] quando tiver fotos reais (sem fotos, mostra a ilustração).
    avaliacoes: { nota: 4.9, total: 32 } SÓ com avaliações reais. */
+/* Varal de bandeirinhas: preço por bandeirinha (cada letra da frase é uma bandeirinha; espaços não contam).
+   A bandeirinha tem 17 cm. */
+const VARAL = {
+  preco: 3.99,
+  frases: [   // nome:true = usa o nome da criança
+    { id:'parabens',    nome:'Parabéns',            texto:()=>'Parabéns' },
+    { id:'feliz',       nome:'Feliz Aniversário',   texto:()=>'Feliz Aniversário' },
+    { id:'viva',        nome:'Viva + nome',         texto:n=>`Viva ${n}`, comNome:true },
+    { id:'nome',        nome:'Só o nome',           texto:n=>n,           comNome:true }
+  ],
+  colorido: ['#8FC1B5','#C9B6E4','#F29C8F','#F6C26B','#E06C78','#9CC7E4']   // tons suaves, uma bandeirinha de cada cor
+};
 const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
@@ -1456,29 +1486,29 @@ const PRODUTOS = [
     fotos:[FOTO.afetiva('toppers')],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de festa, para os doces e o bolo.',
     descricao:'Toppers com o rostinho da criança e um chapéu de festa, prontos para enfeitar os docinhos e o bolo. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu na cor que combina com a festa.',
-    selos:['Feito com a foto que você tem','Arte para aprovar antes de imprimir','Sigilo com a foto'],
-    itens:['Toppers com o rostinho da criança e chapéu de festa, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    selos:['Feito com a foto que você tem','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e chapéu de festa, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   { id:'afetiva-topo-bolo', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Topo de bolo com rostinho', cod:'AF-B',
     fotos:[FOTO.afetiva('topo-bolo')],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O topo do bolo com o rostinho no centro, e toppers do mesmo tema para os doces.',
     descricao:'O cenário do tema da festa, com o rostinho da criança no centro, para o topo do bolo. Junto, vêm os toppers com o mesmo rostinho e o mesmo tema para os docinhos. A coroa, o chapéu ou o acessório combinam com a festa.',
-    selos:['Topo de bolo e toppers no mesmo tema','Arte para aprovar antes de imprimir','Sigilo com a foto'],
-    itens:['1 topo de bolo com o cenário do tema e o rostinho da criança no centro','Toppers com o rostinho da criança, no mesmo tema','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    selos:['Topo de bolo e toppers no mesmo tema','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['1 topo de bolo com o cenário do tema e o rostinho da criança no centro','Toppers com o rostinho da criança, no mesmo tema','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   { id:'afetiva-mesversario', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Mesversário', cod:'AF-M',
     fotos:[FOTO.afetiva('mesversario')],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'Um tema por mês, com o rostinho de cada fase do bebê.',
     descricao:'A cada mês, você manda uma foto nova do rostinho e escolhe o tema. Assim, o bebê aparece em cada fase, e no fim do primeiro ano você tem a coleção inteira, mês a mês.',
-    selos:['Um tema novo a cada mês','Arte para aprovar antes de imprimir','Sigilo com a foto'],
-    itens:['Toppers com o rostinho do bebê no tema do mês','Rostinho com cerca de 3 cm de altura, com contorno branco','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    selos:['Um tema novo a cada mês','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho do bebê no tema do mês','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   { id:'afetiva-datas', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Datas especiais', cod:'AF-D',
     fotos:[FOTO.afetiva('datas')],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'Páscoa, Festa Junina, Natal e outras datas, com o acessório de cada uma.',
     descricao:'O rostinho da criança com o acessório da data: orelhas de coelho na Páscoa, chapéu de palha na Festa Junina, gorro de Papai Noel no Natal, capelo na formatura. Para a mesa da família, a lembrança da escola ou a ceia.',
-    selos:['O acessório de cada data','Arte para aprovar antes de imprimir','Sigilo com a foto'],
-    itens:['Toppers com o rostinho da criança e o acessório da data','Rostinho com cerca de 3 cm de altura, com contorno branco','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    selos:['O acessório de cada data','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e o acessório da data','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Caixas personalizadas com o rostinho: R$ 9,99 cada, em pacotes de 12, 24 ou 36.
      modelo = formato da caixa. O cliente escolhe o fundo (FUNDOS); foto de cada fundo: fotos/caixa-<modelo>-<fundo>.jpg. */
@@ -1496,7 +1526,22 @@ const PRODUTOS = [
     selos:['Fundo neutro, combina com qualquer tema','Arte para aprovar antes de imprimir','Sigilo com a foto'],
     itens:[`${nome} personalizada com o rostinho da criança e o tema da festa`, 'Fundo neutro à escolha, que combina com qualquer tema', 'Embalagem Dambrinhos com 12 caixas'],
     seguranca:'A caixa é de papel, para guardar doces e lembrancinhas. Mantenha longe da água e do calor.',
-    opcoes:pacotes(9.99,'caixas') }))
+    opcoes:pacotes(9.99,'caixas') })),
+  /* Varal de bandeirinhas: o cliente escolhe a frase, a cor e (se for o caso) o nome. O preço é por bandeirinha:
+     cada letra é uma bandeirinha (os espaços não contam). Em ordem alfabética. */
+  ...[
+    ['arredondado',  'Varal Arredondado',        'VR-AR', 'Bandeirinhas com a ponta arredondada, delicadas e modernas.'],
+    ['escudo',       'Varal Escudo',             'VR-ES', 'Bandeirinhas em formato de escudo, com a ponta para baixo.'],
+    ['andorinha',    'Varal Rabo de Andorinha',  'VR-RA', 'As bandeirinhas clássicas, com o recorte em V embaixo.'],
+    ['triangulo',    'Varal Triângulo',          'VR-TR', 'Bandeirinhas triangulares, o varal mais clássico de festa.']
+  ].map(([formato, nome, cod, resumo])=>({ id:'varal-'+formato, criacao:'afetiva', versao:'afetiva', grupo:'varal', varal:true, porUnidade:true,
+    unidade:'bandeirinha', plural:'varais', formato, nome, cod, resumo,
+    embalagem:'Embalagem Dambrinhos',
+    descricao:`${resumo} Você escolhe a frase (Parabéns, Feliz Aniversário, Viva + o nome ou só o nome) e a cor: colorido, com uma bandeirinha de cada cor, ou todas na mesma cor. Cada bandeirinha tem 17 cm, e o varal vem pronto para pendurar.`,
+    selos:['Frase e cor à escolha','Pronto para pendurar','Arte para aprovar antes de imprimir'],
+    itens:['Uma bandeirinha de 17 cm para cada letra da frase escolhida','Cordão para pendurar','Embalagem Dambrinhos'],
+    seguranca:'O varal é de papel, só para decorar. Pendure longe do alcance das crianças pequenas, da água e do calor.',
+    opcoes:[{ nome:'1 varal', n:'001', preco:VARAL.preco }] }))
 ];
 
 /* Kits completos (presente) DESATIVADOS por enquanto: o foco é vender em quantidade (festas e "Para quem cuida").
@@ -1549,7 +1594,8 @@ const CUIDA = [
 ];
 /* Lembrar: papelaria afetiva — os produtos ficam em PRODUTOS (versao:'afetiva'); aqui só a cor de cada cartão */
 const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'afetiva-topo-bolo':'#F7DDE5', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
-  'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2' };
+  'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
+  'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
 const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabética: a parte (Caixas, Toppers) e depois o nome
   .sort((a,b)=>a.grupo.localeCompare(b.grupo,'pt') || a.nome.localeCompare(b.nome,'pt'));
 /* As partes da papelaria afetiva (Varal: em breve, sem produtos ainda) */
@@ -2002,7 +2048,45 @@ const ARTE_CAIXA = {
 /* Fundo que aparece no cartão da caixa: o primeiro que já tem foto (ou o primeiro da lista) */
 const capaFundo = p => (estado.fundo && FUNDOS.some(f=>f.id===estado.fundo)) ? estado.fundo
   : ([...FUNDOS].sort((a,b)=>!!b.capa-!!a.capa).find(f=>fotosOk.has(FOTO.caixa(p.modelo,f.id))) || FUNDOS[0]).id;
+/* Varal: desenha as bandeirinhas no formato escolhido, com as letras da frase */
+const letrasVaral = t => [...t.toUpperCase()].filter(c=>c.trim());
+function formaBandeirinha(f, w, h){
+  if (f==='andorinha')   return `M0 0 H${w} V${h} L${w/2} ${h*.72} L0 ${h} Z`;
+  if (f==='escudo')      return `M0 0 H${w} V${h*.62} L${w/2} ${h} L0 ${h*.62} Z`;
+  if (f==='triangulo')   return `M0 0 H${w} L${w/2} ${h} Z`;
+  return `M0 0 H${w} V${h-w/2} A${w/2} ${w/2} 0 0 1 0 ${h-w/2} Z`;   // arredondado
+}
+function artVaral(p, v){
+  v = v || { frase:'parabens', nome:'', cor:'colorido' };
+  const fr = VARAL.frases.find(x=>x.id===v.frase) || VARAL.frases[0];
+  const texto = fr.texto((v.nome||'').trim() || 'Luiza');
+  const palavras = texto.toUpperCase().split(/\s+/).filter(Boolean);
+  const total = palavras.reduce((s,w)=>s+[...w].length,0) + (palavras.length-1)*0.6;
+  const W = 200, mx = 10, w = Math.min(30, (W-2*mx)/total), h = w*1.3, fs = w*.58;
+  const cores = v.cor==='colorido' ? VARAL.colorido : [corDe(v.cor).hex];
+  let x = (W - total*w)/2, k = 0, out = '';
+  const fio = y0 => xx => y0 + 0.0016*Math.pow(xx-W/2,2);   // cordão levemente curvo
+  const yAt = fio(80 - h*0.55 - Math.min(8, total*0.5));
+  const ty = p.formato==='triangulo' ? h*.38 : h*.5;
+  palavras.forEach((pal, iw)=>{
+    [...pal].forEach(ch=>{
+      const cx = x + w/2, y = yAt(cx), ang = (0.0032*(cx-W/2))*57.3;
+      out += `<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)} ${w/2} 0)">
+        <path d="${formaBandeirinha(p.formato, w*.92, h)}" transform="translate(${(w*.04).toFixed(1)} 0)" fill="${cores[k % cores.length]}"/>
+        <text x="${w/2}" y="${(ty+fs*.35).toFixed(1)}" font-size="${fs.toFixed(1)}" text-anchor="middle" fill="#fff" font-family="Fraunces, Georgia, serif" font-weight="700">${esc(ch)}</text></g>`;
+      x += w; k++;
+    });
+    if (iw < palavras.length-1) x += w*.6;
+  });
+  const y1 = yAt(4), y2 = yAt(W-4);
+  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração do ${esc(p.nome)}: ${esc(texto)}" preserveAspectRatio="xMidYMid meet">
+    <rect width="200" height="160" fill="#F6F1EA"/>
+    ${[[28,128,'#C9B6E4',13],[52,138,'#F29C8F',10],[158,132,'#9CC7E4',12],[178,140,'#F6C26B',9]].map(([cx,cy,c,r])=>`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${c}" opacity=".55"/>`).join('')}
+    <path d="M4 ${y1.toFixed(1)} Q100 ${(yAt(100)+ (yAt(100)-y1)).toFixed(1)} 196 ${y2.toFixed(1)}" fill="none" stroke="#C9A96E" stroke-width="1"/>
+    ${out}</svg>`;
+}
 function art(p, comSelo=true, fundo, cor){
+  if (p.varal) return artVaral(p, sel && sel.p===p ? sel.varal : null);
   const cr = criacaoDe(p), completo = p.versao==='completo';
   if (p.modelo){ const f = fundo || capaFundo(p), id = 'pf' + (++_padrao);
     return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração da ${esc(p.nome)} com fundo ${esc(nomeFundo(f))}" preserveAspectRatio="xMidYMid meet"><defs>${padraoFundo(f,id,cor)}</defs><rect width="200" height="160" fill="#EFEFEF"/><ellipse cx="100" cy="140" rx="46" ry="5" fill="rgba(0,0,0,.08)"/>${ARTE_CAIXA[p.modelo](`url(#${id})`)}</svg>`; }
@@ -2054,6 +2138,15 @@ const prod = id => PRODUTOS.find(p=>p.id===id);
 const criacaoDe = p => CRIACOES.find(c=>c.id===p.criacao);
 const porKit = o => o.preco / +o.n;
 const preco = (p,oi) => p.opcoes[oi].preco;
+/* Varal: frase final, número de bandeirinhas e preço */
+const textoVaral = v => VARAL.frases.find(f=>f.id===v.frase).texto((v.nome||'').trim() || 'Luiza');
+const bandeirinhasVaral = v => letrasVaral(textoVaral(v)).length;
+const precoVaral = v => Math.round(bandeirinhasVaral(v) * VARAL.preco * 100) / 100;
+/* Preço de um item do carrinho (o varal é calculado pelas letras) */
+const precoItem = i => i.varal ? precoVaral(i.varal) : preco(prod(i.pid), i.opt);
+const corVaralTxt = id => id==='colorido' ? 'Colorido' : corDe(id).nome;
+const amostraVaral = id => { const cs = id==='colorido' ? VARAL.colorido.slice(0,4) : [corDe(id).hex];
+  return `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/><path d="M0 8 Q20 13 40 8" fill="none" stroke="#C9A96E" stroke-width="1"/>${[0,1,2,3].map(i=>`<path d="M${2+i*9.5} ${8.6+ (i===1||i===2?1.4:0)} h8 v14 l-4 -4 l-4 4 z" fill="${cs[i % cs.length]}"/>`).join('')}</svg>`; };
 const sku = (p,oi) => `${p.cod}-${p.opcoes[oi].n}`;
 const versaoTxt = p => p.versao==='afetiva' ? 'Sob encomenda' : (p.versao==='mini' && !p.porUnidade) ? 'Lembrancinha' : 'Presente';
 const unidadeDe = p => p.unidade || 'kit';   // "por kit" ou, na papelaria afetiva, "por topper"
@@ -2110,7 +2203,7 @@ function cardProduto(p){
     <div class="pcard-tags"><span class="pill" style="background:${cr.cor}">${esc(cr.nome)}</span><span class="pill claro">${versaoTxt(p)}</span>${ehSensorial(p)?'<span class="pill sens">Sensorial</span>':''}</div>
     <h3><button type="button" data-pid="${p.id}">${esc(p.nome)}</button></h3>
     <p class="resumo">${esc(p.resumo)}</p>
-    <div class="pcard-preco">${p.porUnidade ? `<b>${brl(p.opcoes[0].preco)}</b>` : `<b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}`}</div>
+    <div class="pcard-preco">${p.varal ? `<b>${brl(VARAL.preco)}</b> por bandeirinha` : p.porUnidade ? `<b>${brl(p.opcoes[0].preco)}</b>` : `<b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}`}</div>
     ${ok ? `<button type="button" class="cta" data-pid="${p.id}">Escolher</button>`
          : `<a class="btn-out" href="${waAvise(p)}" target="_blank" rel="noopener">Em breve · Avise-me</a>`}
   </article>`;
@@ -2160,11 +2253,12 @@ function renderHome(){
       <span class="img">${imgFoto(c.foto, `Kit para ${c.nome.toLowerCase()}`)}</span></a>`).join('');
   /* Lembrar: papelaria afetiva (mesmos cartões na página inicial e na página Lembrar) */
   const cardsAfetiva = lista => lista.map(p=>`<button type="button" class="cri-card" style="background:${AFETIVA_CORES[p.id]}" data-pid="${p.id}">
-      <h3>${esc(p.nome)}</h3><span class="preco">A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}</span><span class="ver">${p.grupo==='caixas' ? 'Ver a caixa' : 'Ver os toppers'} →</span>
+      <h3>${esc(p.nome)}</h3><span class="preco">A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}</span><span class="ver">${p.grupo==='caixas' ? 'Ver a caixa' : p.grupo==='varal' ? 'Montar o varal' : 'Ver os toppers'} →</span>
       <span class="img">${imagemProduto(p)}</span></button>`).join('');
   $('afetiva-row').innerHTML = cardsAfetiva(AFETIVOS);
   $('afetiva-produtos').innerHTML = cardsAfetiva(afetivosDe('toppers'));
   $('afetiva-caixas').innerHTML = cardsAfetiva(afetivosDe('caixas'));
+  $('afetiva-varal').innerHTML = cardsAfetiva(afetivosDe('varal'));
   $('afetiva-fundos').innerHTML = FUNDOS.map(f=>`<button type="button" class="pd-fundo" data-col="afetiva:caixas:${f.id}">${amostraFundo(f.id)}<span>${esc(f.nome)}</span></button>`).join('');
   $('afetiva-datas').innerHTML = DATAS_AFETIVAS.map(([q,n,a])=>`<div class="afe-data"><small>${esc(q)}</small><b>${esc(n)}</b><span>${esc(a)}</span></div>`).join('');
   $('passos').innerHTML = PASSOS.map(([t,s,d])=>`<li><span class="passo-ico">${icone(d)}</span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
@@ -2195,7 +2289,7 @@ const waCuida = quem => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponen
 function montarMenu(){
   const doTipo = id => PRODUTOS.filter(p=>p.criacao===id);
   const ocasiao = o => o.alvo ? { nome:o.nome, sub:o.sub, nav:o.alvo } : { nome:o.nome, sub:o.sub, col:'oc:'+o.id };
-  const precoTxt = p => p.porUnidade ? brl(p.opcoes[0].preco) : `${brl(porKit(p.opcoes[0]))} por ${unidadeDe(p)}`;
+  const precoTxt = p => p.varal ? `${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? brl(p.opcoes[0].preco) : `${brl(porKit(p.opcoes[0]))} por ${unidadeDe(p)}`;
   /* Painel "Criar": os kits divididos por faixa de idade (colunas curtas, painel baixo) e a festa de aniversário */
   const painelVersao = (versao, verTudo, colTudo) => [
     ...FAIXAS.map(f=>({ titulo:faixaTxt(f), col:'faixa:'+f.id,
@@ -2235,7 +2329,7 @@ function montarMenu(){
       /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
       { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Toppers', col:'afetiva:toppers', itens: afetivosDe('toppers').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
-      { titulo:'Varal', go:'afetiva', itens:[ { nome:'Em breve', sub:'O varal com o rostinho da criança', go:'afetiva' } ] },
+      { titulo:'Varal', col:'afetiva:varal', itens: afetivosDe('varal').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
       { titulo:'Como funciona', destaque:true, go:'afetiva', itens:[
         { nome:'Pacotes de 12, 24 ou 36', sub:'12 unidades em cada embalagem', go:'afetiva' },
         { nome:'Depois do pedido e pagamento', sub:'Você manda a foto pelo WhatsApp e recebe a arte para aprovar', go:'afetiva' },
@@ -2296,7 +2390,8 @@ function abrirColecao(chave){
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
   else if (tipo==='afetiva'){ titulo = valor ? GRUPOS_AFETIVA[valor] : 'Papelaria afetiva'; lista = valor ? afetivosDe(valor) : AFETIVOS;
-    desc=`${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas e toppers'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
+    desc = valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
+      : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas, toppers e varais'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
   else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
@@ -2349,8 +2444,10 @@ function fotosDe(p){
   return (p.fotos && p.fotos.length) ? p.fotos.map(src=>`<img src="${esc(src)}" alt="${esc(p.nome)}">`) : [art(p)]; }
 function abrirProduto(pid){
   const p = prod(pid), cr = criacaoDe(p);
-  sel = { p, opt:0, qtd:1, foto:0, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], misturar:false };
+  sel = { p, opt:0, qtd:1, foto:0, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], misturar:false,
+          varal: p.varal ? { frase:'parabens', nome:'', cor:'colorido' } : null };
   $('p-fundo-wrap').hidden = !p.modelo;
+  $('p-varal-wrap').hidden = !p.varal; $('p-nome').value = '';
   $('p-name').textContent = p.nome;
   $('p-crumb').textContent = `${cr.titulo} / ${p.nome}`;
   $('p-sub').textContent = p.resumo;
@@ -2366,6 +2463,7 @@ function abrirProduto(pid){
     ? `Idade sugerida para começar: ${idadeTxt(cr.idade).toLowerCase()}. Depois disso, qualquer idade aproveita, inclusive os adultos. ${cr.seguranca} Use sempre com a supervisão de um adulto.`
     : (p.seguranca || cr.seguranca);
   $('p-pac-tit').textContent = afetivo ? `${p.plural==='caixas' ? 'Quantas' : 'Quantos'} ${p.plural}?` : 'Quantos convidados?';
+  if (p.varal) $('p-pac-nota').textContent = '';
   $('p-pac-nota').textContent = afetivo
     ? `Cada embalagem leva 12 ${p.plural}. Depois do pedido e pagamento, você manda a foto do rostinho pelo WhatsApp e recebe a arte para aprovar antes de imprimirmos.`
     : 'Convidados de várias idades? Leve um pacote de cada kit: é só adicionar ao carrinho e escolher outro.';
@@ -2388,7 +2486,7 @@ function abrirProduto(pid){
   renderProduto(); ir('product');
 }
 function renderProduto(){
-  const {p,opt,qtd} = sel, o = p.opcoes[opt], v = o.preco;
+  const {p,opt,qtd} = sel, o = p.opcoes[opt], v = p.varal ? precoVaral(sel.varal) : o.preco;
   const fotos = fotosDe(p); sel.foto = Math.min(sel.foto, fotos.length-1);
   $('p-img').innerHTML = fotos[sel.foto];
   $('g-prev').hidden = $('g-next').hidden = fotos.length < 2;
@@ -2401,7 +2499,15 @@ function renderProduto(){
   $('p-pix').textContent = LOJA.cashbackPix>0 ? `No Pix: ${brl(v*LOJA.cashbackPix/100)} de cashback` : '';
   $('p-parc').textContent = LOJA.cartao && LOJA.parcelas>1 ? `ou ${LOJA.parcelas}x de ${brl(v/LOJA.parcelas)} sem juros` : '';
   $('p-parc-logo').textContent = LOJA.cartao && LOJA.parcelas>1 ? `${LOJA.parcelas}x sem juros` : '';
-  $('p-sku').textContent = `Código: ${sku(p,opt)}` + (p.porUnidade ? '' : ` · ${brl(porKit(o))} por ${unidadeDe(p)}`);
+  $('p-sku').textContent = `Código: ${sku(p,opt)}` + (p.varal ? ` · ${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? '' : ` · ${brl(porKit(o))} por ${unidadeDe(p)}`);
+  if (p.varal){
+    const vv = sel.varal, fr = VARAL.frases.find(x=>x.id===vv.frase), n = bandeirinhasVaral(vv);
+    $('p-frases').innerHTML = VARAL.frases.map(f=>`<button type="button" class="pd-modo-op" data-frase="${f.id}" aria-pressed="${f.id===vv.frase}"><b>${esc(f.nome)}</b><span>${esc(f.texto((vv.nome||'').trim()||'Luiza'))}</span></button>`).join('');
+    $('p-nome-wrap').hidden = !fr.comNome;
+    $('p-varal-cores').innerHTML = [{ id:'colorido', nome:'Colorido' }, ...CORES_CAIXA].map(c=>`<button type="button" class="pd-cor" data-varal-cor="${c.id}" aria-pressed="${c.id===vv.cor}">${amostraVaral(c.id)}<span>${esc(c.nome)}</span></button>`).join('');
+    $('p-varal-nota').innerHTML = (fr.comNome && !(vv.nome||'').trim()) ? '<b>Escreva o nome da criança.</b> A prévia mostra um nome de exemplo.'
+      : `<b>${esc(textoVaral(vv))}</b>: ${n} bandeirinha${n===1?'':'s'} × ${brl(VARAL.preco)} = <b>${brl(precoVaral(vv))}</b>.`;
+  }
   $('q-val').textContent = qtd;
   $('p-fundos').innerHTML = p.modelo ? FUNDOS.map(f=>`<button type="button" class="pd-fundo" data-fundo="${f.id}" aria-pressed="${f.id===sel.fundo}">${amostraFundo(f.id)}<span>${esc(f.nome)}</span></button>`).join('') : '';
   /* Cor da caixa: uma cor, ou duas cores com metade de cada */
@@ -2431,6 +2537,8 @@ $('view-product').addEventListener('click', e=>{
     if (!sel.misturar) sel.cores = [c];
     else if (sel.cores.includes(c)){ if (sel.cores.length > 1) sel.cores = sel.cores.filter(x=>x!==c); }
     else { sel.cores.push(c); if (sel.cores.length > 2) sel.cores.shift(); } }
+  else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
+  else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
   else if (b.dataset.foto) sel.foto = +b.dataset.foto;
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
   else if (b.id==='q-dec') sel.qtd = Math.max(1, sel.qtd-1);
@@ -2438,8 +2546,17 @@ $('view-product').addEventListener('click', e=>{
   else return;
   renderProduto();
 });
+/* Varal: o nome digitado atualiza a prévia e o preço na hora */
+$('p-nome').addEventListener('input', ()=>{ if (!sel || !sel.varal) return; sel.varal.nome = $('p-nome').value.replace(/[^\p{L} ]/gu,''); renderProduto(); });
 $('add').onclick = ()=>{
   const {p,opt,qtd} = sel, msg = '', sens = !!p.sensorial && $('p-sens').checked, fundo = p.modelo ? sel.fundo : null;
+  if (p.varal){
+    const vv = { ...sel.varal, nome:(sel.varal.nome||'').trim() };
+    if (VARAL.frases.find(f=>f.id===vv.frase).comNome && !vv.nome){ avisar('Escreva o nome da criança'); $('p-nome').focus(); return; }
+    const ex = carrinho.find(i=>i.pid===p.id && i.varal && i.varal.frase===vv.frase && i.varal.nome===vv.nome && i.varal.cor===vv.cor);
+    ex ? ex.qtd += qtd : carrinho.push({ pid:p.id, opt:0, qtd, msg:'', varal:vv });
+    atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart'); return;
+  }
   if (p.modelo && sel.misturar && sel.cores.length < 2){ avisar('Escolha a segunda cor'); return; }
   const cores = p.modelo ? sel.cores.slice() : null;
   const ex = carrinho.find(i=>i.pid===p.id && i.opt===opt && (i.msg||'')===msg && !!i.sens===sens && (i.fundo||null)===fundo && (i.cores||[]).join()===(cores||[]).join());
@@ -2450,9 +2567,11 @@ $('add').onclick = ()=>{
 /* Carrinho */
 function atualizarBadge(){ const n=carrinho.reduce((s,i)=>s+i.qtd,0); $('badge').textContent=n; $('badge').hidden=n===0; }
 function itemDet(i){ const p = prod(i.pid), o = p.opcoes[i.opt];
+  if (i.varal){ const n = bandeirinhasVaral(i.varal);
+    return [criacaoDe(p).titulo, `Frase: “${textoVaral(i.varal)}”`, `Cor: ${corVaralTxt(i.varal.cor)}`, `${n} bandeirinhas · ${brl(VARAL.preco)} por bandeirinha`]; }
   return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, i.fundo ? `Fundo: ${nomeFundo(i.fundo)}` : null, i.cores ? `${i.cores.length>1?'Cores':'Cor'}: ${coresTxt(i.cores, o.n)}` : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por ${unidadeDe(p)}`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
 function totais(){
-  const sub = carrinho.reduce((s,i)=>s+preco(prod(i.pid),i.opt)*i.qtd,0);
+  const sub = carrinho.reduce((s,i)=>s+precoItem(i)*i.qtd,0);
   const pag = document.querySelector('input[name=pag]:checked').value, pix = pag.startsWith('Pix'), metade = pag.startsWith('Pix em 2');
   const desc = pix ? sub*LOJA.descontoPix/100 : 0;
   const cash = pix ? sub*LOJA.cashbackPix/100 : 0;   // crédito para a próxima compra (não abate desta)
@@ -2468,7 +2587,7 @@ function renderCarrinho(){
   $('c-items').innerHTML = carrinho.map((i,idx)=>{ const p = prod(i.pid);
     return `<div class="item"><div class="thumb">${imagemProduto(p,false)}</div>
       <div class="item-body"><b>${esc(p.nome)}</b><span class="small">${esc(itemDet(i).join(' · '))}</span>
-        <span class="sku">${sku(p,i.opt)}</span><span style="font-weight:700">${brl(preco(p,i.opt)*i.qtd)}</span>
+        <span class="sku">${sku(p,i.opt)}</span><span style="font-weight:700">${brl(precoItem(i)*i.qtd)}</span>
         <div class="item-qty"><button type="button" data-dec="${idx}" aria-label="Diminuir">−</button><span>${i.qtd}</span><button type="button" data-inc="${idx}" aria-label="Aumentar">+</button></div></div>
       <button class="remove" type="button" data-rm="${idx}" aria-label="Remover ${esc(p.nome)}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>`; }).join('');
   const t = totais();
@@ -2555,14 +2674,14 @@ $('checkout').addEventListener('submit',e=>{
   if (LOJA.pedidosUrl){
     const itens = carrinho.map(i=>{ const p=prod(i.pid), o=p.opcoes[i.opt];
       return { kit:p.nome, atividade:criacaoDe(p).titulo, codigo:sku(p,i.opt), pacote:o.nome, quantidade:i.qtd,
-               totalKits:(+o.n||1)*i.qtd, valor:preco(p,i.opt)*i.qtd, mensagem:i.msg||'', fundo:i.fundo ? nomeFundo(i.fundo) : '', cor:i.cores ? coresTxt(i.cores, o.n) : '' }; });
+               totalKits:(+o.n||1)*i.qtd, valor:precoItem(i)*i.qtd, mensagem:i.msg||'', fundo:i.fundo ? nomeFundo(i.fundo) : '', cor:i.cores ? coresTxt(i.cores, o.n) : '' }; });
     /* text/plain evita a checagem de CORS; o pedido segue para o WhatsApp mesmo se a planilha falhar */
     fetch(LOJA.pedidosUrl, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:ehRetirada() ? 'Retirada' : $('cep').value,
         whatsapp:$('zap').value, email:$('email').value.trim(), documento:$('doc').value, endereco:ehRetirada() ? 'Retirada' : endereco(),
         dataFesta, aniversariante:$('aniv').value.trim(), idade:$('idade').value, obs:$('obs').value.trim(), pagamento:pag, total:t.total, entrada:t.entrada, itens }) }).catch(()=>{});
   }
-  const linhas = carrinho.map(i=>{ const p=prod(i.pid); return `• ${i.qtd}x ${p.nome} (${itemDet(i).join(', ')}) [${sku(p,i.opt)}] — ${brl(preco(p,i.opt)*i.qtd)}`; });
+  const linhas = carrinho.map(i=>{ const p=prod(i.pid); return `• ${i.qtd}x ${p.nome} (${itemDet(i).join(', ')}) [${sku(p,i.opt)}] — ${brl(precoItem(i)*i.qtd)}`; });
   const msg = [
     `Olá! Quero fazer um pedido na ${LOJA.nome}:`, `Pedido ${pedido}`, '', ...linhas, '',
     `Subtotal: ${brl(t.sub)}`, t.desc>0 ? `Desconto Pix: − ${brl(t.desc)}` : null,
@@ -2628,7 +2747,7 @@ const DAM_SVG = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy=
   <path d="M29 44 q5.5 5 11 0" fill="none" stroke="#14295C" stroke-width="2.2" stroke-linecap="round"/></svg>`;
 const damWa = texto => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(texto)}`;
 const damKit = p => `<button type="button" data-pid="${p.id}">${esc(p.nome)}</button>`;
-const damPreco = p => p.porUnidade ? `${brl(p.opcoes[0].preco)} o kit` : `${brl(porKit(p.opcoes[0]))} por ${unidadeDe(p)}`;
+const damPreco = p => p.varal ? `${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? `${brl(p.opcoes[0].preco)} o kit` : `${brl(porKit(p.opcoes[0]))} por ${unidadeDe(p)}`;
 const damFaixaPreco = lista => { const v = lista.map(p=>p.porUnidade ? p.opcoes[0].preco : porKit(p.opcoes[0])); return Math.min(...v)===Math.max(...v) ? brl(v[0]) : `${brl(Math.min(...v))} a ${brl(Math.max(...v))}`; };
 const damCriar = () => PRODUTOS.filter(p=>!criacaoDe(p).linha);
 const damCelebrar = () => PRODUTOS.filter(p=>['sazonal','natal'].includes(criacaoDe(p).linha));
