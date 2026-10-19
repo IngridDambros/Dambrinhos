@@ -1216,7 +1216,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-10-18f';
+const FOTOS_VERSAO = '2026-10-19a';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1939,10 +1939,10 @@ const seloIdade = n => c(30,30,20,'#FABD32') + `<text x="30" y="26" font-size="6
 /* Fundos das caixas, todos no estilo neutro (fundo claro e uma cor suave). ativo:false = guardado, não aparece no site
    (ligar quando as fotos daquele fundo estiverem prontas). Em ordem alfabética. */
 const TODOS_FUNDOS = [
-  { id:'listras',      nome:'Listras',      ativo:false },
+  { id:'listras',      nome:'Listras',      ativo:true  },
   { id:'ondinhas',     nome:'Ondinhas',     ativo:false },
   { id:'poa',          nome:'Poá',          ativo:false },
-  { id:'quadriculado', nome:'Quadriculado', ativo:true  },
+  { id:'quadriculado', nome:'Quadriculado', ativo:true, capa:true },   // capa = fundo das fotos nos cartões
   { id:'xadrez',       nome:'Xadrez',       ativo:false }
 ];
 const FUNDOS = TODOS_FUNDOS.filter(f=>f.ativo);
@@ -1950,8 +1950,8 @@ const nomeFundo = id => (TODOS_FUNDOS.find(f=>f.id===id)||{}).nome || id;
 let _padrao = 0;   // cada desenho precisa de ids próprios para os padrões
 function padraoFundo(fundo, id, cor){
   const P = (w, miolo) => `<pattern id="${id}" width="${w}" height="${w}" patternUnits="userSpaceOnUse">${miolo}</pattern>`;
-  /* Listras finas em uma cor suave sobre branco */
-  if (fundo==='listras') return P(10, `<rect width="10" height="10" fill="#fff"/><rect width="3" height="10" fill="${cor||'#9CC7E4'}"/>`);
+  /* Listras largas e levemente onduladas, como pintadas à mão, sobre fundo creme */
+  if (fundo==='listras') return P(12, `<rect width="12" height="12" fill="#F6EFE6"/><path d="M3 -1 Q3.9 3 3 6 Q2.1 9 3 13" fill="none" stroke="${cor||'#E0471E'}" stroke-width="5.5"/>`);
   /* Ondinhas (scallop): fileiras de arquinhos desenhados, cor suave sobre fundo clarinho */
   if (fundo==='ondinhas') return P(16, `<rect width="16" height="16" fill="#fff"/><rect width="16" height="16" fill="${cor||'#EFA898'}" fill-opacity=".14"/><path d="M0 6 Q4 0 8 6 Q12 0 16 6 M-8 14 Q-4 8 0 14 Q4 8 8 14 Q12 8 16 14 Q20 8 24 14" fill="none" stroke="${cor||'#EFA898'}" stroke-width="1.6" stroke-linecap="round"/>`);
   /* Poá: fundo branco com bolinhas (coloridas em tons pastel, ou todas na cor escolhida) */
@@ -1995,7 +1995,7 @@ const ARTE_CAIXA = {
 };
 /* Fundo que aparece no cartão da caixa: o primeiro que já tem foto (ou o primeiro da lista) */
 const capaFundo = p => (estado.fundo && FUNDOS.some(f=>f.id===estado.fundo)) ? estado.fundo
-  : (FUNDOS.find(f=>fotosOk.has(FOTO.caixa(p.modelo,f.id))) || FUNDOS[0]).id;
+  : ([...FUNDOS].sort((a,b)=>!!b.capa-!!a.capa).find(f=>fotosOk.has(FOTO.caixa(p.modelo,f.id))) || FUNDOS[0]).id;
 function art(p, comSelo=true, fundo, cor){
   const cr = criacaoDe(p), completo = p.versao==='completo';
   if (p.modelo){ const f = fundo || capaFundo(p), id = 'pf' + (++_padrao);
