@@ -518,13 +518,14 @@
   .bar .cta{width:100%}
   /* Dam: o assistente de perguntas prontas (uma mãozinha nas cores da logo) */
   .dam-btn{position:fixed;right:18px;bottom:18px;z-index:30;display:flex;align-items:center;gap:8px;padding:8px 16px 8px 8px;border:0;border-radius:40px;background:#fff;color:var(--ink);font-weight:700;font-size:15px;box-shadow:0 8px 24px rgba(16,17,35,.18);cursor:pointer}
-  .dam-btn svg{width:44px;height:44px}
+  .dam-btn svg,.dam-btn img{width:44px;height:44px;display:block}
   .dam-btn[hidden]{display:none}
   @media (max-width:600px){.dam-btn{padding-right:14px;right:12px;bottom:12px}.dam-txt{display:none}}
   .dam{position:fixed;right:18px;bottom:18px;z-index:31;width:min(380px,calc(100vw - 24px));height:min(600px,calc(100vh - 36px));display:flex;flex-direction:column;background:var(--fundo);border-radius:22px;box-shadow:0 18px 50px rgba(16,17,35,.25);overflow:hidden}
   .dam[hidden]{display:none}
   .dam-topo{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#fff;border-bottom:1px solid var(--linha)}
   .dam-topo svg{width:40px;height:40px;flex:none}
+  .dam-topo img{width:auto;height:56px;flex:none;display:block}
   .dam-topo b{display:block;font-family:var(--font-head);font-size:18px}
   .dam-topo span{font-size:12px;color:var(--muted)}
   .dam-fechar{margin-left:auto;all:unset;cursor:pointer;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;font-size:22px}
@@ -2739,13 +2740,6 @@ renderMenu();
    Só responde o que está escrito aqui, com os dados do próprio site (preços, prazo, kits).
    O que não estiver na lista vai para o WhatsApp da Ingrid. Nunca prometa efeito terapêutico.
    ========================================================= */
-const DAM_SVG = `<svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#FFF8E7"/>
-  <rect x="13" y="22" width="8" height="20" rx="4" fill="#1E459F" transform="rotate(-28 17 32)"/>
-  <rect x="21" y="9" width="8" height="24" rx="4" fill="#CF2A2A"/><rect x="29.5" y="7" width="8" height="26" rx="4" fill="#FABD32"/>
-  <rect x="38" y="9" width="8" height="24" rx="4" fill="#1F8A4C"/><rect x="45" y="15" width="7.5" height="20" rx="3.75" fill="#F07D28" transform="rotate(14 49 25)"/>
-  <rect x="19" y="27" width="31" height="25" rx="12" fill="#F2C9A6"/>
-  <circle cx="29" cy="38" r="2.2" fill="#14295C"/><circle cx="40" cy="38" r="2.2" fill="#14295C"/>
-  <path d="M29 44 q5.5 5 11 0" fill="none" stroke="#14295C" stroke-width="2.2" stroke-linecap="round"/></svg>`;
 const damWa = texto => `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(texto)}`;
 const damKit = p => `<button type="button" data-pid="${p.id}">${esc(p.nome)}</button>`;
 const damPreco = p => p.varal ? `${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? `${brl(p.opcoes[0].preco)} o kit` : `${brl(porKit(p.opcoes[0]))} por ${unidadeDe(p)}`;
@@ -2841,7 +2835,9 @@ function damAbrir(){
   $('dam-fechar').focus();
 }
 function damFechar(){ $('dam').hidden = true; $('dam-btn').hidden = $('view-cart').hidden === false; $('dam-btn').focus(); }
-$('dam-ico-btn').innerHTML = DAM_SVG; $('dam-ico-topo').innerHTML = DAM_SVG;
+/* Mascote do Dam: no botão, o rostinho num círculo (img/dam-icone.png); no topo da conversa, o mascote inteiro (img/dam-mascote.png) */
+$('dam-ico-btn').innerHTML = '<img src="img/dam-icone.png" alt="" width="44" height="44">';
+$('dam-ico-topo').innerHTML = '<img src="img/dam-mascote.png" alt="" width="47" height="56">';
 $('dam-ingrid').href = damWa('Olá! Tenho uma dúvida sobre os kits da Dambrinhos.');
 $('dam-btn').onclick = damAbrir; $('dam-fechar').onclick = damFechar;
 $('dam-menu').onclick = ()=>{ damMenu(); damAbrirLista(DAM_LISTAS.length - 1); };
