@@ -916,7 +916,7 @@
 
     <!-- A papelaria afetiva tem três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) -->
     <section class="sec" id="afe-caixas">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Caixas</h2></div><span class="small">Pacotes de 12, 24 ou 36 caixas, com 12 caixas em cada embalagem.</span></div>
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Caixas</h2></div><span class="small">Nome e idade impressos na caixa, com o rostinho ou o personagem em aplique 3D. Pacotes de 12, 24 ou 36, com 12 caixas em cada embalagem.</span></div>
       <p class="afe-fundos-tit">Veja as caixas por fundo:</p>
       <div class="pd-fundos afe-fundos" id="afetiva-fundos"></div>
       <div class="criacoes ocasioes" id="afetiva-caixas"></div>
@@ -1522,9 +1522,9 @@ const PRODUTOS = [
   ].map(([modelo, nome, cod, resumo])=>({ id:'caixa-'+modelo, criacao:'afetiva', versao:'afetiva', grupo:'caixas', unidade:'caixa', plural:'caixas',
     modelo, nome, cod, resumo,
     embalagem:'Embalagem Dambrinhos com 12 caixas',
-    descricao:`${resumo} A caixa é personalizada com o rostinho da criança e as cores do tema da festa, para os docinhos ou a lembrancinha. O fundo é neutro, para combinar com qualquer tema.`,
+    descricao:`${resumo} A caixa é personalizada com o rostinho da criança e as cores do tema da festa, para os docinhos ou a lembrancinha. O nome e a idade são impressos direto na caixa; o rostinho, o personagem ou o elemento do tema vem em aplique 3D, colado por cima, com relevo. O fundo é neutro, para combinar com qualquer tema.`,
     selos:['Fundo neutro, combina com qualquer tema','Arte para aprovar antes de imprimir','Sigilo com a foto'],
-    itens:[`${nome} personalizada com o rostinho da criança e o tema da festa`, 'Fundo neutro à escolha, que combina com qualquer tema', 'Embalagem Dambrinhos com 12 caixas'],
+    itens:[`${nome} personalizada com o rostinho da criança e o tema da festa`, 'Fundo neutro à escolha, que combina com qualquer tema', 'Nome e idade impressos direto na caixa', 'Rostinho, personagem ou elemento do tema em aplique 3D, colado por cima', 'Embalagem Dambrinhos com 12 caixas'],
     seguranca:'A caixa é de papel, para guardar doces e lembrancinhas. Mantenha longe da água e do calor.',
     opcoes:pacotes(9.99,'caixas') })),
   /* Varal de bandeirinhas: o cliente escolhe a frase, a cor e (se for o caso) o nome. O preço é por bandeirinha:
