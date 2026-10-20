@@ -2155,6 +2155,9 @@ function artVaral(p, v){
 }
 /* Peças com linha (idade e letra): o cliente escolhe a cor da linha, nas mesmas cores das caixas */
 const comCorTopo = p => p.escolha==='idade' || p.escolha==='letra';
+/* Foto da peça na cor escolhida: fotos/topo-bolo-<idade|letra>-<cor>.jpg. Só é baixada quando o cliente clica na cor;
+   enquanto não existir, aparece a foto padrão da peça. */
+const fotoCorTopo = (p, cor) => `fotos/topo-bolo-${p.escolha}-${cor}.jpg?v=${FOTOS_VERSAO}`;
 /* Idade com linha: o número desenhado com traços de linha enrolada, num palito */
 function artIdade(p){
   const n = (sel && sel.p===p && sel.topo && sel.topo.texto) || '5';
@@ -2529,6 +2532,10 @@ document.addEventListener('click', e=>{
 
 /* Produto */
 function fotosDe(p){
+  /* Idade e letra com linha: a foto da cor escolhida, se já existir */
+  if (comCorTopo(p) && sel && sel.p===p && sel.topo && sel.topo.cor){ const src = fotoCorTopo(p, sel.topo.cor);
+    if (fotosOk.has(src)) return [`<img src="${esc(src)}" alt="${esc(`${p.nome} na cor ${corDe(sel.topo.cor).nome}`)}">`];
+    testarFoto(src).then(ok=>{ if (ok && sel && sel.p===p && sel.topo.cor && fotoCorTopo(p, sel.topo.cor)===src) renderProduto(); }); }
   /* Caixa: a imagem do fundo escolhido (foto, se houver; senão, o desenho com aquele fundo) */
   if (p.modelo){ const f = (sel && sel.p===p && sel.fundo) || capaFundo(p), src = FOTO.caixa(p.modelo, f);
     return [fotosOk.has(src) ? `<img src="${esc(src)}" alt="${esc(`${p.nome} com fundo ${nomeFundo(f)}`)}">` : art(p, false, f, sel && sel.p===p ? corDe(sel.cores[0]).hex : undefined)]; }
@@ -2607,7 +2614,7 @@ function renderProduto(){
     $('p-topo-cor-wrap').hidden = !comCorTopo(p);
     if (comCorTopo(p)){
       $('p-topo-cores').innerHTML = CORES_CAIXA.map(c=>`<button type="button" class="pd-cor" data-topo-cor="${c.id}" aria-pressed="${tp.cor===c.id}"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/>${[6,12,18,24,30].map(y=>`<path d="M4 ${y} H36" stroke="${c.hex}" stroke-width="5.5" stroke-linecap="round"/>`).join('')}</svg><span>${esc(c.nome)}</span></button>`).join('');
-      $('p-topo-cor-nota').textContent = `Linha ${corDe(tp.cor).nome.toLowerCase()}. A foto mostra um exemplo de cor.`;
+      $('p-topo-cor-nota').textContent = fotosOk.has(fotoCorTopo(p, tp.cor)) ? `Cor da linha: ${corDe(tp.cor).nome}.` : `Cor da linha: ${corDe(tp.cor).nome}. A foto mostra um exemplo de cor.`;
     }
   }
   if (p.varal){
