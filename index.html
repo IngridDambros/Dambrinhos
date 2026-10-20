@@ -1165,8 +1165,9 @@ const LOJA = {
   freteGratisCeps: [20000000, 28999999],   // faixa de CEP do estado do RJ
   freteMetadeTeto: 50,
   pedidosUrl: '',              // endereço do Apps Script (termina em /exec) que grava os pedidos na planilha; vazio = não grava
-  cartao: false,               // cartão de crédito no site (false = só Pix, por enquanto)
-  parcelas: 3,                 // parcelas sem juros no cartão, quando ele for ativado
+  cartao: true,                // cartão de crédito: link de pagamento do Ton, enviado pelo WhatsApp (false = só Pix)
+  parcelas: 3,                 // parcelas no cartão. No Ton, o link é criado com "Incluir a taxa ao preço de venda":
+                               // a taxa do parcelado fica com o cliente; a Dambrinhos paga só a taxa do crédito à vista
   // kits com material em estoque: podem ser comprados. Os outros aparecem como "Em breve", com o botão "Avise-me".
   disponiveis: 'todos',       // 'todos' = todos os kits podem ser comprados. Para voltar a mostrar "Em breve", troque por uma lista, ex.: ['massinha-mini']
   prazo: 'Pronto em até 20 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
@@ -2598,8 +2599,8 @@ function renderProduto(){
   $('p-de').textContent = eco ? brl(base) : '';
   $('p-eco').textContent = eco ? `Economize ${eco}%` : '';
   $('p-pix').textContent = LOJA.cashbackPix>0 ? `No Pix: ${brl(v*LOJA.cashbackPix/100)} de cashback` : '';
-  $('p-parc').textContent = LOJA.cartao && LOJA.parcelas>1 ? `ou ${LOJA.parcelas}x de ${brl(v/LOJA.parcelas)} sem juros` : '';
-  $('p-parc-logo').textContent = LOJA.cartao && LOJA.parcelas>1 ? `${LOJA.parcelas}x sem juros` : '';
+  $('p-parc').textContent = LOJA.cartao && LOJA.parcelas>1 ? `ou em até ${LOJA.parcelas}x no cartão` : '';
+  $('p-parc-logo').textContent = LOJA.cartao && LOJA.parcelas>1 ? `até ${LOJA.parcelas}x` : '';
   $('p-sku').textContent = `Código: ${sku(p,opt)}` + (p.varal ? ` · ${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? '' : ` · ${brl(porKit(o))} por ${unidadeDe(p)}`);
   if (p.escolha){
     const tp = sel.topo, ban = p.escolha==='bandeirola';
@@ -2856,7 +2857,9 @@ function avisar(txt){ const t=$('toast'); t.textContent=txt; t.hidden=false; cle
 /* Textos da loja, links e campanha */
 $('wa-link').href = `https://wa.me/${LOJA.whatsapp}`;
 $('ajuda-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre os kits da ${LOJA.nome}.`)}`;
-if (LOJA.parcelas>1) $('cartao-label').textContent = `Cartão de crédito (em até ${LOJA.parcelas}x sem juros)`;
+$('cartao-label').textContent = LOJA.parcelas>1
+  ? `Cartão de crédito em até ${LOJA.parcelas}x: enviamos o link de pagamento pelo WhatsApp. À vista, sem acréscimo; parcelado, a taxa do parcelamento é paga por quem parcela.`
+  : 'Cartão de crédito à vista: enviamos o link de pagamento pelo WhatsApp.';
 /* Enquanto o cartão não estiver ativo, o site mostra só o Pix */
 if (!LOJA.cartao){ $('cartao-opcao').remove(); document.querySelectorAll('.so-cartao').forEach(x=>x.remove()); }
 $('personagens-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(`Olá! Quero um orçamento da Linha Personagens da ${LOJA.nome}. O tema da festa é: `)}`;
@@ -2906,7 +2909,7 @@ const DAM_PERGUNTAS = [
   { id:'dentro', q:'O que vem dentro de cada kit?', a:()=>`Escolha o kit e eu abro a página com a lista completa:`, segue:()=>[...damCriar(), ...SENSORIAIS, ...damCelebrar()].map(p=>({ t:p.nome, pid:p.id })) },
   { id:'disponiveis', q:'Quais kits já estão disponíveis?', a:()=>{ const ok = PRODUTOS.filter(disponivel); return ok.length ? `Já dá para pedir:<ul>${ok.map(p=>`<li>${damKit(p)} · ${damPreco(p)}</li>`).join('')}</ul>Os outros kits estão em produção. Na página de cada um, o botão <b>Avise-me</b> manda uma mensagem para a Ingrid te chamar quando ficar pronto.` : `Os kits estão em produção. Use o botão <b>Avise-me</b> na página do kit que você quer.`; } },
   { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>6 semanas de antecedência</b>.` },
-  { id:'pagar', q:'Quais as formas de pagamento?', a:()=>`Por enquanto, só Pix:<ul><li><b>Pix à vista (100%)</b>: o pedido entra primeiro na fila de produção;</li><li><b>Pix em 2 vezes</b>: 50% para começar a produção e 50% mais o frete antes do envio ou da retirada.</li></ul>${LOJA.cashbackPix>0 ? `E pagando no Pix você ganha ${LOJA.cashbackPix}% de cashback para a próxima compra.` : ''}` },
+  { id:'pagar', q:'Quais as formas de pagamento?', a:()=>`Você pode pagar no Pix ou no cartão:<ul><li><b>Pix à vista (100%)</b>: o pedido entra primeiro na fila de produção;</li><li><b>Pix em 2 vezes</b>: 50% para começar a produção e 50% mais o frete antes do envio ou da retirada;</li>${LOJA.cartao ? `<li><b>Cartão de crédito em até ${LOJA.parcelas}x</b>: enviamos o link de pagamento pelo WhatsApp. À vista, sem acréscimo; parcelado, a taxa do parcelamento é paga por quem parcela.</li>` : ''}</ul>${LOJA.cashbackPix>0 ? `O cashback de ${LOJA.cashbackPix}% para a próxima compra é só para pagamentos no Pix.` : ''}` },
   ...(LOJA.cashbackPix>0 ? [{ id:'cashback', q:'Como funciona o cashback?', a:()=>`Pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na Dambrinhos, válido por ${LOJA.cashbackMeses} meses. O crédito não diminui o valor do pedido atual e não vira dinheiro.` }] : []),
   { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido.${LOJA.freteGratisAcima ? ` Em pedidos acima de <b>${brl(LOJA.freteGratisAcima)}</b>, o frete é <b>grátis no estado do RJ</b> e, nos outros estados, a Dambrinhos paga <b>metade do frete</b> (até ${brl(LOJA.freteMetadeTeto)}).` : ''} Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
   { id:'seguranca', q:'Os materiais são seguros? Têm selo do INMETRO?', a:()=>`Os materiais que exigem certificação vêm <b>lacrados na embalagem do fabricante</b>, com o selo do INMETRO e a idade indicada. A gente nunca separa itens de uma embalagem lacrada.<br><br>Cada kit tem uma idade sugerida para começar, e as atividades são feitas sempre com um adulto por perto. A seção "Idade e segurança", na página do kit, traz os detalhes.` },
