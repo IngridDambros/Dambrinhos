@@ -926,7 +926,7 @@
     </section>
 
     <section class="sec" id="afe-topo-bolo">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Topo de bolo</h2></div><span class="small">O rostinho da criança no centro do bolo, com 3, 4 ou 5 elementos do tema.</span></div>
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Topo de bolo</h2></div><span class="small">3, 4 ou 5 elementos no tema da festa, com o nome, a idade e o personagem.</span></div>
       <div class="criacoes ocasioes" id="afetiva-topo-bolo"></div>
     </section>
 
@@ -949,7 +949,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, toppers (de festa, mesversário ou datas especiais) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, topo de bolo, toppers (de festa, mesversário ou datas especiais) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte o tema. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1517,16 +1517,21 @@ const PRODUTOS = [
     selos:['O acessório de cada data','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e o acessório da data','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
-  /* Topo de bolo com o rostinho da criança: 3, 4 ou 5 elementos, cada um no seu palito de bambu. Vendido por unidade.
-     PREÇOS PROVISÓRIOS: confirmar com a Ingrid antes de publicar. */
-  ...[[3, 29.99], [4, 34.99], [5, 39.99]].map(([n, preco])=>({ id:`topo-bolo-${n}`, criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo',
+  /* Topo de bolo: 3, 4 ou 5 elementos, cada um no seu palito de bambu. Vendido por unidade, preço fechado.
+     Composição de cada opção em ELEMENTOS (provisória: a Ingrid vai ajustar). */
+  ...[
+    [3, 39.99, ['Bandeirola com o nome da criança, em bandeirinhas coloridas', 'Plaquinha com uma frase sobre a criança', 'Pompom']],
+    [4, 49.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um personagem lúdico do tema', 'Idade: número de pompom ou número trançado com linha']],
+    [5, 59.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um personagem lúdico do tema', 'Idade: número de pompom ou número trançado com linha', 'Letra inicial do nome da criança']]
+  ].map(([n, preco, elementos])=>({ id:`topo-bolo-${n}`, criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo',
     porUnidade:true, unidade:'topo de bolo', plural:'topos de bolo', nome:`Topo de bolo · ${n} elementos`, cod:`TB-${n}`,
     fotos:[FOTO.afetiva('topo-bolo')],
-    embalagem:'Embalagem Dambrinhos', resumo:`O rostinho da criança no centro do bolo, com mais ${n-1} elementos do tema.`,
-    descricao:`Um topo de bolo com ${n} elementos, cada um no seu palito de bambu: o rostinho da criança, com o acessório do tema, e mais ${n-1} elementos para completar a cena, como o nome em bandeirinhas, a idade, um bichinho, um sol ou pompons. Depois do pedido e pagamento, você manda a foto do rostinho pelo WhatsApp e recebe a arte para aprovar antes de imprimirmos.`,
-    selos:[`${n} elementos`,'Arte para aprovar antes de imprimir','Frente e verso'],
-    itens:['1 rostinho da criança com o acessório do tema, impresso frente e verso', `${n-1} elementos do tema, à escolha: o nome em bandeirinhas, a idade, um bichinho, um sol ou pompons`, `${n} palitos de bambu`, 'Embalagem Dambrinhos'],
-    seguranca:'Os palitos são de bambu e têm ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. O topo é de papel, só para decorar.',
+    embalagem:'Embalagem Dambrinhos',
+    resumo: n===3 ? 'A bandeirola com o nome da criança, uma plaquinha com frase e um pompom.' : n===4 ? 'Pompom, faixa, personagem e a idade da criança.' : 'Pompom, faixa, personagem, idade e a letra do nome.',
+    descricao:`Um topo de bolo com ${n} elementos, cada um no seu palito de bambu, no tema da festa: ${elementos.map(e=>e.split(':')[0].toLowerCase()).join(', ')}. Depois do pedido e pagamento, você manda o nome, a idade, o tema e, se quiser, a foto do rostinho pelo WhatsApp, e recebe a arte para aprovar antes de produzirmos.`,
+    selos:[`${n} elementos`,'Arte para aprovar antes de produzir','No tema da festa'],
+    itens:[...elementos, `${n} palitos de bambu`, 'Embalagem Dambrinhos'],
+    seguranca:'Os palitos são de bambu e têm ponta, e os pompons são peças pequenas: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. O topo é só para decorar.',
     opcoes:[{ nome:'1 topo de bolo', n:'001', preco }] })),
   /* Caixas personalizadas com o rostinho: R$ 9,99 cada, em pacotes de 12, 24 ou 36.
      modelo = formato da caixa. O cliente escolhe o fundo (FUNDOS); foto de cada fundo: fotos/caixa-<modelo>-<fundo>.jpg. */
@@ -1615,8 +1620,8 @@ const CUIDA = [
 const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bolo-3':'#F7DDE5', 'topo-bolo-4':'#FDE1D3', 'topo-bolo-5':'#EDE4F6', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
   'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
   'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
-/* MOSTRAR_TOPO_BOLO = false: a categoria Topo de bolo fica guardada, sem aparecer no site (preços ainda provisórios) */
-const MOSTRAR_TOPO_BOLO = false;
+/* MOSTRAR_TOPO_BOLO = false esconde a categoria Topo de bolo do site */
+const MOSTRAR_TOPO_BOLO = true;
 if (!MOSTRAR_TOPO_BOLO) PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.grupo!=='topo-bolo'));
 const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabética: a parte (Caixas, Toppers) e depois o nome
   .sort((a,b)=>a.grupo.localeCompare(b.grupo,'pt') || a.nome.localeCompare(b.nome,'pt'));
@@ -2415,7 +2420,7 @@ function abrirColecao(chave){
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
   else if (tipo==='afetiva'){ titulo = valor ? GRUPOS_AFETIVA[valor] : 'Papelaria afetiva'; lista = valor ? afetivosDe(valor) : AFETIVOS;
-    desc = valor==='topo-bolo' ? 'O rostinho da criança no centro do bolo, com 3, 4 ou 5 elementos do tema. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.'
+    desc = valor==='topo-bolo' ? 'Topos de bolo com 3, 4 ou 5 elementos no tema da festa. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
       : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas, toppers e varais'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
   else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
