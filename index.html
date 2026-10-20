@@ -1305,7 +1305,7 @@ const VARAL = {
 };
 const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
-  { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
+  { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Rabiscos', cod:'RB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com porta-retrato para a primeira obra.',
     descricao:'Giz de cera para bebês, em formato de argola e fácil de segurar com a mão inteira, papel grosso e um porta-retrato de madeira para a primeira obra de arte ir direto para a parede. Na ficha da obra, os pais anotam o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
     selos:['Porta-retrato de madeira','Giz próprio para bebês (1+)','Selo do INMETRO'],
@@ -1317,7 +1317,7 @@ const PRODUTOS = [
     selos:['Moldura de madeira','Giz jumbo, fácil de segurar','Caixa reciclável'],
     itens:['8 gizes de cera jumbo','1 rolo de papel kraft (3 m)','1 bloco de papel grosso A4 (20 folhas)','1 moldura de MDF para o desenho A4, com espaço para o nome, a idade e a data','Cartão com a receita de massinha caseira'],
     opcoes:[{nome:'1 kit', n:'001', preco:89}] },
-  { id:'colorir-mini', criacao:'colorir', versao:'mini', nome:'Mini Colorir', cod:'CL-M',
+  { id:'colorir-mini', criacao:'colorir', versao:'mini', nome:'Colorir', cod:'CL-M',
     embalagem:'Saquinho de algodão cru', resumo:'Desenhos exclusivos, giz de cera para bebês e um porta-retrato para a obra.',
     descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com o giz de cera para bebês, em formato de argola, e a obra preferida vai para o porta-retrato de madeira, com a ficha da obra.',
     selos:['Desenhos exclusivos','Giz próprio para bebês (1+)','Selo do INMETRO'],
@@ -1329,7 +1329,7 @@ const PRODUTOS = [
     selos:['Desenhos exclusivos','Canetinha lavável jumbo','Caixa reciclável'],
     itens:['1 livrinho com 12 desenhos exclusivos Dambrinhos (papel grosso A4)','12 canetinhas laváveis de ponta jumbo','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data'],
     opcoes:[{nome:'1 kit', n:'001', preco:79}] },
-  { id:'pintar-mini', criacao:'pintar', versao:'mini', nome:'Mini Pintura', cod:'PT-M',
+  { id:'pintar-mini', criacao:'pintar', versao:'mini', nome:'Pintura', cod:'PT-M',
     embalagem:'Saquinho de algodão cru', resumo:'Cinco folhas, seis cores e pincéis, com porta-retrato para a obra preferida.',
     descricao:'Cinco folhas de papel grosso 10×15 cm, seis cores de tinta guache e um kit de pintura com pincéis pequenos de ponta redonda, godê e pincéis de espuma. A criança pinta do jeito dela, com pincel, esponja ou as próprias mãos, e mistura as cores no godê se quiser. Depois de seca, a obra preferida vai para o porta-retrato de madeira, direto para a parede, com a ficha da obra.',
     selos:['Porta-retrato de madeira','Seis cores','Saquinho reutilizável'],
@@ -1341,7 +1341,7 @@ const PRODUTOS = [
     selos:['Tinta guache à base de água','Caixa reciclável'],
     itens:['2 telas 20×20 cm','6 potes de tinta guache','2 pincéis de cabo grosso','3 esponjas de formatos diferentes','1 avental de algodão cru','2 molduras para as telas, com espaço para o nome, a idade e a data','Guia com 3 ideias de pintura'],
     opcoes:[{nome:'1 kit', n:'001', preco:119}] },
-  { id:'dobradura-mini', criacao:'dobradura', versao:'mini', nome:'Mini Dobradura', cod:'DB-M',
+  { id:'dobradura-mini', criacao:'dobradura', versao:'mini', nome:'Dobradura', cod:'DB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Um livro de instruções e 10 folhas coloridas para dobrar 10 bichinhos de papel.',
     descricao:'Um livro de instruções exclusivo Dambrinhos, com 10 bichinhos em ordem alfabética: do avestruz à vaca, cada um com uma curiosidade e o passo a passo em desenhos coloridos, um número por dobra. A criança dobra os bichinhos nas 10 folhas coloridas, desenha os detalhes com o giz de cera e escolhe o preferido para guardar na moldura. Quando terminar a coleção, ela ganha o certificado de dobrador.',
     selos:['Livro de instruções com 10 bichinhos','Certificado de dobrador','Saquinho reutilizável'],
@@ -1353,7 +1353,7 @@ const PRODUTOS = [
     selos:['Dois níveis de dificuldade','Desenhos exclusivos','Caixa reciclável'],
     itens:['20 folhas exclusivas Dambrinhos com linhas de dobra impressas (8 bichinhos)','Manual em figuras com dois níveis de dificuldade','2 cenários impressos','1 cola bastão','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
-  { id:'colagem-mini', criacao:'colagem', versao:'mini', nome:'Mini Recorte e Cola', cod:'CC-M',
+  { id:'colagem-mini', criacao:'colagem', versao:'mini', nome:'Recorte e Cola', cod:'CC-M',
     embalagem:'Saquinho de algodão cru', resumo:'Um cenário para recortar e colar do jeito da criança.',
     descricao:'Uma base de papel cartão e papéis coloridos para a criança recortar formas e montar um cenário: uma cidade, o fundo do mar ou uma floresta, do jeito dela. Com bolinhas de papel crepom, a cena ganha volume, e a obra pronta ganha a ficha da obra.',
     selos:['Tesoura sem ponta','Três ideias de cenário','Saquinho reutilizável'],
@@ -1365,7 +1365,7 @@ const PRODUTOS = [
     selos:['Tesoura sem ponta','Caixa reciclável'],
     itens:['3 bases de papel cartão para os cenários','Moldes para recortar','Bloco de papéis coloridos e com textura','Papel crepom em várias cores','1 tesoura sem ponta','1 cola bastão e 1 cola branca','1 moldura de papel cartão A4 com espaço para o nome, a idade e a data','Guia com 3 cenários'],
     opcoes:[{nome:'1 kit', n:'001', preco:109}] },
-  { id:'mosaico-mini', criacao:'mosaico', versao:'mini', nome:'Mini Mosaico', cod:'MO-M',
+  { id:'mosaico-mini', criacao:'mosaico', versao:'mini', nome:'Mosaico', cod:'MO-M',
     embalagem:'Saquinho de algodão cru', resumo:'Dois mosaicos montados peça por peça.',
     descricao:'Estrelas, corações e círculos de E.V.A. já cortados, mais folhas de E.V.A. e papéis coloridos para a criança recortar os próprios quadrados e triângulos. Com eles, ela monta dois mosaicos: um porta-copos de MDF e um quadrinho na base kraft. Treina a paciência, a coordenação e as cores.',
     selos:['Peças de E.V.A. e papel, sem vidro','Tesoura sem ponta','Saquinho reutilizável'],
@@ -1377,7 +1377,7 @@ const PRODUTOS = [
     selos:['Pastilhas de papel, sem vidro','Caixa reciclável'],
     itens:['1 espelho redondo com moldura de MDF','2 porta-copos de MDF','Cerca de 300 pastilhas de papel cartão colorido','1 cola branca','1 espátula de madeira','Guia com moldes'],
     opcoes:[{nome:'1 kit', n:'001', preco:129}] },
-  { id:'botanico-mini', criacao:'botanico', versao:'mini', nome:'Mini Botânico', cod:'BT-M',
+  { id:'botanico-mini', criacao:'botanico', versao:'mini', nome:'Botânico', cod:'BT-M',
     embalagem:'Saquinho de algodão cru', resumo:'Plantar, esperar e ver crescer: uma planta cuidada pela própria criança.',
     descricao:'Uma pastilha de fibra de coco que vira terra com um pouco de água, um vasinho biodegradável para decorar e sementes de crescimento rápido. A criança planta, rega e anota no diário do botânico o que muda a cada dia. Quando a muda crescer, o vasinho vai direto para a terra.',
     selos:['Vasinho biodegradável','Diário do botânico','Saquinho reutilizável'],
@@ -1389,7 +1389,7 @@ const PRODUTOS = [
     selos:['Vasinhos biodegradáveis','Três plantas para comparar','Caixa reciclável'],
     itens:['3 pastilhas de fibra de coco','3 vasinhos biodegradáveis','3 pacotinhos de sementes lacrados','1 regador pequeno','3 plaquinhas de madeira','1 lupa','Diário do botânico'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
-  { id:'engenhocas-mini', criacao:'engenhocas', versao:'mini', nome:'Mini Engenhocas', cod:'EG-M',
+  { id:'engenhocas-mini', criacao:'engenhocas', versao:'mini', nome:'Engenhocas', cod:'EG-M',
     embalagem:'Saquinho de algodão cru', resumo:'Ferramentas de inventor para criar engenhocas com o que tem em casa.',
     descricao:'A gente manda as ferramentas e as ideias; a sucata vem de casa. O manual traz a lista do que começar a guardar (caixinhas, rolos, tampinhas, garrafa PET) e quatro engenhocas guiadas: um carrinho de caixinha, um telefone de copo, uma pista de bolinha na parede e um catavento. No mini caderno, a criança desenha, mede e dá nome às próprias invenções, como um inventor de verdade.',
     selos:['Usa o que tem em casa','Caderno do inventor','Saquinho reutilizável'],
@@ -1401,7 +1401,7 @@ const PRODUTOS = [
     selos:['Três engenhocas','Papelão e madeira','Caixa reciclável'],
     itens:['Moldes de papelão para 3 engenhocas','Palitos e eixos de madeira','Elásticos','2 espelhos de acrílico seguro para o periscópio','Manual em figuras para cada engenhoca'],
     opcoes:[{nome:'1 kit', n:'001', preco:109}] },
-  { id:'jogo-mini', criacao:'jogo', versao:'mini', nome:'Mini Crie seu Jogo', cod:'JG-M',
+  { id:'jogo-mini', criacao:'jogo', versao:'mini', nome:'Crie seu Jogo', cod:'JG-M',
     embalagem:'Saquinho de algodão cru', resumo:'Um jogo de tabuleiro inventado pela própria criança.',
     descricao:'Um tabuleiro em branco de papel cartão, peões e dado de madeira e cartas em branco: a criança desenha o caminho, inventa os desafios e escreve as regras. Depois, é só chamar os amigos para jogar.',
     selos:['Jogar com os amigos','Peças de madeira','Saquinho reutilizável'],
@@ -1413,7 +1413,7 @@ const PRODUTOS = [
     selos:['Jogar com os amigos','Peças de madeira','Caixa reciclável'],
     itens:['1 tabuleiro grande em branco de papel cartão','6 peões de madeira crua para pintar','2 dados de madeira','24 cartas em branco','3 potes de tinta e 1 pincel','Guia com ideias de jogos'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
-  { id:'ceramica-mini', criacao:'ceramica', versao:'mini', nome:'Mini Cerâmica', cod:'CE-M',
+  { id:'ceramica-mini', criacao:'ceramica', versao:'mini', nome:'Cerâmica', cod:'CE-M',
     embalagem:'Saquinho de algodão cru', resumo:'Uma peça de cerâmica criada do zero: modelar, pintar e envernizar.',
     descricao:'Argila que seca ao ar, sem forno, para modelar uma peça com as técnicas da cerâmica: o beliscão, que vira um potinho, e as cobrinhas, que sobem as paredes. Depois de seca, a criança pinta e passa verniz. A peça é decorativa e de uso seco: um porta-trecos ou um pratinho de bijuterias.',
     selos:['Seca ao ar, sem forno','Técnicas de cerâmica','Saquinho reutilizável'],
@@ -1432,7 +1432,7 @@ const PRODUTOS = [
     selos:['Edição de Páscoa','Ovos de madeira','Para brincar todo ano'],
     itens:['3 ovos de madeira para pintar','3 potes de tinta guache, lacrados','1 pincel','1 ninho de palha','Cartão com ideias de pintura e as pistas da caça aos ovos'],
     opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
-  /* Férias: uma horta para acompanhar o mês inteiro. Usa os mesmos materiais do Mini Botânico (vasinho, fibra de coco, sementes lacradas). */
+  /* Férias: uma horta para acompanhar o mês inteiro. Usa os mesmos materiais do kit Botânico (vasinho, fibra de coco, sementes lacradas). */
   { id:'horta-mini', criacao:'horta', versao:'mini', nome:'Horta das Férias', cod:'FE-U', porUnidade:true,
     embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Duas plantas para cuidar e ver crescer durante as férias.',
     descricao:'Dois vasinhos biodegradáveis, duas pastilhas de fibra de coco, que viram terra com um pouco de água, e dois envelopes de sementes de crescimento rápido. A criança planta com um adulto, rega e marca no calendário das férias o que muda a cada dia. Com duas plantas de ritmos diferentes, sempre tem novidade para ver.',
@@ -1459,7 +1459,7 @@ const PRODUTOS = [
     selos:['Edição de Natal','Enfeites de madeira','Para pendurar todo ano'],
     itens:['3 enfeites de madeira com cordão (modelos variados: estrela, árvore, sino, anjo ou botinha)','3 potes de tinta guache, lacrados','1 pincel','Cartão com ideias: listras, bolinhas, neve, o nome e o ano'],
     opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
-  { id:'areia-mini', criacao:'areia', versao:'mini', nome:'Mini Areia Mágica', cod:'AM-M',
+  { id:'areia-mini', criacao:'areia', versao:'mini', nome:'Areia Mágica', cod:'AM-M',
     embalagem:'Saquinho de algodão cru', resumo:'Areia que molda e não seca, com 10 ideias de brincadeiras.',
     descricao:'Um pote de areia mágica com forminhas, lacrado, e o cartão Dambrinhos com 10 brincadeiras para explorar a textura: esconder tesouros, fazer pegadas, escrever o nome, montar castelos. A areia não seca, então a brincadeira continua depois da festa.',
     selos:['Não seca: dá para brincar de novo','Saquinho reutilizável'],
@@ -1472,7 +1472,7 @@ const PRODUTOS = [
     itens:['3 potes de areia mágica (200 g cada) em cores diferentes, lacrados','9 forminhas','1 bandeja','1 espátula de madeira','Cartão com 10 brincadeiras com areia mágica'],
     opcoes:[{nome:'1 kit', n:'001', preco:99}] },
   /* Massinha: caixa de papel com 6 cores, de marca certificada (Uti Guti), revendida lacrada. Preço do completo é provisório. */
-  { id:'massinha-mini', criacao:'massinha', versao:'mini', nome:'Mini Massa de Modelar', cod:'MM-M',
+  { id:'massinha-mini', criacao:'massinha', versao:'mini', nome:'Massa de Modelar', cod:'MM-M',
     embalagem:'Saquinho de algodão cru', resumo:'Seis cores de massa de modelar, cortadores e 10 ideias para brincar.',
     descricao:'Uma caixa de massa de modelar com seis cores, lacrada, com cortadores e o cartão Dambrinhos com 10 brincadeiras: fazer bolinhas de cada cor, misturar duas cores para criar uma nova, carimbar texturas, montar bichinhos. Bem guardada depois de brincar, a massa rende outras brincadeiras depois da festa.',
     selos:['Seis cores para misturar','Saquinho reutilizável'],
@@ -1484,7 +1484,7 @@ const PRODUTOS = [
     selos:['Não resseca no pote fechado','Caixa reciclável'],
     itens:['6 potes de massinha de modelar (140 g cada) em cores diferentes, lacrados','1 rolinho de madeira','6 cortadores de formas','Cartão com 10 brincadeiras com massinha'],
     opcoes:[{nome:'1 kit', n:'001', preco:119}] },
-  { id:'modelar-mini', criacao:'modelar', versao:'mini', nome:'Mini Argila', cod:'AR-M',
+  { id:'modelar-mini', criacao:'modelar', versao:'mini', nome:'Argila', cod:'AR-M',
     embalagem:'Saquinho de algodão cru', resumo:'Uma plaquinha para carimbar e pintar, que seca e vira obra de arte.',
     descricao:'Argila branca que seca ao ar, sem forno. A criança achata a argila, carimba folhas, texturas ou a própria mãozinha e, depois de seca, pinta com as cores dela.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
@@ -1498,14 +1498,14 @@ const PRODUTOS = [
     opcoes:[{nome:'1 kit', n:'001', preco:139}] },
   /* Biscuit: só com massa de marca certificada e com idade indicada (Acrilex 90 g, 3+), revendida lacrada.
      Biscuit é material de artesanato: a maioria das marcas não tem selo do INMETRO e não entra nos kits. */
-  { id:'biscuit-mini', criacao:'biscuit', versao:'mini', nome:'Mini Biscuit', cod:'BI-M',
+  { id:'biscuit-mini', criacao:'biscuit', versao:'mini', nome:'Biscuit', cod:'BI-M',
     embalagem:'Saquinho de algodão cru', resumo:'Massa lisa para modelar uma peça com detalhes, que seca e fica firme.',
     descricao:'Massa de biscuit, lisa e macia, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela com mais detalhe: um bichinho, uma flor, a inicial do nome. Depois de seca, a peça fica dura e firme e vai para a estante, com a ficha da obra ao lado, como num museu.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['2 pacotes de massa de biscuit (90 g cada), lacrados','1 espátula de madeira sem ponta','Cartão com o passo a passo da escultura'],
     opcoes:pacotes(41.99) },
   /* Massa de EVA: embalagem de marca certificada (Make+, 3+), revendida lacrada. Já vem colorida: dispensa tinta. */
-  { id:'eva-mini', criacao:'eva', versao:'mini', nome:'Mini Massa de EVA', cod:'EV-M',
+  { id:'eva-mini', criacao:'eva', versao:'mini', nome:'Massa de EVA', cod:'EV-M',
     embalagem:'Saquinho de algodão cru', resumo:'Massa leve e fofa para modelar uma peça colorida, que seca e fica para guardar.',
     descricao:'Massa de EVA em várias cores, muito leve e fofa, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela: um bichinho, uma flor, a inicial do nome. A massa já vem colorida, então não precisa de tinta. Depois de seca, a peça vai para a estante, com a ficha da obra ao lado, como num museu.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
@@ -2474,7 +2474,7 @@ function abrirColecao(chave){
   let titulo='', desc='', lista=[];
   if (tipo==='criacao'){ const cr = CRIACOES.find(x=>x.id===valor); titulo=cr.titulo; desc=`${cr.desc} Idade sugerida: ${idadeTxt(cr.idade).toLowerCase()}, e depois dela qualquer idade aproveita.`; lista=PRODUTOS.filter(p=>p.criacao===valor); }
   else if (tipo==='completos'){ titulo='Presentear'; desc='As versões completas: mais material, guia com projetos e caixa com a nossa marca.'; lista=PRODUTOS.filter(p=>p.versao==='completo'); }
-  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
+  else if (tipo==='minis'){ titulo='Criar'; desc='Os kits de lembrancinha, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
   else if (tipo==='faixa'){ const f = FAIXAS.find(x=>x.id===valor); titulo=faixaTxt(f); desc=f.texto; lista=PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; }); }
   else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
   else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod);
