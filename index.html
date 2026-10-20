@@ -293,6 +293,8 @@
   .depo-row{display:grid;grid-template-columns:1fr;gap:12px}
   @media (min-width:760px){.depo-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
   .depo{margin:0;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:18px;display:grid;gap:10px}
+  .depo-fonte{font-size:12px;color:var(--muted)}
+  #depo-sec{scroll-margin-top:110px}
   .estrelas{color:#E9A13B;letter-spacing:2px}
 
   /* Nosso jeito, escolas e Instagram */
@@ -728,10 +730,23 @@
     </section>
 
 
-    <!-- 6. Depoimentos reais (aparecem só quando DEPOIMENTOS tiver algum) -->
-    <section class="sec" id="depo-sec" hidden>
-      <h2 class="sec-title" style="margin-bottom:22px">Quem já celebrou com a gente</h2>
+    <!-- 6. Depoimentos de clientes: avaliações reais feitas no Google (perfil da empresa). Copie os textos para DEPOIMENTOS.
+         O botão "Deixe a sua avaliação" usa LOJA.avaliarGoogle; sem esse link, ele não aparece. -->
+    <section class="sec" id="depo-sec">
+      <div class="sec-head">
+        <div><p class="eyebrow">Quem já celebrou com a gente</p><h2 class="sec-title">Depoimentos de clientes</h2></div>
+        <span class="small">Desde 2022, primeiro como Bendito Festas e agora como Dambrinhos.</span>
+      </div>
       <div class="depo-row" id="grid-depo"></div>
+      <div class="mural-vazio" id="depo-vazio" hidden>
+        <svg viewBox="0 0 150 150" aria-hidden="true"><path d="M75 128 C40 104 22 82 22 58 C22 40 36 28 52 28 C62 28 70 34 75 42 C80 34 88 28 98 28 C114 28 128 40 128 58 C128 82 110 104 75 128 Z" fill="#F4A69A"/></svg>
+        <p><b>Os primeiros depoimentos estão chegando.</b><br>Já fez uma festa com a gente? A sua experiência ajuda outras famílias a escolher.</p>
+      </div>
+      <div class="mural-cta" id="depo-cta" hidden>
+        <a class="cta" id="depo-google" href="#" target="_blank" rel="noopener">Deixe a sua avaliação no Google</a>
+        <a class="btn-out" id="depo-ver" href="#" target="_blank" rel="noopener" hidden>Ver todas as avaliações</a>
+      </div>
+      <p class="small mural-nota">Avaliações reais, feitas no Google por quem comprou com a gente.</p>
     </section>
 
 
@@ -1156,6 +1171,8 @@ const LOJA = {
   nome: 'Dambrinhos',
   whatsapp: '5521993966116',   // DDI + DDD + número, só dígitos
   instagram: 'dambrinhosoficial',  // usuário do Instagram, sem @
+  avaliarGoogle: '',           // link "Pedir avaliações" do Perfil da Empresa no Google (g.page/r/...); vazio = sem botão
+  verAvaliacoes: '',           // link para ver as avaliações no Google (opcional)
   descontoPix: 0,              // % de desconto no Pix (0 = sem desconto; hoje o benefício do Pix é o cashback abaixo)
   cashbackPix: 5,              // % do valor dos produtos que vira crédito para a próxima compra, pagando no Pix
   cashbackMeses: 12,           // validade do crédito, em meses, a partir da compra
@@ -1750,6 +1767,8 @@ const texturaDe = criacaoId => GUIA_TEXTURAS.flatMap(g=>g.linhas).find(l=>l.cria
 /* Depoimentos e fotos de clientes: as seções só aparecem quando você preencher.
    Use SÓ depoimentos e fotos reais, com autorização.
    Ex.: { texto:'As crianças amaram!', nome:'Ana, mãe do Theo', nota:5 } · { src:'fotos/cliente-1.jpg', alt:'Tela pintada por uma criança' } */
+/* Depoimentos: copie aqui as avaliações do Google (perfil da empresa), com o primeiro nome e a nota.
+   Ex.: { texto:'As crianças amaram!', nome:'Ana', nota:5, quando:'out. 2026' } */
 const DEPOIMENTOS = [];
 const FOTOS_CLIENTES = [];
 
@@ -2357,8 +2376,12 @@ function renderHome(){
   $('afetiva-datas').innerHTML = DATAS_AFETIVAS.map(([q,n,a])=>`<div class="afe-data"><small>${esc(q)}</small><b>${esc(n)}</b><span>${esc(a)}</span></div>`).join('');
   $('passos').innerHTML = PASSOS.map(([t,s,d])=>`<li><span class="passo-ico">${icone(d)}</span><b>${esc(t)}</b><span>${esc(s)}</span></li>`).join('');
   $('eco-grid').innerHTML = COMPROMISSOS.map(c=>`<div class="eco-item">${icone(ICONES[c.icone],'#2E6B55')}<b>${esc(c.titulo)}</b><span>${esc(c.texto)}</span></div>`).join('');
-  $('grid-depo').innerHTML = DEPOIMENTOS.map(d=>`<figure class="depo"><span class="estrelas" aria-label="${d.nota||5} de 5 estrelas">${'★'.repeat(d.nota||5)}</span><p style="margin:0">“${esc(d.texto)}”</p><b>${esc(d.nome)}</b></figure>`).join('');
-  $('depo-sec').hidden = DEPOIMENTOS.length===0;
+  $('grid-depo').innerHTML = DEPOIMENTOS.map(d=>`<figure class="depo"><span class="estrelas" aria-label="${d.nota||5} de 5 estrelas">${'★'.repeat(d.nota||5)}</span><p style="margin:0">“${esc(d.texto)}”</p><b>${esc(d.nome)}</b><span class="depo-fonte">Avaliação no Google${d.quando ? ' · '+esc(d.quando) : ''}</span></figure>`).join('');
+  $('grid-depo').hidden = DEPOIMENTOS.length===0;
+  $('depo-vazio').hidden = DEPOIMENTOS.length>0;
+  $('depo-cta').hidden = !LOJA.avaliarGoogle;
+  $('depo-google').href = LOJA.avaliarGoogle || '#';
+  $('depo-ver').hidden = !LOJA.verAvaliacoes; $('depo-ver').href = LOJA.verAvaliacoes || '#';
   $('grid-fotos').innerHTML = FOTOS_CLIENTES.map(f=>{
     const legenda = f.legenda || MURAL[(f.src.split('/').pop()||'').replace(/\.jpg$/,'')];
     return `<figure><img src="${esc(f.src)}" alt="${esc(legenda ? `Mãozinha de ${legenda}` : (f.alt||'Mãozinha de uma criança'))}" loading="lazy">${legenda ? `<figcaption>${esc(legenda)}</figcaption>` : ''}</figure>`; }).join('');
