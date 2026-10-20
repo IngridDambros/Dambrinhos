@@ -1533,7 +1533,7 @@ const PRODUTOS = [
     unidade:'peça', plural:'peças', nome:'Bandeirola', cod:'TB-BD',
     fotos:[`fotos/topo-bolo-bandeirola-1.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos', resumo:'Bandeirinhas coloridas com "Parabéns" ou o nome da criança, em duas hastes com pompons.',
-    descricao:'Um varalzinho de bandeirinhas coloridas para o alto do bolo, preso em duas hastes de bambu, com um cachinho de pompons em cada ponta e um cordão listrado com pompom. Você escolhe se as bandeirinhas formam a palavra "Parabéns" ou o nome da criança. Combine com a idade e a letra de linha para montar o seu topo de bolo.',
+    descricao:'Um varalzinho de bandeirinhas coloridas para o alto do bolo, preso em duas hastes de bambu, com um cachinho de pompons em cada ponta e um cordão listrado com pompom. Você escolhe se as bandeirinhas formam a palavra "Parabéns" ou o nome da criança. Combine com a idade, a letra de linha e os pompons para montar o seu topo de bolo.',
     selos:['"Parabéns" ou o nome','Pompons de lã','Monte o seu topo de bolo'],
     itens:['Bandeirola de bandeirinhas coloridas, com "Parabéns" ou o nome da criança','2 hastes de bambu com pompons e cordão listrado','Embalagem Dambrinhos'],
     seguranca:'As hastes são de bambu e têm ponta, e os pompons são peças pequenas: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. É só para decorar.',
@@ -1556,6 +1556,14 @@ const PRODUTOS = [
     itens:['Letra inicial do nome enrolada com linha colorida','1 palito de bambu','Embalagem Dambrinhos'],
     seguranca:'O palito é de bambu e tem ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 letra', n:'001', preco:14.99 }] },
+  { id:'topo-pompom', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, desenho:'pompom',
+    unidade:'peça', plural:'peças', nome:'Pompom', cod:'TB-PP',
+    embalagem:'Embalagem Dambrinhos', resumo:'Um pompom de lã fofinho, feito à mão, num palito de bambu.',
+    descricao:'Um pompom de lã grande e fofinho, feito à mão, preso num palito de bambu. Dá volume e cor ao topo do bolo e combina com a bandeirola, a idade e a letra de linha. Leve quantos quiser para montar o seu topo de bolo.',
+    selos:['Feito à mão','Lã macia','Monte o seu topo de bolo'],
+    itens:['1 pompom de lã feito à mão','1 palito de bambu','Embalagem Dambrinhos'],
+    seguranca:'O palito é de bambu e tem ponta, e o pompom solta fiapos: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. É só para decorar.',
+    opcoes:[{ nome:'1 pompom', n:'001', preco:14.99 }] },
   /* Caixas personalizadas com o rostinho: R$ 9,99 cada, em pacotes de 12, 24 ou 36.
      modelo = formato da caixa. O cliente escolhe o fundo (FUNDOS); foto de cada fundo: fotos/caixa-<modelo>-<fundo>.jpg. */
   /* Em ordem alfabética */
@@ -1640,7 +1648,7 @@ const CUIDA = [
   { nome:'Empresas',              sub:'Dia das Crianças e fim de ano',        quem:'uma empresa',             foto:'fotos/cuida-empresas.jpg',     cor:'#DCEFE2' }
 ];
 /* Lembrar: papelaria afetiva — os produtos ficam em PRODUTOS (versao:'afetiva'); aqui só a cor de cada cartão */
-const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola':'#F7DDE5', 'topo-idade':'#DCEFE2', 'topo-letra':'#FCE1E8', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
+const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola':'#F7DDE5', 'topo-idade':'#DCEFE2', 'topo-letra':'#FCE1E8', 'topo-pompom':'#FFE8A3', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
   'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
   'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
 /* MOSTRAR_TOPO_BOLO = false esconde a categoria Topo de bolo do site */
@@ -2145,7 +2153,13 @@ function artIdade(p){
     <text x="100" y="112" text-anchor="middle" font-family="Fredoka, Arial Rounded MT Bold, sans-serif" font-weight="700" font-size="${n.length>1?78:96}"
       fill="#6FCFC0" stroke="#3E9C90" stroke-width="2" paint-order="stroke">${esc(n)}</text></svg>`;
 }
+/* Pompom: desenho até ter a foto */
+const artPompom = p => `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração do pompom" preserveAspectRatio="xMidYMid meet">
+  <rect width="200" height="160" fill="#EFEFEF"/><rect x="98" y="74" width="4" height="84" fill="#D9B98C"/>
+  ${Array.from({length:70},(_,i)=>{ const a=i*2.4, r=4+ (i%9)*2.6; return `<line x1="100" y1="52" x2="${(100+Math.cos(a)*r*1.35).toFixed(1)}" y2="${(52+Math.sin(a)*r*1.35).toFixed(1)}" stroke="${i%3?'#F2A9C0':'#E68FAD'}" stroke-width="3" stroke-linecap="round"/>`; }).join('')}
+  <circle cx="100" cy="52" r="22" fill="#F2A9C0" opacity=".55"/></svg>`;
 function art(p, comSelo=true, fundo, cor){
+  if (p.desenho==='pompom') return artPompom(p);
   if (p.escolha==='idade') return artIdade(p);
   if (p.varal) return artVaral(p, sel && sel.p===p ? sel.varal : null);
   const cr = criacaoDe(p), completo = p.versao==='completo';
