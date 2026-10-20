@@ -640,7 +640,7 @@
     <section class="sec" id="criacoes">
       <div class="sec-head">
         <div><p class="eyebrow">Criar</p><h2 class="sec-title">O que a criança vai criar?</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 12, 24 ou 36 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 15, 30 ou 45 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
       </div>
       <div class="criacoes" id="grid-criacoes"></div>
     </section>
@@ -1283,7 +1283,8 @@ const FOTO = {
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
-   Lembrancinhas: pacotes(preço por kit) de 12, 24 ou 36 kits (1, 2 ou 3 caixas de transporte 50×30×22, com 12 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
+   Lembrancinhas: pacotes(preço por kit) de 15, 30 ou 45 kits (1, 2 ou 3 caixas de envio de cerca de 50×36×22, com 15 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
+   Os preços dos kits incluem R$ 2,00 por kit de reserva para o frete (frete grátis no RJ e metade, até R$ 50, nos outros estados).
    Preço por kit de acordo com a fase: A fase da descoberta (1+ a 3+) 40,99 · Mãos mais firmes (4+ a 6+) 44,99 ·
    Pequenos inventores (7+ a 9+) 49,99. Área sensorial: Massa de modelar 34,99, Areia 34,99, Massa de EVA 39,99.
    Não há desconto no Pix: quem paga no Pix ganha cashback (LOJA.cashbackPix) para a próxima compra.
@@ -1301,14 +1302,14 @@ const VARAL = {
   ],
   colorido: ['#8FC1B5','#C9B6E4','#F29C8F','#F6C26B','#E06C78','#9CC7E4']   // tons suaves, uma bandeirinha de cada cor
 };
-const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
+const pacotes = (porKit, nomeUn='kits') => (nomeUn==='kits' ? [15,30,45] : [12,24,36]).map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com porta-retrato para a primeira obra.',
     descricao:'Giz de cera para bebês, em formato de argola e fácil de segurar com a mão inteira, papel grosso e um porta-retrato de madeira para a primeira obra de arte ir direto para a parede. Na ficha da obra, os pais anotam o nome, a idade e a data. Vem também com a receita de massinha caseira, para a família fazer em casa.',
     selos:['Porta-retrato de madeira','Giz próprio para bebês (1+)','Selo do INMETRO'],
     itens:['6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','10 folhas de papel grosso 10×15 cm','1 porta-retrato de madeira 10×15 cm para a primeira obra','Cartão com a receita de massinha caseira'],
-    opcoes:pacotes(40.99) },
+    opcoes:pacotes(42.99) },
   { id:'rabiscos-completo', criacao:'rabiscos', versao:'completo', nome:'Ateliê de Rabiscos', cod:'RB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Muitas cores, rolo de papel e moldura de madeira para a obra favorita.',
     descricao:'Um rolo de papel kraft para estender no chão, giz de cera jumbo em várias cores, um bloco de papel grosso e uma moldura de madeira para a obra favorita ir para a parede, com espaço para o nome, a idade e a data.',
@@ -1320,7 +1321,7 @@ const PRODUTOS = [
     descricao:'Três desenhos exclusivos Dambrinhos, de traço grosso e formas grandes, feitos para mãos pequenas. A criança escolhe as cores com o giz de cera para bebês, em formato de argola, e a obra preferida vai para o porta-retrato de madeira, com a ficha da obra.',
     selos:['Desenhos exclusivos','Giz próprio para bebês (1+)','Selo do INMETRO'],
     itens:['3 desenhos exclusivos Dambrinhos para colorir (papel grosso 10×15 cm)','6 gizes de cera para bebês, em formato de argola (cartela lacrada, indicada a partir de 1 ano)','1 porta-retrato de madeira 10×15 cm para a obra preferida'],
-    opcoes:pacotes(40.99) },
+    opcoes:pacotes(42.99) },
   { id:'colorir-completo', criacao:'colorir', versao:'completo', nome:'Ateliê de Colorir', cod:'CL-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Um livro de desenhos exclusivos, 12 canetinhas e moldura.',
     descricao:'Um livrinho com 12 desenhos exclusivos Dambrinhos, canetinhas laváveis jumbo em 12 cores e uma moldura para a obra favorita ir para a parede.',
@@ -1332,7 +1333,7 @@ const PRODUTOS = [
     descricao:'Cinco folhas de papel grosso 10×15 cm, seis cores de tinta guache e um kit de pintura com pincéis pequenos de ponta redonda, godê e pincéis de espuma. A criança pinta do jeito dela, com pincel, esponja ou as próprias mãos, e mistura as cores no godê se quiser. Depois de seca, a obra preferida vai para o porta-retrato de madeira, direto para a parede, com a ficha da obra.',
     selos:['Porta-retrato de madeira','Seis cores','Saquinho reutilizável'],
     itens:['5 folhas de papel grosso 10×15 cm','1 caixa de tinta guache com 6 cores, lacrada','1 kit de pintura, lacrado: 3 pincéis pequenos de ponta redonda, 1 godê, 1 pincel com batedor de espuma e 1 pincel de espuma','1 porta-retrato de madeira 10×15 cm para a obra preferida'],
-    opcoes:pacotes(40.99) },
+    opcoes:pacotes(42.99) },
   { id:'pintar-completo', criacao:'pintar', versao:'completo', nome:'Ateliê de Pintura', cod:'PT-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Duas telas, seis cores e esponjas para pintar à vontade.',
     descricao:'Duas telas grandes, seis cores de tinta guache, esponjas de formatos diferentes e pincéis de cabo grosso. Um presente que vira uma tarde inteira de arte, com moldura para as duas obras.',
@@ -1344,7 +1345,7 @@ const PRODUTOS = [
     descricao:'Um livro de instruções exclusivo Dambrinhos, com 10 bichinhos em ordem alfabética: do avestruz à vaca, cada um com uma curiosidade e o passo a passo em desenhos coloridos, um número por dobra. A criança dobra os bichinhos nas 10 folhas coloridas, desenha os detalhes com o giz de cera e escolhe o preferido para guardar na moldura. Quando terminar a coleção, ela ganha o certificado de dobrador.',
     selos:['Livro de instruções com 10 bichinhos','Certificado de dobrador','Saquinho reutilizável'],
     itens:['1 livro de instruções Dambrinhos com 10 bichinhos, o passo a passo de cada um em desenhos coloridos','10 folhas coloridas de 14,5 × 14,5 cm, uma para cada bichinho','1 moldura para a criança escolher uma das dobraduras e guardar','1 giz de cera com 6 cores, para desenhar os detalhes','1 cola bastão','1 certificado de dobrador'],
-    opcoes:pacotes(44.99) },
+    opcoes:pacotes(46.99) },
   { id:'dobradura-completo', criacao:'dobradura', versao:'completo', nome:'Ateliê de Dobradura', cod:'DB-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Oito bichinhos em dois níveis, dois cenários e moldura.',
     descricao:'Folhas exclusivas Dambrinhos para dobrar oito bichinhos, em dois níveis de dificuldade marcados com estrelas, dois cenários para montar e uma moldura para a cena favorita ir para a parede.',
@@ -1356,7 +1357,7 @@ const PRODUTOS = [
     descricao:'Uma base de papel cartão e papéis coloridos para a criança recortar formas e montar um cenário: uma cidade, o fundo do mar ou uma floresta, do jeito dela. Com bolinhas de papel crepom, a cena ganha volume, e a obra pronta ganha a ficha da obra.',
     selos:['Tesoura sem ponta','Três ideias de cenário','Saquinho reutilizável'],
     itens:['1 base de papel cartão para o cenário','Cartão com 3 ideias de cenário: cidade, fundo do mar e floresta','Tiras e folhas de papel colorido','Formas de papel para recortar e colar','Papel crepom para amassar e fazer bolinhas','1 tesoura sem ponta','1 cola bastão'],
-    opcoes:pacotes(44.99) },
+    opcoes:pacotes(46.99) },
   { id:'colagem-completo', criacao:'colagem', versao:'completo', nome:'Ateliê de Colagem', cod:'CC-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Papéis, papel crepom e moldes para três cenários emoldurados.',
     descricao:'Moldes para recortar seguindo a linha, papéis de cores e texturas diferentes, papel crepom e cola para montar três cenários: cidade, fundo do mar e floresta. O favorito vai para a moldura.',
@@ -1368,7 +1369,7 @@ const PRODUTOS = [
     descricao:'Estrelas, corações e círculos de E.V.A. já cortados, mais folhas de E.V.A. e papéis coloridos para a criança recortar os próprios quadrados e triângulos. Com eles, ela monta dois mosaicos: um porta-copos de MDF e um quadrinho na base kraft. Treina a paciência, a coordenação e as cores.',
     selos:['Peças de E.V.A. e papel, sem vidro','Tesoura sem ponta','Saquinho reutilizável'],
     itens:['Estrelas, corações e círculos de E.V.A. já cortados','Folhas de E.V.A. coloridas para recortar','Papéis coloridos para recortar quadrados e triângulos','1 porta-copos de MDF','1 base kraft para o segundo mosaico','1 tesoura sem ponta','1 cola bastão'],
-    opcoes:pacotes(44.99) },
+    opcoes:pacotes(46.99) },
   { id:'mosaico-completo', criacao:'mosaico', versao:'completo', nome:'Ateliê de Mosaico', cod:'MO-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Um espelho e dois porta-copos em mosaico.',
     descricao:'Um espelho redondo com moldura de MDF e dois porta-copos para decorar com centenas de pastilhas. Um projeto para fazer com calma, sozinho ou em família.',
@@ -1380,7 +1381,7 @@ const PRODUTOS = [
     descricao:'Uma pastilha de fibra de coco que vira terra com um pouco de água, um vasinho biodegradável para decorar e sementes de crescimento rápido. A criança planta, rega e anota no diário do botânico o que muda a cada dia. Quando a muda crescer, o vasinho vai direto para a terra.',
     selos:['Vasinho biodegradável','Diário do botânico','Saquinho reutilizável'],
     itens:['1 pastilha de fibra de coco (vira terra com água)','1 vasinho biodegradável para decorar','1 pacotinho de sementes de crescimento rápido, lacrado','Diário do botânico para desenhar e medir o crescimento','Cartão com o passo a passo para plantar e cuidar'],
-    opcoes:pacotes(49.99) },
+    opcoes:pacotes(51.99) },
   { id:'botanico-completo', criacao:'botanico', versao:'completo', nome:'Ateliê do Botânico', cod:'BT-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Três plantas para cultivar, com regador e diário de observação.',
     descricao:'Três vasinhos biodegradáveis, terra de fibra de coco e três tipos de sementes para comparar como cada planta cresce. Vem com regador, plaquinhas de madeira para identificar as plantas, lupa e o diário do botânico.',
@@ -1392,7 +1393,7 @@ const PRODUTOS = [
     descricao:'A gente manda as ferramentas e as ideias; a sucata vem de casa. O manual traz a lista do que começar a guardar (caixinhas, rolos, tampinhas, garrafa PET) e quatro engenhocas guiadas: um carrinho de caixinha, um telefone de copo, uma pista de bolinha na parede e um catavento. No mini caderno, a criança desenha, mede e dá nome às próprias invenções, como um inventor de verdade.',
     selos:['Usa o que tem em casa','Caderno do inventor','Saquinho reutilizável'],
     itens:['Manual do Inventor: lista "comece a guardar" e 4 engenhocas em figuras','1 mini caderno quadriculado para os projetos','1 tesoura sem ponta','1 régua de 15 cm','1 lápis','1 borracha','1 cola bastão'],
-    opcoes:pacotes(49.99) },
+    opcoes:pacotes(51.99) },
   { id:'engenhocas-completo', criacao:'engenhocas', versao:'completo', nome:'Ateliê de Engenhocas', cod:'EG-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Catavento, periscópio e carrinho de elástico para construir.',
     descricao:'Moldes de papelão, palitos, elásticos e eixos de madeira para construir três engenhocas que funcionam: um catavento, um periscópio para espiar por cima do muro e um carrinho movido a elástico.',
@@ -1404,7 +1405,7 @@ const PRODUTOS = [
     descricao:'Um tabuleiro em branco de papel cartão, peões e dado de madeira e cartas em branco: a criança desenha o caminho, inventa os desafios e escreve as regras. Depois, é só chamar os amigos para jogar.',
     selos:['Jogar com os amigos','Peças de madeira','Saquinho reutilizável'],
     itens:['1 tabuleiro em branco de papel cartão','4 peões de madeira','1 dado de madeira','12 cartas em branco para os desafios','Cartão com ideias de regras e caminhos'],
-    opcoes:pacotes(49.99) },
+    opcoes:pacotes(51.99) },
   { id:'jogo-completo', criacao:'jogo', versao:'completo', nome:'Ateliê Crie seu Jogo', cod:'JG-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Tabuleiro grande, peões para pintar e cartas para inventar.',
     descricao:'Um tabuleiro grande de papel cartão, peões de madeira crua para pintar, dois dados de madeira, cartas em branco e uma caixinha para guardar o jogo: a criança inventa, decora e joga com a família e os amigos.',
@@ -1416,14 +1417,14 @@ const PRODUTOS = [
     descricao:'Argila que seca ao ar, sem forno, para modelar uma peça com as técnicas da cerâmica: o beliscão, que vira um potinho, e as cobrinhas, que sobem as paredes. Depois de seca, a criança pinta e passa verniz. A peça é decorativa e de uso seco: um porta-trecos ou um pratinho de bijuterias.',
     selos:['Seca ao ar, sem forno','Técnicas de cerâmica','Saquinho reutilizável'],
     itens:['Argila de secar ao ar (200 g)','2 ferramentas de modelar de madeira, sem ponta','3 potes de tinta','1 pincel','1 verniz à base de água','Manual em figuras com 2 projetos: potinho porta-trecos e pratinho de bijuterias'],
-    opcoes:pacotes(49.99) },
+    opcoes:pacotes(51.99) },
   { id:'ceramica-completo', criacao:'ceramica', versao:'completo', nome:'Ateliê de Cerâmica', cod:'CE-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Argila, ferramentas, carimbos de textura, tintas e verniz para 4 peças.',
     descricao:'Tudo para um ateliê de cerâmica em casa, com argila que seca ao ar: rolinho, ferramentas, moldes e carimbos de textura para modelar quatro peças com as técnicas de beliscão, cobrinhas e placas. Depois, tintas e verniz para o acabamento. As peças são decorativas e de uso seco.',
     selos:['Seca ao ar, sem forno','Técnicas de cerâmica','Caixa reciclável'],
     itens:['Argila de secar ao ar (500 g)','1 rolinho de madeira','4 ferramentas de modelar de madeira, sem ponta','Moldes e carimbos de textura','6 potes de tinta','2 pincéis','1 verniz à base de água','Guia com 4 projetos'],
     opcoes:[{nome:'1 kit', n:'001', preco:149}] },
-  /* Kits sazonais: vendidos por unidade (presente para o filho, os sobrinhos), e não em pacotes de 12 */
+  /* Kits sazonais: vendidos por unidade (presente para o filho, os sobrinhos), e não em pacotes de 15 */
   { id:'ninho-mini', criacao:'ninho', versao:'mini', nome:'Ninho de Páscoa', cod:'PA-U', porUnidade:true,
     embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Três ovos de madeira para pintar e esconder na caça aos ovos.',
     descricao:'Três ovos de madeira, três potes de tinta, pincel e um ninho de palha. A criança pinta os ovos do jeito dela, e a família esconde pela casa para a caça aos ovos. Depois da brincadeira, eles ficam guardados no ninho e voltam na Páscoa do ano seguinte.',
@@ -1462,7 +1463,7 @@ const PRODUTOS = [
     descricao:'Um pote de areia mágica com forminhas, lacrado, e o cartão Dambrinhos com 10 brincadeiras para explorar a textura: esconder tesouros, fazer pegadas, escrever o nome, montar castelos. A areia não seca, então a brincadeira continua depois da festa.',
     selos:['Não seca: dá para brincar de novo','Saquinho reutilizável'],
     itens:['1 pote de areia mágica (200 g), lacrado','3 forminhas','Cartão com 10 brincadeiras com areia mágica'],
-    opcoes:pacotes(34.99) },
+    opcoes:pacotes(36.99) },
   { id:'areia-completo', criacao:'areia', versao:'completo', nome:'Ateliê de Areia Mágica', cod:'AM-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Três cores de areia, bandeja e espátula para brincar à vontade.',
     descricao:'Três potes de areia mágica em cores diferentes, uma bandeja para brincar sem espalhar e uma espátula de madeira, com o cartão de brincadeiras Dambrinhos.',
@@ -1475,7 +1476,7 @@ const PRODUTOS = [
     descricao:'Uma caixa de massa de modelar com seis cores, lacrada, com cortadores e o cartão Dambrinhos com 10 brincadeiras: fazer bolinhas de cada cor, misturar duas cores para criar uma nova, carimbar texturas, montar bichinhos. Bem guardada depois de brincar, a massa rende outras brincadeiras depois da festa.',
     selos:['Seis cores para misturar','Saquinho reutilizável'],
     itens:['1 caixa de massa de modelar com 6 cores, lacrada','3 cortadores de formas','Cartão com 10 brincadeiras com massa de modelar'],
-    opcoes:pacotes(34.99) },
+    opcoes:pacotes(36.99) },
   { id:'massinha-completo', criacao:'massinha', versao:'completo', nome:'Ateliê de Massinha', cod:'MM-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Seis cores de massinha, rolinho e cortadores para criar à vontade.',
     descricao:'Seis potes de massinha em cores diferentes, um rolinho de madeira e cortadores, com o cartão de brincadeiras Dambrinhos. Para criar bichinhos, comidinhas e o que a imaginação mandar.',
@@ -1487,7 +1488,7 @@ const PRODUTOS = [
     descricao:'Argila branca que seca ao ar, sem forno. A criança achata a argila, carimba folhas, texturas ou a própria mãozinha e, depois de seca, pinta com as cores dela.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['Argila branca de secar ao ar (150 g)','1 rolinho de madeira','1 espátula de madeira sem ponta','3 potes de tinta','1 pincel','Cartão com o passo a passo da plaquinha'],
-    opcoes:pacotes(39.99) },
+    opcoes:pacotes(41.99) },
   { id:'modelar-completo', criacao:'modelar', versao:'completo', nome:'Ateliê de Argila', cod:'AR-C', porUnidade:true,
     embalagem:'Caixa kraft com a nossa marca', resumo:'Argila, ferramentas e carimbos para criar à vontade.',
     descricao:'Mais argila, rolinho, carimbos e ferramentas para fazer plaquinhas, potinhos e bichinhos. Vem com um guia de projetos, do mais simples ao mais caprichado.',
@@ -1501,14 +1502,14 @@ const PRODUTOS = [
     descricao:'Massa de biscuit, lisa e macia, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela com mais detalhe: um bichinho, uma flor, a inicial do nome. Depois de seca, a peça fica dura e firme e vai para a estante, com a ficha da obra ao lado, como num museu.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['2 pacotes de massa de biscuit (90 g cada), lacrados','1 espátula de madeira sem ponta','Cartão com o passo a passo da escultura'],
-    opcoes:pacotes(39.99) },
+    opcoes:pacotes(41.99) },
   /* Massa de EVA: embalagem de marca certificada (Make+, 3+), revendida lacrada. Já vem colorida: dispensa tinta. */
   { id:'eva-mini', criacao:'eva', versao:'mini', nome:'Mini Massa de EVA', cod:'EV-M',
     embalagem:'Saquinho de algodão cru', resumo:'Massa leve e fofa para modelar uma peça colorida, que seca e fica para guardar.',
     descricao:'Massa de EVA em várias cores, muito leve e fofa, que seca ao ar, sem forno. A criança aperta, enrola e modela a peça dela: um bichinho, uma flor, a inicial do nome. A massa já vem colorida, então não precisa de tinta. Depois de seca, a peça vai para a estante, com a ficha da obra ao lado, como num museu.',
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['1 embalagem de massa de EVA em várias cores, lacrada','Cartão com o passo a passo da escultura'],
-    opcoes:pacotes(39.99) },
+    opcoes:pacotes(41.99) },
   /* Papelaria afetiva: pacotes de 12, 24 ou 36 toppers (12 por embalagem). unidade = palavra que vem depois do preço ("por topper").
      As fotos são exemplos FICTÍCIOS, criados por IA: nunca usar o rosto de um cliente.
      Preço: R$ 3,99 por topper e R$ 9,99 por caixa. */
@@ -2272,7 +2273,7 @@ const BENEFICIOS = [
 ];
 const PASSOS = [
   ['Escolha a atividade','Dez atividades, a partir de 1 ano','<path d="M6 10h24v20H6z M6 16h24 M12 10V6 M24 10V6"/><path d="M12 22l4 4 8-8"/>'],
-  ['Diga quantas crianças','Pacotes de 12, 24 ou 36 kits, que você pode combinar por idade','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
+  ['Diga quantas crianças','Pacotes de 15, 30 ou 45 kits, que você pode combinar por idade','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
   ['Envie pelo WhatsApp','Confirmamos o pedido e o pagamento','<path d="M31 18a12 12 0 0 1-17.8 10.5L5 31l2.4-7.6A12 12 0 1 1 31 18z"/><path d="M13 16h10 M13 21h6"/>'],
   ['Receba tudo pronto','É só entregar na festa','<path d="M7 16h22v15H7z M5 11h26v5H5z M18 11v20 M18 11c-3-6-9-6-9-2s6 2 9 2c3 0 9 2 9-2s-6-4-9 2"/>']
 ];
@@ -2408,7 +2409,7 @@ function montarMenu(){
       { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
       { titulo:'O que oferecemos', nav:'empresas', itens:[
         { nome:'Mini kits compactos', sub:'Caixinha pequena para entregar no dia a dia', nav:'empresas' },
-        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 12, 24 ou 36', col:'minis' },
+        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 15, 30 ou 45', col:'minis' },
         { nome:'Natal e fim de ano', sub:'Oficina de Natal, com orçamento para a turma', col:'oc:natal' } ] },
       { titulo:'Como funciona', nav:'empresas', itens:[
         { nome:'A partir de 24 unidades', sub:'Pedidos maiores, com preço especial', nav:'empresas' },
@@ -2472,7 +2473,7 @@ function abrirColecao(chave){
   let titulo='', desc='', lista=[];
   if (tipo==='criacao'){ const cr = CRIACOES.find(x=>x.id===valor); titulo=cr.titulo; desc=`${cr.desc} Idade sugerida: ${idadeTxt(cr.idade).toLowerCase()}, e depois dela qualquer idade aproveita.`; lista=PRODUTOS.filter(p=>p.criacao===valor); }
   else if (tipo==='completos'){ titulo='Presentear'; desc='As versões completas: mais material, guia com projetos e caixa com a nossa marca.'; lista=PRODUTOS.filter(p=>p.versao==='completo'); }
-  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
+  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 15, 30 ou 45 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
   else if (tipo==='faixa'){ const f = FAIXAS.find(x=>x.id===valor); titulo=faixaTxt(f); desc=f.texto; lista=PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; }); }
   else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
   else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod);
@@ -2486,7 +2487,7 @@ function abrirColecao(chave){
     desc = valor==='topo-bolo' ? 'Monte o seu topo de bolo: escolha as peças que quer, cada uma no seu palito de bambu. Depois do pedido e pagamento, você recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
       : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas, toppers e varais'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
-  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
+  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 15, 30 ou 45 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
   $('col-extra').hidden = tipo!=='sensorial';
@@ -2898,10 +2899,10 @@ const damCelebrar = () => PRODUTOS.filter(p=>['sazonal','natal'].includes(criaca
 
 /* Cada pergunta: texto do botão e a resposta (HTML curto). 'segue' = botões que aparecem depois da resposta. */
 const DAM_PERGUNTAS = [
-  { id:'pedir', q:'Como faço o pedido?', a:()=>`É bem simples:<ul><li>escolha o kit e o pacote (12, 24 ou 36 kits);</li><li>adicione ao carrinho e preencha os dados da festa e da entrega;</li><li>toque em <b>Finalizar pedido pelo WhatsApp</b>.</li></ul>O pedido chega para a Ingrid, que confirma tudo e envia os dados para o pagamento.` },
+  { id:'pedir', q:'Como faço o pedido?', a:()=>`É bem simples:<ul><li>escolha o kit e o pacote (15, 30 ou 45 kits);</li><li>adicione ao carrinho e preencha os dados da festa e da entrega;</li><li>toque em <b>Finalizar pedido pelo WhatsApp</b>.</li></ul>O pedido chega para a Ingrid, que confirma tudo e envia os dados para o pagamento.` },
   { id:'idade', q:'Qual kit serve para a idade da criança?', a:()=>`Escolha a idade e eu mostro o kit indicado:`, segue:()=>Array.from({length:10},(_,i)=>({ t:`${i+1} ano${i?'s':''}`, id:'idade:'+(i+1) })) },
-  { id:'misturar', q:'Posso misturar idades na mesma festa?', a:()=>`Pode! Cada kit vem em pacotes de 12, 24 ou 36, e você leva um pacote de cada kit que precisar, todos no mesmo pedido. Por exemplo: 12 kits de 3+ e 12 de 6+.<br><br>Quer misturar atividades dentro de um mesmo pacote de 12? Isso a Ingrid combina com você pelo WhatsApp.` },
-  { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 12, 24 ou 36. O frete é confirmado pelo WhatsApp.` },
+  { id:'misturar', q:'Posso misturar idades na mesma festa?', a:()=>`Pode! Cada kit vem em pacotes de 15, 30 ou 45, e você leva um pacote de cada kit que precisar, todos no mesmo pedido. Por exemplo: 15 kits de 3+ e 15 de 6+.<br><br>Quer misturar atividades dentro de um mesmo pacote de 15? Isso a Ingrid combina com você pelo WhatsApp.` },
+  { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 15, 30 ou 45. O frete é confirmado pelo WhatsApp.` },
   { id:'dentro', q:'O que vem dentro de cada kit?', a:()=>`Escolha o kit e eu abro a página com a lista completa:`, segue:()=>[...damCriar(), ...SENSORIAIS, ...damCelebrar()].map(p=>({ t:p.nome, pid:p.id })) },
   { id:'disponiveis', q:'Quais kits já estão disponíveis?', a:()=>{ const ok = PRODUTOS.filter(disponivel); return ok.length ? `Já dá para pedir:<ul>${ok.map(p=>`<li>${damKit(p)} · ${damPreco(p)}</li>`).join('')}</ul>Os outros kits estão em produção. Na página de cada um, o botão <b>Avise-me</b> manda uma mensagem para a Ingrid te chamar quando ficar pronto.` : `Os kits estão em produção. Use o botão <b>Avise-me</b> na página do kit que você quer.`; } },
   { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>1 mês de antecedência</b>.` },
