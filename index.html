@@ -913,7 +913,7 @@
         <p class="crumbs"><button type="button" data-go="home">Início</button> / Lembrar</p>
         <p class="eyebrow">Lembrar · papelaria afetiva</p>
         <h1>O rostinho de cada fase, no centro da festa.</h1>
-        <p>Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você manda a foto que tem, e a gente cuida do recorte, das cores e do acessório de cada tema.</p>
+        <p>Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você escolhe entre os temas e modelos que mostramos aqui, manda a foto que tem, e a gente cuida do recorte e das cores.</p>
       </div>
     </section>
 
@@ -926,7 +926,7 @@
     </section>
 
     <section class="sec" id="afe-topo-bolo">
-      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Topo de bolo</h2></div><span class="small">3, 4 ou 5 elementos no tema da festa, com o nome, a idade e o personagem.</span></div>
+      <div class="sec-head"><div><p class="eyebrow">Papelaria afetiva</p><h2 class="sec-title">Topo de bolo</h2></div><span class="small">3, 4 ou 5 elementos, com o nome e a idade da criança, nos temas lúdicos da Dambrinhos.</span></div>
       <div class="criacoes ocasioes" id="afetiva-topo-bolo"></div>
     </section>
 
@@ -951,8 +951,9 @@
         <ol>
           <li>Escolha o que você quer: caixas, topo de bolo, toppers (de festa, mesversário ou datas especiais) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
-          <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte o tema. Pode ser foto de celular ou da escola.</li>
+          <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
+          <li>Os temas, fundos, cores e personagens são os que aparecem no site. Ainda não criamos temas sob medida, mas estamos sempre lançando novidades.</li>
         </ol>
         <div class="hist-acts" style="margin-top:0">
           <button class="cta" type="button" data-col="afetiva">Ver tudo</button>
@@ -1520,16 +1521,16 @@ const PRODUTOS = [
   /* Topo de bolo: 3, 4 ou 5 elementos, cada um no seu palito de bambu. Vendido por unidade, preço fechado.
      Composição de cada opção em ELEMENTOS (provisória: a Ingrid vai ajustar). */
   ...[
-    [3, 39.99, ['Bandeirola com o nome da criança, em bandeirinhas coloridas', 'Plaquinha com uma frase sobre a criança', 'Pompom']],
-    [4, 49.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um personagem lúdico do tema', 'Idade: número de pompom ou número trançado com linha']],
-    [5, 59.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um personagem lúdico do tema', 'Idade: número de pompom ou número trançado com linha', 'Letra inicial do nome da criança']]
+    [3, 39.99, ['Bandeirola com "Parabéns" ou o nome da criança, presa em 2 hastes com pompons', 'Idade que a criança vai completar']],
+    [4, 49.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um dos personagens lúdicos da Dambrinhos', 'Idade: número de pompom ou número trançado com linha']],
+    [5, 59.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um dos personagens lúdicos da Dambrinhos', 'Idade: número de pompom ou número trançado com linha', 'Letra inicial do nome da criança']]
   ].map(([n, preco, elementos])=>({ id:`topo-bolo-${n}`, criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo',
     porUnidade:true, unidade:'topo de bolo', plural:'topos de bolo', nome:`Topo de bolo · ${n} elementos`, cod:`TB-${n}`,
     fotos:[FOTO.afetiva('topo-bolo')],
     embalagem:'Embalagem Dambrinhos',
-    resumo: n===3 ? 'A bandeirola com o nome da criança, uma plaquinha com frase e um pompom.' : n===4 ? 'Pompom, faixa, personagem e a idade da criança.' : 'Pompom, faixa, personagem, idade e a letra do nome.',
-    descricao:`Um topo de bolo com ${n} elementos, cada um no seu palito de bambu, no tema da festa: ${elementos.map(e=>e.split(':')[0].toLowerCase()).join(', ')}. Depois do pedido e pagamento, você manda o nome, a idade, o tema e, se quiser, a foto do rostinho pelo WhatsApp, e recebe a arte para aprovar antes de produzirmos.`,
-    selos:[`${n} elementos`,'Arte para aprovar antes de produzir','No tema da festa'],
+    resumo: n===3 ? 'A bandeirola com "Parabéns" ou o nome, nas duas hastes, e a idade da criança.' : n===4 ? 'Pompom, faixa, personagem e a idade da criança.' : 'Pompom, faixa, personagem, idade e a letra do nome.',
+    descricao:`Um topo de bolo com ${n} elementos, cada um no seu palito de bambu: ${elementos.map(e=>e.split(':')[0].toLowerCase()).join(', ')}. Depois do pedido e pagamento, você manda o nome, a idade e, se quiser, a foto do rostinho pelo WhatsApp, e recebe a arte para aprovar antes de produzirmos. Os temas e personagens são os lúdicos da Dambrinhos, que aparecem no site.`,
+    selos:[`${n} elementos`,'Arte para aprovar antes de produzir','Temas lúdicos da Dambrinhos'],
     itens:[...elementos, `${n} palitos de bambu`, 'Embalagem Dambrinhos'],
     seguranca:'Os palitos são de bambu e têm ponta, e os pompons são peças pequenas: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. O topo é só para decorar.',
     opcoes:[{ nome:'1 topo de bolo', n:'001', preco }] })),
@@ -1545,7 +1546,7 @@ const PRODUTOS = [
   ].map(([modelo, nome, cod, resumo])=>({ id:'caixa-'+modelo, criacao:'afetiva', versao:'afetiva', grupo:'caixas', unidade:'caixa', plural:'caixas',
     modelo, nome, cod, resumo,
     embalagem:'Embalagem Dambrinhos com 12 caixas',
-    descricao:`${resumo} A caixa é personalizada com o rostinho da criança e as cores do tema da festa, para os docinhos ou a lembrancinha. O nome e a idade são impressos direto na caixa; o rostinho, o personagem ou o elemento do tema vem em aplique 3D, colado por cima, com relevo. O fundo é neutro, para combinar com qualquer tema.`,
+    descricao:`${resumo} A caixa é personalizada com o rostinho da criança, no fundo e na cor que você escolher, para os docinhos ou a lembrancinha. O nome e a idade são impressos direto na caixa; o rostinho, um dos personagens lúdicos da Dambrinhos ou o elemento do tema vem em aplique 3D, colado por cima, com relevo. O fundo é neutro, para combinar com qualquer tema.`,
     selos:['Fundo neutro, combina com qualquer tema','Arte para aprovar antes de imprimir','Sigilo com a foto'],
     itens:[`${nome} personalizada com o rostinho da criança e o tema da festa`, 'Fundo neutro à escolha, que combina com qualquer tema', 'Nome e idade impressos direto na caixa', 'Rostinho, personagem ou elemento do tema em aplique 3D, colado por cima', 'Embalagem Dambrinhos com 12 caixas'],
     seguranca:'A caixa é de papel, para guardar doces e lembrancinhas. Mantenha longe da água e do calor.',
@@ -2420,7 +2421,7 @@ function abrirColecao(chave){
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
   else if (tipo==='afetiva'){ titulo = valor ? GRUPOS_AFETIVA[valor] : 'Papelaria afetiva'; lista = valor ? afetivosDe(valor) : AFETIVOS;
-    desc = valor==='topo-bolo' ? 'Topos de bolo com 3, 4 ou 5 elementos no tema da festa. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.'
+    desc = valor==='topo-bolo' ? 'Topos de bolo com 3, 4 ou 5 elementos, nos temas lúdicos da Dambrinhos. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
       : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas, toppers e varais'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
   else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
@@ -2810,9 +2811,9 @@ const DAM_PERGUNTAS = [
   { id:'alergia', q:'E se a criança tiver alergia?', a:()=>`Cada material vem <b>lacrado na embalagem original do fabricante</b>, com a composição no rótulo. Antes de entregar o kit para a criança, confira na embalagem se há algum ingrediente ao qual ela tenha alergia. As massas de modelar, por exemplo, costumam levar amido, que pode conter trigo.<br><br>Quer saber a marca e a composição antes de fazer o pedido? Toque em <b>Falar com a Ingrid</b> que ela envia as fotos das embalagens.`, wa:'Olá! Antes de fazer o pedido, queria ver a marca e a composição dos materiais do kit. A criança tem alergia a: ' },
   { id:'texturas', q:'Qual a diferença entre as texturas?', a:()=>`No <b>Guia de texturas</b> você compara a areia mágica, a massa de EVA, a massa de modelar e os materiais dos outros kits: o toque, se usa água, se faz barulho e se precisa secar.<br><br><button type="button" data-guia>Abrir o Guia de texturas</button>` },
   /* Tema da festa: por que a Dambrinhos só faz temas lúdicos, e não personagens de desenhos, filmes ou marcas */
-  { id:'personagem', q:'Vocês fazem o tema do personagem favorito da criança?', a:()=>`Não fazemos personagens de desenhos, filmes ou marcas, os chamados <b>temas comerciais</b>. Eles têm dono e só podem ser usados com autorização (licença), e a gente prefere fazer tudo do jeito certo.<br><br>No lugar, criamos <b>temas lúdicos</b>, com arte própria da Dambrinhos: bichinhos, circo, fundo do mar, fazendinha, abelhinhas, espaço, frutinhas, flores... Cada peça é exclusiva e continua bonita mesmo depois que a moda do personagem passa.`, wa:'Olá! Quero um tema lúdico da Dambrinhos para a festa. O tema e as cores que eu imagino são: ' },
-  { id:'cores', q:'Dá para fazer nas cores do tema da festa?', a:()=>`Dá, sim! Você pode escolher as <b>cores da festa</b>, inclusive as cores que lembram o personagem que a criança ama, e a gente cria uma arte lúdica combinando com elas. O que não fazemos é desenhar o personagem, o logotipo ou o nome dele.<br><br>Antes de produzir, você recebe a arte para aprovar.`, wa:'Olá! Quero a papelaria da festa nestas cores: ' },
-  { id:'licenciado', q:'Por que vocês não usam personagens?', a:()=>`Por três motivos:<ul><li><b>Respeito a quem criou:</b> os personagens são protegidos por direitos autorais, e usar sem licença é proibido;</li><li><b>Arte exclusiva:</b> o que fazemos é desenhado para a Dambrinhos, e não uma cópia que aparece em toda festa;</li><li><b>Uma lembrança que fica:</b> um tema lúdico continua especial por anos, mesmo quando a criança muda de personagem preferido.</li></ul>` },
+  { id:'personagem', q:'Vocês fazem o tema do personagem favorito da criança?', a:()=>`Não fazemos personagens de desenhos, filmes ou marcas, os chamados <b>temas comerciais</b>. Eles têm dono e só podem ser usados com autorização (licença), e a gente prefere fazer tudo do jeito certo.<br><br>No lugar, oferecemos <b>temas lúdicos</b>, com arte própria da Dambrinhos. Os temas disponíveis são os que aparecem no site, em cada produto: é só escolher o que você mais gostar.` },
+  { id:'cores', q:'Vocês criam um tema sob medida para a minha festa?', a:()=>`Ainda não. Por enquanto, trabalhamos só com os <b>temas, fundos, cores e personagens lúdicos que aparecem no site</b>. Assim, cada peça sai com a qualidade e o capricho de sempre, e você já vê como vai ficar antes de comprar.<br><br>Em cada produto, você escolhe entre as opções mostradas, e o nome, a idade e a foto do rostinho são personalizados para a criança. Antes de produzir, você recebe a arte para aprovar.<br><br>Estamos sempre criando temas novos: acompanhe no Instagram <b>@${LOJA.instagram}</b>.` },
+  { id:'licenciado', q:'Por que vocês não usam personagens?', a:()=>`Por três motivos:<ul><li><b>Respeito a quem criou:</b> os personagens são protegidos por direitos autorais, e usar sem licença é proibido;</li><li><b>Arte exclusiva:</b> os temas da Dambrinhos são desenhados por nós, e não uma cópia que aparece em toda festa;</li><li><b>Uma lembrança que fica:</b> um tema lúdico continua especial por anos, mesmo quando a criança muda de personagem preferido.</li></ul>` },
   ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
 ];
 
@@ -2821,7 +2822,7 @@ const DAM_TEMAS = [
   { id:'escolher', ico:'🎨', t:'Escolher o kit', sub:'Idades, o que vem e texturas', perguntas:['idade','misturar','dentro', ...(LOJA.disponiveis === 'todos' ? [] : ['disponiveis']),'texturas'] },
   { id:'pagar',    ico:'💳', t:'Preços e pagamento', sub:'Valores, Pix e cashback', perguntas:['precos','pagar','cashback'] },
   { id:'pedido',   ico:'📦', t:'Pedido e entrega', sub:'Como pedir, prazo e frete', perguntas:['pedir','prazo','entrega'] },
-  { id:'tema',     ico:'🎈', t:'Tema da festa', sub:'Temas lúdicos e cores', perguntas:['personagem','cores','licenciado'] },
+  { id:'tema',     ico:'🎈', t:'Tema da festa', sub:'Temas lúdicos do site', perguntas:['personagem','cores','licenciado'] },
   { id:'cuidado',  ico:'🛡️', t:'Segurança', sub:'Selo do INMETRO e alergias', perguntas:['seguranca','alergia'] },
   { id:'cuidar',   ico:'🏫', t:'Escolas e empresas', sub:'Kits para alunos e pacientes', perguntas:['cuidar'] },
 ];
