@@ -868,7 +868,7 @@
           <details><summary>O que vem dentro do kit</summary><div class="pd-acc-body"><ul class="itens" id="p-itens"></ul></div></details>
           <details id="p-tex-wrap"><summary>Textura do material</summary><div class="pd-acc-body"><div id="p-tex"></div><button type="button" class="guia-link" data-guia>Comparar com os outros materiais</button></div></details>
           <details><summary>Idade e segurança</summary><div class="pd-acc-body"><p id="p-seguranca"></p></div></details>
-          <details><summary>Prazo e entrega</summary><div class="pd-acc-body"><p id="p-prazo2"></p><p>Se o pedido for enviado, some o prazo da transportadora, que varia conforme o CEP. Para chegar com folga, peça com pelo menos 1 mês de antecedência da festa.</p><p>Enviamos para todo o Brasil. O valor do frete é confirmado pelo WhatsApp junto com o pedido.</p></div></details>
+          <details><summary>Prazo e entrega</summary><div class="pd-acc-body"><p id="p-prazo2"></p><p>Se o pedido for enviado, some o prazo da transportadora, que varia conforme o CEP. Para chegar com folga, peça com pelo menos 6 semanas de antecedência da festa.</p><p>Enviamos para todo o Brasil. O valor do frete é confirmado pelo WhatsApp junto com o pedido.</p></div></details>
         </div>
         <div class="sku" id="p-sku"></div>
       </div>
@@ -1074,7 +1074,7 @@
                 <div class="field" id="f-cidade"><label for="cidade">Cidade / UF *</label><input id="cidade" name="cidade" type="text" autocomplete="address-level2"></div>
               </div>
             </div>
-            <p class="small" style="margin:0"><span id="frete-regra"></span> Pedido pronto em até 15 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 1 mês de antecedência da festa.</p>
+            <p class="small" style="margin:0"><span id="frete-regra"></span> Pedido pronto em até 20 dias úteis após o pagamento, mais o prazo de envio ou a retirada: peça com pelo menos 6 semanas de antecedência da festa.</p>
           </section>
           <section style="margin-top:24px">
             <h2>Pagamento</h2>
@@ -1169,7 +1169,7 @@ const LOJA = {
   parcelas: 3,                 // parcelas sem juros no cartão, quando ele for ativado
   // kits com material em estoque: podem ser comprados. Os outros aparecem como "Em breve", com o botão "Avise-me".
   disponiveis: 'todos',       // 'todos' = todos os kits podem ser comprados. Para voltar a mostrar "Em breve", troque por uma lista, ex.: ['massinha-mini']
-  prazo: 'Pronto em até 15 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
+  prazo: 'Pronto em até 20 dias úteis após o pagamento (ou após a entrada de 50%), para envio ou retirada'   // prazo de montagem e postagem; o transporte conta à parte
 };
 
 /* As nove criações, em ordem de idade. cor = fundo do cartão grande; fundo = fundo da ilustração;
@@ -2905,7 +2905,7 @@ const DAM_PERGUNTAS = [
   { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 15, 30 ou 45. O frete é confirmado pelo WhatsApp.` },
   { id:'dentro', q:'O que vem dentro de cada kit?', a:()=>`Escolha o kit e eu abro a página com a lista completa:`, segue:()=>[...damCriar(), ...SENSORIAIS, ...damCelebrar()].map(p=>({ t:p.nome, pid:p.id })) },
   { id:'disponiveis', q:'Quais kits já estão disponíveis?', a:()=>{ const ok = PRODUTOS.filter(disponivel); return ok.length ? `Já dá para pedir:<ul>${ok.map(p=>`<li>${damKit(p)} · ${damPreco(p)}</li>`).join('')}</ul>Os outros kits estão em produção. Na página de cada um, o botão <b>Avise-me</b> manda uma mensagem para a Ingrid te chamar quando ficar pronto.` : `Os kits estão em produção. Use o botão <b>Avise-me</b> na página do kit que você quer.`; } },
-  { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>1 mês de antecedência</b>.` },
+  { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>6 semanas de antecedência</b>.` },
   { id:'pagar', q:'Quais as formas de pagamento?', a:()=>`Por enquanto, só Pix:<ul><li><b>Pix à vista (100%)</b>: o pedido entra primeiro na fila de produção;</li><li><b>Pix em 2 vezes</b>: 50% para começar a produção e 50% mais o frete antes do envio ou da retirada.</li></ul>${LOJA.cashbackPix>0 ? `E pagando no Pix você ganha ${LOJA.cashbackPix}% de cashback para a próxima compra.` : ''}` },
   ...(LOJA.cashbackPix>0 ? [{ id:'cashback', q:'Como funciona o cashback?', a:()=>`Pagando no Pix, ${LOJA.cashbackPix}% do valor dos produtos vira crédito para a sua próxima compra na Dambrinhos, válido por ${LOJA.cashbackMeses} meses. O crédito não diminui o valor do pedido atual e não vira dinheiro.` }] : []),
   { id:'entrega', q:'Vocês enviam para todo o Brasil?', a:()=>`Sim! Enviamos para todo o Brasil, e o valor do frete é confirmado pelo WhatsApp depois do pedido.${LOJA.freteGratisAcima ? ` Em pedidos acima de <b>${brl(LOJA.freteGratisAcima)}</b>, o frete é <b>grátis no estado do RJ</b> e, nos outros estados, a Dambrinhos paga <b>metade do frete</b> (até ${brl(LOJA.freteMetadeTeto)}).` : ''} Também dá para combinar a <b>retirada</b>: é só escolher essa opção no carrinho.` },
