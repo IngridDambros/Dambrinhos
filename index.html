@@ -1529,15 +1529,18 @@ const PRODUTOS = [
     opcoes:pacotes(3.99,'toppers') },
   /* Topo de bolo: o cliente monta o dele, escolhendo as peças (cada uma no seu palito de bambu, vendida por unidade).
      escolha = o que o cliente define na página da peça (ver ESCOLHAS_TOPO). Em ordem alfabética. */
-  { id:'topo-bandeirola', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha:'bandeirola',
-    unidade:'peça', plural:'peças', nome:'Bandeirola', cod:'TB-BD',
-    fotos:[`fotos/topo-bolo-bandeirola-1.jpg?v=${FOTOS_VERSAO}`],
-    embalagem:'Embalagem Dambrinhos', resumo:'Bandeirinhas coloridas com "Parabéns" ou o nome da criança, em duas hastes com pompons.',
-    descricao:'Um varalzinho de bandeirinhas coloridas para o alto do bolo, preso em duas hastes de bambu, com um cachinho de pompons em cada ponta e um cordão listrado com pompom. Você escolhe se as bandeirinhas formam a palavra "Parabéns" ou o nome da criança. Combine com a idade, a letra de linha e os pompons para montar o seu topo de bolo.',
-    selos:['"Parabéns" ou o nome','Pompons de lã','Monte o seu topo de bolo'],
-    itens:['Bandeirola de bandeirinhas coloridas, com "Parabéns" ou o nome da criança','2 hastes de bambu com pompons e cordão listrado','Embalagem Dambrinhos'],
-    seguranca:'As hastes são de bambu e têm ponta, e os pompons são peças pequenas: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. É só para decorar.',
-    opcoes:[{ nome:'1 bandeirola', n:'001', preco:19.99 }] },
+  /* Bandeirola: dois anúncios, um com "Parabéns" e outro com o nome da criança (o cliente escolhe) */
+  ...[['parabens', 'Bandeirola Parabéns', 'TB-BP', 'A palavra "Parabéns" em bandeirinhas coloridas, em duas hastes de bambu.', 'com a palavra "Parabéns"', null],
+      ['nome', 'Bandeirola com o nome', 'TB-BN', 'O nome da criança em bandeirinhas coloridas, em duas hastes de bambu.', 'com o nome da criança', 'nome']
+  ].map(([id, nome, cod, resumo, txt, escolha])=>({ id:`topo-bandeirola-${id}`, criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha,
+    unidade:'peça', plural:'peças', nome, cod,
+    fotos:[`fotos/topo-bolo-bandeirola-${id}-1.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos', resumo,
+    descricao:`Um varalzinho de bandeirinhas coloridas ${txt}, uma letra branca em cada bandeirinha, preso por um cordão em duas hastes de bambu, para o alto do bolo. Combine com a idade e a letra de linha e com os pompons para montar o seu topo de bolo.`,
+    selos:[id==='nome' ? 'Com o nome da criança' : 'Com "Parabéns"','Bandeirinhas coloridas','Monte o seu topo de bolo'],
+    itens:[`Bandeirola de bandeirinhas coloridas ${txt}`,'2 hastes de bambu','Embalagem Dambrinhos'],
+    seguranca:'As hastes são de bambu e têm ponta: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. É só para decorar.',
+    opcoes:[{ nome:'1 bandeirola', n:'001', preco:19.99 }] })),
   { id:'topo-idade', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha:'idade',
     unidade:'peça', plural:'peças', nome:'Idade com linha', cod:'TB-ID',
     fotos:[`fotos/topo-bolo-idade-1.jpg?v=${FOTOS_VERSAO}`],
@@ -1649,7 +1652,7 @@ const CUIDA = [
   { nome:'Empresas',              sub:'Dia das Crianças e fim de ano',        quem:'uma empresa',             foto:'fotos/cuida-empresas.jpg',     cor:'#DCEFE2' }
 ];
 /* Lembrar: papelaria afetiva — os produtos ficam em PRODUTOS (versao:'afetiva'); aqui só a cor de cada cartão */
-const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola':'#F7DDE5', 'topo-idade':'#DCEFE2', 'topo-letra':'#FCE1E8', 'topo-pompom':'#FFE8A3', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
+const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola-parabens':'#F7DDE5', 'topo-bandeirola-nome':'#DCEBF7', 'topo-idade':'#DCEFE2', 'topo-letra':'#FCE1E8', 'topo-pompom':'#FFE8A3', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
   'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
   'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
 /* MOSTRAR_TOPO_BOLO = false esconde a categoria Topo de bolo do site */
@@ -2584,15 +2587,15 @@ function renderProduto(){
   $('p-sku').textContent = `Código: ${sku(p,opt)}` + (p.varal ? ` · ${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? '' : ` · ${brl(porKit(o))} por ${unidadeDe(p)}`);
   if (p.escolha){
     const tp = sel.topo, ban = p.escolha==='bandeirola';
-    const letra = p.escolha==='letra';
-    $('p-topo-tit').textContent = ban ? 'O que vai escrito?' : letra ? 'Qual a letra?' : 'Qual a idade?';
+    const letra = p.escolha==='letra', nomeCampo = ban || p.escolha==='nome';
+    $('p-topo-tit').textContent = ban ? 'O que vai escrito?' : p.escolha==='nome' ? 'Qual o nome?' : letra ? 'Qual a letra?' : 'Qual a idade?';
     $('p-topo-op').innerHTML = ban ? [['parabens','Parabéns','A palavra "Parabéns"'],['nome','Nome da criança','O nome que você escrever']]
       .map(([v,t,d])=>`<button type="button" class="pd-modo-op" data-topo="${v}" aria-pressed="${tp.frase===v}"><b>${t}</b><span>${d}</span></button>`).join('') : '';
     $('p-topo-op').hidden = !ban;
     $('p-topo-campo-wrap').hidden = ban && tp.frase!=='nome';
-    $('p-topo-campo-rot').textContent = ban ? 'Nome da criança' : letra ? 'Letra inicial do nome da criança' : 'Idade que a criança vai completar';
-    $('p-topo-campo').maxLength = ban ? 12 : letra ? 1 : 2; $('p-topo-campo').inputMode = ban || letra ? 'text' : 'numeric';
-    $('p-topo-campo').placeholder = ban ? 'Ex.: Luiza' : letra ? 'Ex.: L' : 'Ex.: 5';
+    $('p-topo-campo-rot').textContent = nomeCampo ? 'Nome da criança' : letra ? 'Letra inicial do nome da criança' : 'Idade que a criança vai completar';
+    $('p-topo-campo').maxLength = nomeCampo ? 12 : letra ? 1 : 2; $('p-topo-campo').inputMode = nomeCampo || letra ? 'text' : 'numeric';
+    $('p-topo-campo').placeholder = nomeCampo ? 'Ex.: Luiza' : letra ? 'Ex.: L' : 'Ex.: 5';
   }
   if (p.varal){
     const vv = sel.varal, fr = VARAL.frases.find(x=>x.id===vv.frase), n = bandeirinhasVaral(vv);
