@@ -824,6 +824,12 @@
             <label for="p-topo-campo" id="p-topo-campo-rot"></label>
             <input id="p-topo-campo" type="text" autocomplete="off">
           </div>
+          <!-- Idade e letra com linha: a cor da linha, nas mesmas cores das caixas -->
+          <div id="p-topo-cor-wrap" hidden>
+            <h2 class="pd-h">Escolha a cor da linha</h2>
+            <div class="pd-cores" id="p-topo-cores"></div>
+            <p class="small pd-cor-nota" id="p-topo-cor-nota"></p>
+          </div>
         </div>
         <!-- Caixas da papelaria afetiva: o cliente escolhe o fundo e a imagem troca na hora -->
         <div id="p-fundo-wrap" hidden>
@@ -1546,8 +1552,8 @@ const PRODUTOS = [
     fotos:[`fotos/topo-bolo-idade-1.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos', resumo:'O número da idade enrolado à mão com linha colorida, num palito de bambu.',
     descricao:'O número da idade que a criança vai completar, enrolado à mão com linha de algodão colorida, volta por volta, e preso num palito de bambu. Uma peça artesanal, que dá textura e cor ao topo do bolo. Combine com a bandeirola para montar o seu topo de bolo.',
-    selos:['Enrolado à mão','Linha de algodão','Monte o seu topo de bolo'],
-    itens:['Número da idade enrolado com linha colorida','1 palito de bambu','Embalagem Dambrinhos'],
+    selos:['Enrolado à mão','Cor da linha à escolha','Monte o seu topo de bolo'],
+    itens:['Número da idade enrolado com linha, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
     seguranca:'O palito é de bambu e tem ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 número', n:'001', preco:14.99 }] },
   { id:'topo-letra', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha:'letra',
@@ -1555,8 +1561,8 @@ const PRODUTOS = [
     fotos:[`fotos/topo-bolo-letra-1.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos', resumo:'A letra inicial do nome da criança enrolada à mão com linha colorida, num palito de bambu.',
     descricao:'A letra inicial do nome da criança, enrolada à mão com linha de algodão colorida, volta por volta, e presa num palito de bambu. Combina com a idade de linha e com a bandeirola para montar o seu topo de bolo.',
-    selos:['Enrolada à mão','Linha de algodão','Monte o seu topo de bolo'],
-    itens:['Letra inicial do nome enrolada com linha colorida','1 palito de bambu','Embalagem Dambrinhos'],
+    selos:['Enrolada à mão','Cor da linha à escolha','Monte o seu topo de bolo'],
+    itens:['Letra inicial do nome enrolada com linha, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
     seguranca:'O palito é de bambu e tem ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 letra', n:'001', preco:14.99 }] },
   { id:'topo-pompom', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, desenho:'pompom',
@@ -2147,6 +2153,8 @@ function artVaral(p, v){
     <path d="M4 ${y1.toFixed(1)} Q100 ${(yAt(100)+ (yAt(100)-y1)).toFixed(1)} 196 ${y2.toFixed(1)}" fill="none" stroke="#C9A96E" stroke-width="1"/>
     ${out}</svg>`;
 }
+/* Peças com linha (idade e letra): o cliente escolhe a cor da linha, nas mesmas cores das caixas */
+const comCorTopo = p => p.escolha==='idade' || p.escolha==='letra';
 /* Idade com linha: o número desenhado com traços de linha enrolada, num palito */
 function artIdade(p){
   const n = (sel && sel.p===p && sel.topo && sel.topo.texto) || '5';
@@ -2529,7 +2537,7 @@ function abrirProduto(pid){
   const p = prod(pid), cr = criacaoDe(p);
   sel = { p, opt:0, qtd:1, foto:0, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], misturar:false,
           varal: p.varal ? { frase:'parabens', nome:'', cor:'colorido' } : null,
-          topo: p.escolha==='bandeirola' ? { frase:'parabens', texto:'' } : p.escolha ? { frase:p.escolha, texto:'' } : null };
+          topo: p.escolha==='bandeirola' ? { frase:'parabens', texto:'' } : p.escolha ? { frase:p.escolha, texto:'', cor: comCorTopo(p) ? CORES_CAIXA[0].id : null } : null };
   $('p-topo-wrap').hidden = !p.escolha; $('p-topo-campo').value = '';
   $('p-fundo-wrap').hidden = !p.modelo;
   $('p-varal-wrap').hidden = !p.varal; $('p-nome').value = '';
@@ -2596,6 +2604,11 @@ function renderProduto(){
     $('p-topo-campo-rot').textContent = nomeCampo ? 'Nome da criança' : letra ? 'Letra inicial do nome da criança' : 'Idade que a criança vai completar';
     $('p-topo-campo').maxLength = nomeCampo ? 12 : letra ? 1 : 2; $('p-topo-campo').inputMode = nomeCampo || letra ? 'text' : 'numeric';
     $('p-topo-campo').placeholder = nomeCampo ? 'Ex.: Luiza' : letra ? 'Ex.: L' : 'Ex.: 5';
+    $('p-topo-cor-wrap').hidden = !comCorTopo(p);
+    if (comCorTopo(p)){
+      $('p-topo-cores').innerHTML = CORES_CAIXA.map(c=>`<button type="button" class="pd-cor" data-topo-cor="${c.id}" aria-pressed="${tp.cor===c.id}"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/>${[6,12,18,24,30].map(y=>`<path d="M4 ${y} H36" stroke="${c.hex}" stroke-width="5.5" stroke-linecap="round"/>`).join('')}</svg><span>${esc(c.nome)}</span></button>`).join('');
+      $('p-topo-cor-nota').textContent = `Linha ${corDe(tp.cor).nome.toLowerCase()}. A foto mostra um exemplo de cor.`;
+    }
   }
   if (p.varal){
     const vv = sel.varal, fr = VARAL.frases.find(x=>x.id===vv.frase), n = bandeirinhasVaral(vv);
@@ -2636,6 +2649,7 @@ $('view-product').addEventListener('click', e=>{
     else { sel.cores.push(c); if (sel.cores.length > 2) sel.cores.shift(); } }
   else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
   else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
+  else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
   else if (b.dataset.topo){ sel.topo.frase = b.dataset.topo; if (b.dataset.topo==='nome') setTimeout(()=>$('p-topo-campo').focus(),0); }
   else if (b.dataset.foto) sel.foto = +b.dataset.foto;
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
@@ -2654,7 +2668,7 @@ $('add').onclick = ()=>{
   if (p.escolha){
     const tp = { ...sel.topo, texto:(sel.topo.texto||'').trim() }, precisa = p.escolha!=='bandeirola' || tp.frase==='nome';
     if (precisa && !tp.texto){ avisar(p.escolha==='idade' ? 'Escreva a idade' : p.escolha==='letra' ? 'Escreva a letra' : 'Escreva o nome da criança'); $('p-topo-campo').focus(); return; }
-    const ex = carrinho.find(i=>i.pid===p.id && i.topo && i.topo.frase===tp.frase && i.topo.texto===tp.texto);
+    const ex = carrinho.find(i=>i.pid===p.id && i.topo && i.topo.frase===tp.frase && i.topo.texto===tp.texto && (i.topo.cor||null)===(tp.cor||null));
     ex ? ex.qtd += qtd : carrinho.push({ pid:p.id, opt:0, qtd, msg:'', topo:tp });
     atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart'); return;
   }
@@ -2675,7 +2689,7 @@ $('add').onclick = ()=>{
 /* Carrinho */
 function atualizarBadge(){ const n=carrinho.reduce((s,i)=>s+i.qtd,0); $('badge').textContent=n; $('badge').hidden=n===0; }
 function itemDet(i){ const p = prod(i.pid), o = p.opcoes[i.opt];
-  if (i.topo) return ['Monte o seu topo de bolo', p.escolha==='idade' ? `Idade: ${i.topo.texto}` : p.escolha==='letra' ? `Letra: ${i.topo.texto}` : `Escrito: “${i.topo.frase==='nome' ? i.topo.texto : 'Parabéns'}”`];
+  if (i.topo) return ['Monte o seu topo de bolo', ...(i.topo.cor ? [`Cor da linha: ${corDe(i.topo.cor).nome}`] : []), p.escolha==='idade' ? `Idade: ${i.topo.texto}` : p.escolha==='letra' ? `Letra: ${i.topo.texto}` : `Escrito: “${i.topo.frase==='nome' ? i.topo.texto : 'Parabéns'}”`];
   if (i.varal){ const n = bandeirinhasVaral(i.varal);
     return [criacaoDe(p).titulo, `Frase: “${textoVaral(i.varal)}”`, `Cor: ${corVaralTxt(i.varal.cor)}`, `${n} bandeirinhas · ${brl(VARAL.preco)} por bandeirinha`]; }
   return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, i.fundo ? `Fundo: ${nomeFundo(i.fundo)}` : null, i.cores ? `${i.cores.length>1?'Cores':'Cor'}: ${coresTxt(i.cores, o.n)}` : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por ${unidadeDe(p)}`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
