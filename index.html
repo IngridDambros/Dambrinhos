@@ -640,7 +640,7 @@
     <section class="sec" id="criacoes">
       <div class="sec-head">
         <div><p class="eyebrow">Criar</p><h2 class="sec-title">O que a criança vai criar?</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 15, 30 ou 45 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 12, 24 ou 36 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
       </div>
       <div class="criacoes" id="grid-criacoes"></div>
     </section>
@@ -1284,7 +1284,7 @@ const FOTO = {
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
-   Lembrancinhas: pacotes(preço por kit) de 15, 30 ou 45 kits (1, 2 ou 3 caixas de envio de cerca de 50×36×22, com 15 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
+   Lembrancinhas: pacotes(preço por kit) de 12, 24 ou 36 kits (1, 2 ou 3 caixas de envio, com 12 caixas mini cada). O pacote é só a quantidade × o preço do kit, sem desconto.
    Os preços dos kits incluem R$ 2,00 por kit de reserva para o frete (frete grátis no RJ e metade, até R$ 50, nos outros estados).
    Preço por kit de acordo com a fase: A fase da descoberta (1+ a 3+) 40,99 · Mãos mais firmes (4+ a 6+) 44,99 ·
    Pequenos inventores (7+ a 9+) 49,99. Área sensorial: Massa de modelar 34,99, Areia 34,99, Massa de EVA 39,99.
@@ -1303,7 +1303,7 @@ const VARAL = {
   ],
   colorido: ['#8FC1B5','#C9B6E4','#F29C8F','#F6C26B','#E06C78','#9CC7E4']   // tons suaves, uma bandeirinha de cada cor
 };
-const pacotes = (porKit, nomeUn='kits') => (nomeUn==='kits' ? [15,30,45] : [12,24,36]).map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
+const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Mini Rabiscos', cod:'RB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com porta-retrato para a primeira obra.',
@@ -1425,7 +1425,7 @@ const PRODUTOS = [
     selos:['Seca ao ar, sem forno','Técnicas de cerâmica','Caixa reciclável'],
     itens:['Argila de secar ao ar (500 g)','1 rolinho de madeira','4 ferramentas de modelar de madeira, sem ponta','Moldes e carimbos de textura','6 potes de tinta','2 pincéis','1 verniz à base de água','Guia com 4 projetos'],
     opcoes:[{nome:'1 kit', n:'001', preco:149}] },
-  /* Kits sazonais: vendidos por unidade (presente para o filho, os sobrinhos), e não em pacotes de 15 */
+  /* Kits sazonais: vendidos por unidade (presente para o filho, os sobrinhos), e não em pacotes de 12 */
   { id:'ninho-mini', criacao:'ninho', versao:'mini', nome:'Ninho de Páscoa', cod:'PA-U', porUnidade:true,
     embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Três ovos de madeira para pintar e esconder na caça aos ovos.',
     descricao:'Três ovos de madeira, três potes de tinta, pincel e um ninho de palha. A criança pinta os ovos do jeito dela, e a família esconde pela casa para a caça aos ovos. Depois da brincadeira, eles ficam guardados no ninho e voltam na Páscoa do ano seguinte.',
@@ -2274,7 +2274,7 @@ const BENEFICIOS = [
 ];
 const PASSOS = [
   ['Escolha a atividade','Dez atividades, a partir de 1 ano','<path d="M6 10h24v20H6z M6 16h24 M12 10V6 M24 10V6"/><path d="M12 22l4 4 8-8"/>'],
-  ['Diga quantas crianças','Pacotes de 15, 30 ou 45 kits, que você pode combinar por idade','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
+  ['Diga quantas crianças','Pacotes de 12, 24 ou 36 kits, que você pode combinar por idade','<circle cx="12" cy="13" r="4"/><circle cx="24" cy="13" r="4"/><path d="M4 30c0-5 4-8 8-8s8 3 8 8 M16 30c0-5 4-8 8-8s8 3 8 8"/>'],
   ['Envie pelo WhatsApp','Confirmamos o pedido e o pagamento','<path d="M31 18a12 12 0 0 1-17.8 10.5L5 31l2.4-7.6A12 12 0 1 1 31 18z"/><path d="M13 16h10 M13 21h6"/>'],
   ['Receba tudo pronto','É só entregar na festa','<path d="M7 16h22v15H7z M5 11h26v5H5z M18 11v20 M18 11c-3-6-9-6-9-2s6 2 9 2c3 0 9 2 9-2s-6-4-9 2"/>']
 ];
@@ -2410,7 +2410,7 @@ function montarMenu(){
       { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
       { titulo:'O que oferecemos', nav:'empresas', itens:[
         { nome:'Mini kits compactos', sub:'Caixinha pequena para entregar no dia a dia', nav:'empresas' },
-        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 15, 30 ou 45', col:'minis' },
+        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 12, 24 ou 36', col:'minis' },
         { nome:'Natal e fim de ano', sub:'Oficina de Natal, com orçamento para a turma', col:'oc:natal' } ] },
       { titulo:'Como funciona', nav:'empresas', itens:[
         { nome:'A partir de 24 unidades', sub:'Pedidos maiores, com preço especial', nav:'empresas' },
@@ -2474,7 +2474,7 @@ function abrirColecao(chave){
   let titulo='', desc='', lista=[];
   if (tipo==='criacao'){ const cr = CRIACOES.find(x=>x.id===valor); titulo=cr.titulo; desc=`${cr.desc} Idade sugerida: ${idadeTxt(cr.idade).toLowerCase()}, e depois dela qualquer idade aproveita.`; lista=PRODUTOS.filter(p=>p.criacao===valor); }
   else if (tipo==='completos'){ titulo='Presentear'; desc='As versões completas: mais material, guia com projetos e caixa com a nossa marca.'; lista=PRODUTOS.filter(p=>p.versao==='completo'); }
-  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 15, 30 ou 45 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
+  else if (tipo==='minis'){ titulo='Criar'; desc='As versões mini, em pacotes de 12, 24 ou 36 kits: uma criação para cada convidado, com folga para quem chegar de última hora.'; lista=PRODUTOS.filter(p=>p.versao==='mini' && !p.porUnidade); }
   else if (tipo==='faixa'){ const f = FAIXAS.find(x=>x.id===valor); titulo=faixaTxt(f); desc=f.texto; lista=PRODUTOS.filter(p=>{ const cr = criacaoDe(p); return !cr.linha && cr.idade>=f.de && cr.idade<=f.ate; }); }
   else if (tipo==='sensorial'){ titulo='Sentir'; desc='Materiais que só existem nesta área, cada um com uma textura: areia mágica, que escorre e molda; massa de EVA, que seca e vira uma peça leve; e massa de modelar, macia e elástica.'; lista=[...SENSORIAIS, ...PRODUTOS.filter(p=>p.sensorial)]; }
   else if (tipo==='oc'){ const o = OCASIOES.find(x=>x.id===valor); titulo=o.nome; desc=o.sub+'.'; lista=(o.produtos||[]).map(prod);
@@ -2488,7 +2488,7 @@ function abrirColecao(chave){
     desc = valor==='topo-bolo' ? 'Monte o seu topo de bolo: escolha as peças que quer, cada uma no seu palito de bambu. Depois do pedido e pagamento, você recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
       : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : 'Caixas, toppers e varais'} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
-  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 15, 30 ou 45 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
+  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
   $('col-extra').hidden = tipo!=='sensorial';
@@ -2902,10 +2902,10 @@ const damCelebrar = () => PRODUTOS.filter(p=>['sazonal','natal'].includes(criaca
 
 /* Cada pergunta: texto do botão e a resposta (HTML curto). 'segue' = botões que aparecem depois da resposta. */
 const DAM_PERGUNTAS = [
-  { id:'pedir', q:'Como faço o pedido?', a:()=>`É bem simples:<ul><li>escolha o kit e o pacote (15, 30 ou 45 kits);</li><li>adicione ao carrinho e preencha os dados da festa e da entrega;</li><li>toque em <b>Finalizar pedido pelo WhatsApp</b>.</li></ul>O pedido chega para a Ingrid, que confirma tudo e envia os dados para o pagamento.` },
+  { id:'pedir', q:'Como faço o pedido?', a:()=>`É bem simples:<ul><li>escolha o kit e o pacote (12, 24 ou 36 kits);</li><li>adicione ao carrinho e preencha os dados da festa e da entrega;</li><li>toque em <b>Finalizar pedido pelo WhatsApp</b>.</li></ul>O pedido chega para a Ingrid, que confirma tudo e envia os dados para o pagamento.` },
   { id:'idade', q:'Qual kit serve para a idade da criança?', a:()=>`Escolha a idade e eu mostro o kit indicado:`, segue:()=>Array.from({length:10},(_,i)=>({ t:`${i+1} ano${i?'s':''}`, id:'idade:'+(i+1) })) },
-  { id:'misturar', q:'Posso misturar idades na mesma festa?', a:()=>`Pode! Cada kit vem em pacotes de 15, 30 ou 45, e você leva um pacote de cada kit que precisar, todos no mesmo pedido. Por exemplo: 15 kits de 3+ e 15 de 6+.<br><br>Quer misturar atividades dentro de um mesmo pacote de 15? Isso a Ingrid combina com você pelo WhatsApp.` },
-  { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 15, 30 ou 45. O frete é confirmado pelo WhatsApp.` },
+  { id:'misturar', q:'Posso misturar idades na mesma festa?', a:()=>`Pode! Cada kit vem em pacotes de 12, 24 ou 36, e você leva um pacote de cada kit que precisar, todos no mesmo pedido. Por exemplo: 12 kits de 3+ e 12 de 6+.<br><br>Quer misturar atividades dentro de um mesmo pacote de 12? Isso a Ingrid combina com você pelo WhatsApp.` },
+  { id:'precos', q:'Quanto custam os kits?', a:()=>`Os preços são por kit:<ul><li><b>Criar</b>, kits por idade: ${damFaixaPreco(damCriar())}</li><li><b>Sentir</b>, texturas: ${damFaixaPreco(SENSORIAIS)}</li><li><b>Celebrar</b>, datas especiais: ${damFaixaPreco(damCelebrar())}, vendidos por unidade</li></ul>Nos kits de festa, o pacote é a quantidade vezes o preço do kit: 12, 24 ou 36. O frete é confirmado pelo WhatsApp.` },
   { id:'dentro', q:'O que vem dentro de cada kit?', a:()=>`Escolha o kit e eu abro a página com a lista completa:`, segue:()=>[...damCriar(), ...SENSORIAIS, ...damCelebrar()].map(p=>({ t:p.nome, pid:p.id })) },
   { id:'disponiveis', q:'Quais kits já estão disponíveis?', a:()=>{ const ok = PRODUTOS.filter(disponivel); return ok.length ? `Já dá para pedir:<ul>${ok.map(p=>`<li>${damKit(p)} · ${damPreco(p)}</li>`).join('')}</ul>Os outros kits estão em produção. Na página de cada um, o botão <b>Avise-me</b> manda uma mensagem para a Ingrid te chamar quando ficar pronto.` : `Os kits estão em produção. Use o botão <b>Avise-me</b> na página do kit que você quer.`; } },
   { id:'prazo', q:'Em quanto tempo fica pronto?', a:()=>`${LOJA.prazo}. Depois disso, conta o prazo da transportadora, que depende do CEP.<br><br>Para festas, peça com pelo menos <b>6 semanas de antecedência</b>.` },
