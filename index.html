@@ -1526,7 +1526,7 @@ const PRODUTOS = [
     [5, 59.99, ['Pompom: bandeirola de pompons ou o nome da criança em pompons', 'Faixa', 'Personagem: o rostinho da criança ou um dos personagens lúdicos da Dambrinhos', 'Idade: número de pompom ou número trançado com linha', 'Letra inicial do nome da criança']]
   ].map(([n, preco, elementos])=>({ id:`topo-bolo-${n}`, criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo',
     porUnidade:true, unidade:'topo de bolo', plural:'topos de bolo', nome:`Topo de bolo · ${n} elementos`, cod:`TB-${n}`,
-    fotos:[FOTO.afetiva('topo-bolo')],
+    fotos:[n===3 ? `fotos/topo-bolo-3-1.jpg?v=${FOTOS_VERSAO}` : FOTO.afetiva('topo-bolo')],
     embalagem:'Embalagem Dambrinhos',
     resumo: n===3 ? 'A bandeirola com "Parabéns" ou o nome, nas duas hastes, e a idade da criança.' : n===4 ? 'Pompom, faixa, personagem e a idade da criança.' : 'Pompom, faixa, personagem, idade e a letra do nome.',
     descricao:`Um topo de bolo com ${n} elementos, cada um no seu palito de bambu: ${elementos.map(e=>e.split(':')[0].toLowerCase()).join(', ')}. Depois do pedido e pagamento, você manda o nome, a idade e, se quiser, a foto do rostinho pelo WhatsApp, e recebe a arte para aprovar antes de produzirmos. Os temas e personagens são os lúdicos da Dambrinhos, que aparecem no site.`,
