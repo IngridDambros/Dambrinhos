@@ -311,8 +311,10 @@
   .mural-vazio b{color:var(--ink)}
   .mural-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
   .mural-nota{margin:10px 0 0}
-  .depo-row{display:grid;grid-template-columns:1fr;gap:12px}
-  @media (min-width:760px){.depo-row{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .depo-row{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:8px;-webkit-overflow-scrolling:touch}
+  .depo-row .depo{flex:0 0 86%;scroll-snap-align:start;align-content:start}
+  @media (min-width:760px){.depo-row{display:block;column-count:3;column-gap:14px;overflow:visible;padding-bottom:0}
+    .depo-row .depo{break-inside:avoid;margin-bottom:14px}}
   .depo{margin:0;background:#fff;border:1px solid var(--linha);border-radius:18px;padding:18px;display:grid;gap:10px}
   .cred{margin:0 0 16px;display:grid;gap:8px;justify-items:start}
   .cred p{margin:0}
@@ -1804,7 +1806,13 @@ const texturaDe = criacaoId => GUIA_TEXTURAS.flatMap(g=>g.linhas).find(l=>l.cria
    Ex.: { texto:'As crianças amaram!', nome:'Ana, mãe do Theo', nota:5 } · { src:'fotos/cliente-1.jpg', alt:'Tela pintada por uma criança' } */
 /* Depoimentos: copie aqui as avaliações do Google (perfil da empresa), com o primeiro nome e a nota.
    Ex.: { texto:'As crianças amaram!', nome:'Ana', nota:5, quando:'out. 2026' } */
-const DEPOIMENTOS = [];
+const DEPOIMENTOS = [
+  { nome:'Beatriz', nota:5, quando:'out. 2026', texto:'Sou uma das pessoas que esteve ali desde o início. Confesso que tudo me surpreende do início ao fim! Toda organização da festa, o atendimento inicial e pós venda, as lembrancinhas sempre surpreendentes, entregues no prazo combinado, feitas exatamente da forma solicitada e de uma qualidade impecável, a reação das crianças quando ganham!! Eu indico de olhos fechados, confio 100% e agradeço por prestar esse serviço de excelência.' },
+  { nome:'Rayane', nota:5, quando:'out. 2026', texto:'Trabalho encantador! Um kit mais perfeito que o outro. Conseguiu transmitir exatamente o que eu precisava em cada detalhe da festa da minha princesa 😍✨! Contratem sem medo 🙏🏼' },
+  { nome:'Isabel', nota:5, quando:'out. 2026', texto:'Atendimento excelente! Produtos lindos e feitos com muito carinho! Recomendo!' },
+  { nome:'Kelly', nota:5, quando:'out. 2026', texto:'Eu sou fã dos produtos da Dambrinhos. Sempre recebi minhas encomendas embaladas com muito carinho e amor e todo aniversário do meu filho, tem Dambrinhos presente. A Ingrid, CEO desta empresa é uma das pessoas mais lindas que existe, tem uma família linda com 2 pequenos graciosos, por este motivo, tudo que ela entrega é tão perfeito. Sou muito satisfeita e recomendo muito.' },
+  { nome:'Noeme', nota:5, quando:'out. 2026', texto:'Muita delicadeza em cada detalhe, os kits de lembrancinha impecável, simplesmente me apaixonei... Super recomendo...' }
+];
 const FOTOS_CLIENTES = [];
 
 /* Mural das Mãozinhas: salve as fotos como fotos/galeria-1.jpg, galeria-2.jpg... e escreva aqui a legenda
