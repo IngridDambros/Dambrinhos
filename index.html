@@ -257,6 +257,27 @@
   .pcard-img{position:relative}
   .em-breve{position:absolute;top:10px;right:10px;padding:5px 11px;border-radius:20px;background:var(--ink);color:#fff;font-size:12px;font-weight:700;letter-spacing:.03em}
   .pcard .btn-out{min-height:46px;font-size:15px;margin-top:auto;width:100%}
+  /* Cards compactos: no celular, só foto, nome, preço e botão (a idade já vai no selo da foto);
+     no tablet, 4 por linha; no computador, 6 por linha e sem a descrição */
+  @media (max-width:699px){
+    .pgrid{gap:18px 10px}
+    .pcard{gap:6px}
+    .pcard-tags,.pcard .resumo{display:none}
+    .pcard h3{font-size:16px}
+    .pcard-preco{font-size:13px}
+    .pcard-preco b{font-size:15px}
+    .pcard .cta,.pcard .btn-out{min-height:38px;font-size:14px;padding:0 10px}
+  }
+  .pgrid.mesmo-tipo .pill.claro{display:none}
+  @media (min-width:700px) and (max-width:1099px){.pgrid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 14px} .pcard .resumo{display:none}}
+  @media (min-width:1100px){
+    .pgrid{grid-template-columns:repeat(6,minmax(0,1fr));gap:22px 14px}
+    .pcard{gap:8px}
+    .pgrid .pcard .resumo{display:none}
+    .pcard .cta,.pcard .btn-out{min-height:40px;font-size:14px}
+    .pcard-tags{flex-wrap:nowrap;gap:4px;overflow:hidden}
+    .pcard-tags .pill{font-size:11px;padding:3px 8px;white-space:nowrap}
+  }
 
   /* Faixa "Presentear" */
   .banner{background:var(--logo-azul);color:var(--fundo);margin-top:72px}
@@ -2537,6 +2558,8 @@ function abrirColecao(chave){
   if (ehCaixas) renderColFundos();
   estado.lista = lista;
   $('grid-colecao').innerHTML = lista.map(cardProduto).join('');
+  /* Se todos os kits da página são do mesmo tipo (ex.: todos "Lembrancinha"), a etiqueta não diz nada: some */
+  $('grid-colecao').classList.toggle('mesmo-tipo', new Set(lista.map(versaoTxt)).size<=1);
   $('col-vazio').hidden = lista.length>0;
   ir('colecao');
 }
