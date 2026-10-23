@@ -91,6 +91,8 @@
   .mega li small{display:block;color:var(--muted);font-size:13px}
   /* Lista comprida (Toppers): ocupa duas colunas do menu, com os itens lado a lado */
   @media (min-width:900px){.mega-duas{grid-column:span 2} .mega-duas ul{display:block;columns:2;column-gap:26px} .mega-duas li{break-inside:avoid;margin-bottom:9px}}
+  .mega-cab{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:8px;break-after:avoid}
+  .mega-cab:first-child{margin-top:0}
   .top-acts{display:flex;align-items:center;gap:8px;margin-left:auto;align-self:center}
   .icon-btn{position:relative;width:44px;height:44px;border-radius:22px;border:0;background:rgba(10,82,114,.10);color:var(--azul);display:flex;align-items:center;justify-content:center;cursor:pointer}
   .icon-btn:hover{background:rgba(10,82,114,.18)}
@@ -450,6 +452,8 @@
   .crumbs{margin:0 0 14px;font-size:14px;color:var(--muted)}
   .crumbs button{all:unset;cursor:pointer;color:var(--azul);text-decoration:underline}
   #view-colecao .pgrid{padding-bottom:72px}
+  .pgrid-tit{grid-column:1/-1;margin:18px 0 -6px;font-size:24px}
+  .pgrid-tit:first-child{margin-top:0}
 
   /* Página de produto */
   .pd-crumbs{padding-top:22px}
@@ -1029,7 +1033,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (chapéu de festa, coroa, cowboy, pirata, bombeiro, chef, unicórnio, gatinho, coelhinho, festa junina, formatura ou Natal) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (chapéu de festa, coroa, cowboy, pirata, mágico, bombeiro, chef, unicórnio, gatinho, coelhinho, festa junina, formatura ou Natal) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1583,7 +1587,7 @@ const PRODUTOS = [
   /* Papelaria afetiva: pacotes de 12, 24 ou 36 toppers (12 por embalagem). unidade = palavra que vem depois do preço ("por topper").
      As fotos são exemplos FICTÍCIOS, criados por IA: nunca usar o rosto de um cliente.
      Preço: R$ 3,99 por topper e R$ 7,99 por caixa. */
-  { id:'afetiva-toppers', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Chapéu de festa', cod:'AF-T',
+  { id:'afetiva-toppers', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Eventos', unidade:'topper', plural:'toppers', nome:'Chapéu de festa', cod:'AF-T',
     fotos:[`fotos/topper-chapeu-de-festa.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de festa, para os doces e o bolo.',
     descricao:'Toppers com o rostinho da criança e um chapéu de festa, prontos para enfeitar os docinhos e o bolo. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu na cor que combina com a festa.',
@@ -1591,14 +1595,14 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e chapéu de festa, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Formatura (antes, Mesversário): capelo de formatura (criança fictícia, criada por IA). O id continua o mesmo. */
-  { id:'afetiva-mesversario', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Formatura', cod:'AF-F',
+  { id:'afetiva-mesversario', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Eventos', unidade:'topper', plural:'toppers', nome:'Formatura', cod:'AF-F',
     fotos:[`fotos/topper-formatura.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com capelo, para a formatura do ABC e da escolinha.',
     descricao:'O rostinho da criança com um capelo de formatura, para comemorar a formatura do ABC, da educação infantil ou do fim do ano na escola. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o capelo.',
     selos:['Para a formatura do ABC','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e capelo de formatura','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
-  { id:'afetiva-datas', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Natal', cod:'AF-D',
+  { id:'afetiva-datas', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Eventos', unidade:'topper', plural:'toppers', nome:'Natal', cod:'AF-D',
     fotos:[`fotos/topper-natal.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com gorro de Papai Noel, para a ceia e as festas de fim de ano.',
     descricao:'O rostinho da criança com um gorro de Papai Noel, para enfeitar os doces da ceia, a mesa da família ou a festinha de Natal da escola. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o gorro.',
@@ -1606,7 +1610,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e gorro de Papai Noel','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Coroa: coroa dourada; as fotos (menino e, depois, menina) são crianças fictícias criadas por IA */
-  { id:'afetiva-coroa', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Coroa', cod:'AF-C',
+  { id:'afetiva-coroa', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Coroa', cod:'AF-C',
     fotos:[`fotos/topper-coroa-menino.jpg?v=${FOTOS_VERSAO}`, `fotos/topper-coroa-menina.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com uma coroa dourada, para o rei ou a rainha da festa.',
     descricao:'O rostinho da criança com uma coroa dourada de pedrinhas, para o rei ou a rainha da festa. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca a coroa.',
@@ -1614,7 +1618,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e coroa dourada','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Coelhinho: o cliente escolhe a cor do arco de orelhas de coelho e a foto troca (criança fictícia, criada por IA) */
-  { id:'afetiva-coelhinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Coelhinho', cod:'AF-K',
+  { id:'afetiva-coelhinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Animais', unidade:'topper', plural:'toppers', nome:'Coelhinho', cod:'AF-K',
     corArco:'topper-coelhinho', fotos:[`fotos/topper-coelhinho-amarelo.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com um arco de orelhas de coelho, para a Páscoa ou a festa.',
     descricao:'O rostinho da criança com um arco de orelhas de coelho, na cor que você escolher. Perfeito para a Páscoa, para a festinha da escola ou para uma festa com tema de coelhinho. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o arco.',
@@ -1622,15 +1626,23 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e arco de orelhas de coelho, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Cowboy: chapéu de cowboy marrom (criança fictícia, criada por IA) */
-  { id:'afetiva-cowboy', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Cowboy', cod:'AF-W',
+  { id:'afetiva-cowboy', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Cowboy', cod:'AF-W',
     fotos:[`fotos/topper-cowboy.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de cowboy, para festas de fazendinha e country.',
     descricao:'O rostinho da criança com um chapéu de cowboy, para festas com tema de fazendinha, country, rodeio ou faroeste. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
     selos:['Para festas de fazendinha e country','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e chapéu de cowboy','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
+  /* Mágico: cartola de mágico (criança fictícia, criada por IA) */
+  { id:'afetiva-magico', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Mágico', cod:'AF-MG',
+    fotos:[`fotos/topper-magico.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com cartola de mágico, para festas de mágica e circo.',
+    descricao:'O rostinho da criança com uma cartola de mágico, para festas com tema de mágica, circo ou show de talentos. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca a cartola.',
+    selos:['Para festas de mágica e circo','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e cartola de mágico','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    opcoes:pacotes(3.99,'toppers') },
   /* Pirata: chapéu de pirata (criança fictícia, criada por IA) */
-  { id:'afetiva-pirata', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Pirata', cod:'AF-P',
+  { id:'afetiva-pirata', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Pirata', cod:'AF-P',
     fotos:[`fotos/topper-pirata.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de pirata, para festas de piratas e fundo do mar.',
     descricao:'O rostinho da criança com um chapéu de pirata, para festas com tema de piratas, ilha do tesouro ou fundo do mar. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
@@ -1638,7 +1650,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e chapéu de pirata','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Bombeiro: capacete de bombeiro (criança fictícia, criada por IA) */
-  { id:'afetiva-bombeiro', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Bombeiro', cod:'AF-B',
+  { id:'afetiva-bombeiro', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Profissões', unidade:'topper', plural:'toppers', nome:'Bombeiro', cod:'AF-B',
     fotos:[`fotos/topper-bombeiro.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com capacete de bombeiro, para festas de bombeiro e resgate.',
     descricao:'O rostinho da criança com um capacete de bombeiro vermelho, para festas com tema de bombeiros, caminhão de bombeiro, resgate ou Patrulha Canina. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o capacete.',
@@ -1646,7 +1658,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e capacete de bombeiro','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Chef: chapéu de chef de cozinha (criança fictícia, criada por IA) */
-  { id:'afetiva-chef', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Chef', cod:'AF-H',
+  { id:'afetiva-chef', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Profissões', unidade:'topper', plural:'toppers', nome:'Chef', cod:'AF-H',
     fotos:[`fotos/topper-chef.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de chef, para festas de confeitaria e cozinha.',
     descricao:'O rostinho da criança com um chapéu de chef de cozinha, para festas com tema de confeitaria, cozinha, chef mirim ou oficina de cupcakes. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
@@ -1654,7 +1666,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e chapéu de chef','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Unicórnio: tiara de unicórnio (criança fictícia, criada por IA) */
-  { id:'afetiva-unicornio', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Unicórnio', cod:'AF-U',
+  { id:'afetiva-unicornio', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Unicórnio', cod:'AF-U',
     fotos:[`fotos/topper-unicornio.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com tiara de unicórnio, para festas mágicas e de arco-íris.',
     descricao:'O rostinho da criança com uma tiara de unicórnio, com chifre dourado, orelhinhas e flores em tons pastel, para festas com tema de unicórnio, arco-íris ou fadas. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca a tiara.',
@@ -1662,7 +1674,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e tiara de unicórnio','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Festa Junina: chapéu de palha e trancinhas (criança fictícia, criada por IA) */
-  { id:'afetiva-junina', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Festa Junina', cod:'AF-J',
+  { id:'afetiva-junina', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Eventos', unidade:'topper', plural:'toppers', nome:'Festa Junina', cod:'AF-J',
     fotos:[`fotos/topper-festa-junina.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de palha e trancinhas, para o arraiá.',
     descricao:'O rostinho da criança com chapéu de palha, sardinhas e trancinhas de laço, para a festa junina da escola, o arraiá da família ou uma festa caipira. Para meninos, o chapéu vai sem as trancinhas. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
@@ -1670,7 +1682,7 @@ const PRODUTOS = [
     itens:['Toppers com o rostinho da criança e chapéu de palha (com trancinhas, para meninas)','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Gatinho: o cliente escolhe a cor do arco e a foto troca (fotos/topper-gatinho-<cor>.jpg; criança fictícia, criada por IA) */
-  { id:'afetiva-gatinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Gatinho', cod:'AF-G',
+  { id:'afetiva-gatinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Animais', unidade:'topper', plural:'toppers', nome:'Gatinho', cod:'AF-G',
     corArco:'topper-gatinho', fotos:[`fotos/topper-gatinho-amarelo.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com um arco de orelhinhas de gatinho, na cor da festa.',
     descricao:'O rostinho da criança com um arco de orelhinhas de gatinho, na cor que você escolher. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o arco.',
@@ -1813,6 +1825,9 @@ const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabét
 /* As partes da papelaria afetiva (Varal: em breve, sem produtos ainda) */
 const GRUPOS_AFETIVA = { caixas:'Caixas', 'topo-bolo':'Topo de bolo', toppers:'Toppers', varal:'Varal' };
 const afetivosDe = g => AFETIVOS.filter(p=>p.grupo===g);
+/* Toppers por tema (a ordem das seções da página e do menu) */
+const TEMAS_TOPPER = ['Animais','Fantasia','Profissões','Eventos'];
+const toppersPorTema = () => TEMAS_TOPPER.map(t=>({ tema:t, itens: afetivosDe('toppers').filter(p=>p.tema===t).sort((a,b)=>a.nome.localeCompare(b.nome,'pt')) })).filter(g=>g.itens.length);
 /* Datas da papelaria afetiva: [quando, data, acessório] */
 const DATAS_AFETIVAS = [
   ['O ano todo',     'Aniversário',      'Chapéu de festa ou coroa'],
@@ -2627,7 +2642,7 @@ function montarMenu(){
       /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
       { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Monte o seu topo de bolo', col:'afetiva:topo-bolo', itens: afetivosDe('topo-bolo').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
-      { titulo:'Toppers', col:'afetiva:toppers', duas:true, itens: afetivosDe('toppers').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
+      { titulo:'Toppers', col:'afetiva:toppers', duas:true, itens: toppersPorTema().flatMap(g=>[{ cab:g.tema }, ...g.itens.map(p=>({ nome:p.nome, pid:p.id }))]) },
       { titulo:'Varal', col:'afetiva:varal', itens: afetivosDe('varal').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
       { titulo:'Como funciona', destaque:true, go:'afetiva', itens:[
         { nome:'Caixas e toppers: 12, 24 ou 36', sub:MOSTRAR_TOPO_BOLO ? 'Topo de bolo e varal: por unidade' : 'Varal: por bandeirinha', go:'afetiva' },
@@ -2640,7 +2655,7 @@ function montarMenu(){
 }
 function renderMenu(){
   const alvo = i => i.guia ? 'data-guia' : i.href ? `href="${i.href}" target="_blank" rel="noopener"` : i.pid ? `data-pid="${i.pid}"` : i.col ? `data-col="${i.col}"` : i.go ? `data-go="${i.go}"` : `data-nav="${i.nav}"`;
-  const link = i => `<li><a ${i.href?'':'href="#"'} ${alvo(i)}>${esc(i.nome)}${i.sub?`<small>${esc(i.sub)}</small>`:''}</a></li>`;
+  const link = i => i.cab ? `<li class="mega-cab">${esc(i.cab)}</li>` : `<li><a ${i.href?'':'href="#"'} ${alvo(i)}>${esc(i.nome)}${i.sub?`<small>${esc(i.sub)}</small>`:''}</a></li>`;
   $('menu').innerHTML = montarMenu().map(m => m.colunas ? `
     <details class="dd"><summary>${esc(m.nome)}</summary>
       <div class="mega"><div class="mega-in">${m.colunas.filter(c=>c.itens.length).map(c=>`
@@ -2699,7 +2714,9 @@ function abrirColecao(chave){
   $('col-fundos-wrap').hidden = !ehCaixas;
   if (ehCaixas) renderColFundos();
   estado.lista = lista;
-  $('grid-colecao').innerHTML = lista.map(cardProduto).join('');
+  $('grid-colecao').innerHTML = (tipo==='afetiva' && valor==='toppers')
+    ? toppersPorTema().map(g=>`<h2 class="pgrid-tit">${esc(g.tema)}</h2>${g.itens.map(cardProduto).join('')}`).join('')
+    : lista.map(cardProduto).join('');
   /* Se todos os kits da página são do mesmo tipo (ex.: todos "Lembrancinha"), a etiqueta não diz nada: some */
   $('grid-colecao').classList.toggle('mesmo-tipo', new Set(lista.map(versaoTxt)).size<=1);
   $('col-vazio').hidden = lista.length>0;
