@@ -415,6 +415,9 @@
   .pd-modo-op{display:grid;gap:2px;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit}
   .pd-modo-op span{font-size:13px;color:var(--muted)}
   .pd-modo-op[aria-pressed="true"]{border-color:var(--azul);background:var(--ceu-claro)}
+  /* número de cores da caixa: 3 por linha (12 caixas: uma linha; 24 e 36: duas) */
+  #p-cor-modo{grid-template-columns:repeat(3,minmax(0,1fr))}
+  #p-cor-modo .pd-modo-op{padding:11px 12px}
   .pd-cores{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
   @media (max-width:560px){.pd-cores{grid-template-columns:repeat(3,minmax(0,1fr))}}
   .pd-cor{display:grid;gap:6px;justify-items:center;padding:8px 6px 10px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit;font-size:13px;font-weight:600}
@@ -2168,7 +2171,7 @@ const coresTxt = (cores, n) => cores.length > 1 ? cores.map(c=>`${(+n||12)/cores
 const CAIXAS_POR_COR = 4;
 const maxCoresCaixa = n => Math.min(CORES_CAIXA.length, Math.floor((+n||12) / CAIXAS_POR_COR));
 const qtdsCoresCaixa = n => Array.from({length:maxCoresCaixa(n)-1}, (_,k)=>k+2).filter(k=>(+n||12) % k === 0);
-const listaE = a => a.length > 1 ? a.slice(0,-1).join(', ') + ' ou ' + a[a.length-1] : String(a[0]);
+const NOMES_CORES = { 1:'Uma cor', 2:'Duas cores', 3:'Três cores', 4:'Quatro cores', 6:'Seis cores' };
 const amostraFundo = (fundo, cor) => { const id = 'am' + (++_padrao); return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs>${padraoFundo(fundo,id,cor)}</defs><rect width="40" height="40" fill="url(#${id})"/></svg>`; };
 /* Desenho de cada modelo: c = estampa do fundo; as laterais ganham uma sombra para dar volume */
 const rostinhoMini = (cx,cy,r) => `<circle cx="${cx}" cy="${cy}" r="${r+3}" fill="#fff"/><circle cx="${cx}" cy="${cy-1}" r="${r}" fill="#5A3A28"/>
@@ -2665,7 +2668,7 @@ function fotosDe(p){
   return (p.fotos && p.fotos.length) ? p.fotos.map(src=>`<img src="${esc(src)}" alt="${esc(p.nome)}">`) : [art(p)]; }
 function abrirProduto(pid){
   const p = prod(pid), cr = criacaoDe(p);
-  sel = { p, opt:0, qtd:1, foto:0, livre:false, kits:null, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], misturar:false,
+  sel = { p, opt:0, qtd:1, foto:0, livre:false, kits:null, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], nCores:1,
           varal: p.varal ? { frase:'parabens', nome:'', cor:'colorido' } : null,
           topo: p.escolha==='bandeirola' ? { frase:'parabens', texto:'' } : p.escolha ? { frase:p.escolha, texto:'', cor: comCorTopo(p) ? CORES_CAIXA[0].id : null } : null };
   $('p-topo-wrap').hidden = !p.escolha; $('p-topo-campo').value = '';
@@ -2753,17 +2756,18 @@ function renderProduto(){
   }
   $('q-val').textContent = qtd;
   $('p-fundos').innerHTML = p.modelo ? FUNDOS.map(f=>`<button type="button" class="pd-fundo" data-fundo="${f.id}" aria-pressed="${f.id===sel.fundo}">${amostraFundo(f.id)}<span>${esc(f.nome)}</span></button>`).join('') : '';
-  /* Cor da caixa: uma cor, ou várias cores divididas igualmente (até 3 em 12 caixas, até 6 em 24 ou 36) */
+  /* Cor da caixa: um botão para cada opção (Uma cor, Duas cores, Três cores...), sempre divididas igualmente:
+     12 caixas = 1, 2 ou 3 cores; 24 e 36 = 1, 2, 3, 4 ou 6 cores */
   if (p.modelo){
-    const nCx = +o.n, maxC = maxCoresCaixa(nCx), okC = qtdsCoresCaixa(nCx);
-    if (sel.cores.length > maxC) sel.cores = sel.cores.slice(0, maxC);
-    $('p-cor-modo').innerHTML = [['1','Uma cor','Todas as caixas iguais'],['2','Várias cores',`Até ${maxC} cores, divididas igualmente`]]
-      .map(([v,t,d])=>`<button type="button" class="pd-modo-op" data-modo="${v}" aria-pressed="${(v==='2')===sel.misturar}"><b>${t}</b><span>${d}</span></button>`).join('');
+    const nCx = +o.n, opcoesC = [1, ...qtdsCoresCaixa(nCx)];
+    if (!opcoesC.includes(sel.nCores)) sel.nCores = Math.max(...opcoesC.filter(k=>k <= sel.nCores));
+    if (sel.cores.length > sel.nCores) sel.cores = sel.cores.slice(0, sel.nCores);
+    $('p-cor-modo').innerHTML = opcoesC.map(k=>`<button type="button" class="pd-modo-op" data-ncores="${k}" aria-pressed="${k===sel.nCores}">
+      <b>${NOMES_CORES[k]}</b><span>${k===1 ? 'Todas as caixas iguais' : `${nCx/k} caixas de cada cor`}</span></button>`).join('');
     $('p-cores').innerHTML = CORES_CAIXA.map(c=>`<button type="button" class="pd-cor" data-cor="${c.id}" aria-pressed="${sel.cores.includes(c.id)}">${amostraFundo(sel.fundo, c.hex)}<span>${esc(c.nome)}</span></button>`).join('');
-    $('p-cor-nota').innerHTML = sel.misturar
-      ? (sel.cores.length < 2 ? `<b>Toque nas cores que você quer (até ${maxC}).</b> `
-          : !okC.includes(sel.cores.length) ? `<b>Com ${nCx} caixas, escolha ${listaE(okC)} cores</b>, para dividir igualmente. `
-          : `<b>${esc(coresTxt(sel.cores, o.n))}</b>. `) + 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom.'
+    const falta = sel.nCores - sel.cores.length;
+    $('p-cor-nota').innerHTML = sel.nCores > 1
+      ? (falta > 0 ? `<b>Toque em mais ${falta} ${falta===1 ? 'cor' : 'cores'}.</b> ` : `<b>${esc(coresTxt(sel.cores, o.n))}</b>. `) + 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom.'
       : 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom. As fotos mostram um exemplo.';
   }
   const ecos = p.opcoes.map(x=>{ const b = porKit(p.opcoes[0]) * +x.n; return b > x.preco ? Math.round((1 - x.preco/b)*100) : 0; });
@@ -2785,12 +2789,11 @@ $('view-product').addEventListener('click', e=>{
   if (b.dataset.so==='livre'){ sel.livre = true; renderProduto(); $('p-livre-n').focus(); return; }
   else if (b.dataset.so){ sel.opt = +b.dataset.so; sel.livre = false; }
   else if (b.dataset.fundo){ sel.fundo = b.dataset.fundo; sel.foto = 0; }
-  else if (b.dataset.modo){ sel.misturar = b.dataset.modo==='2'; if (!sel.misturar) sel.cores = sel.cores.slice(0,1); }
+  else if (b.dataset.ncores){ sel.nCores = +b.dataset.ncores; sel.cores = sel.cores.slice(0, sel.nCores); }
   else if (b.dataset.cor){ const c = b.dataset.cor;
-    if (!sel.misturar) sel.cores = [c];
+    if (sel.nCores === 1) sel.cores = [c];
     else if (sel.cores.includes(c)){ if (sel.cores.length > 1) sel.cores = sel.cores.filter(x=>x!==c); }
-    else { const maxC = maxCoresCaixa(sel.p.opcoes[sel.opt].n);
-      if (sel.cores.length < maxC) sel.cores.push(c); else avisar(`Até ${maxC} cores neste pacote`); } }
+    else { sel.cores.push(c); if (sel.cores.length > sel.nCores) sel.cores.shift(); } }   /* passou do limite: sai a mais antiga */
   else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
   else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
@@ -2825,9 +2828,8 @@ $('add').onclick = ()=>{
     ex ? ex.qtd += qtd : carrinho.push({ pid:p.id, opt:0, qtd, msg:'', varal:vv });
     atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart'); return;
   }
-  if (p.modelo && sel.misturar){ const okC = qtdsCoresCaixa(p.opcoes[opt].n);
-    if (sel.cores.length < 2){ avisar('Escolha mais uma cor'); return; }
-    if (!okC.includes(sel.cores.length)){ avisar(`Escolha ${listaE(okC)} cores, para dividir igualmente`); return; } }
+  if (p.modelo && sel.cores.length < sel.nCores){ const f = sel.nCores - sel.cores.length;
+    avisar(`Escolha mais ${f} ${f===1 ? 'cor' : 'cores'}`); return; }
   const cores = p.modelo ? sel.cores.slice() : null;
   if (sel.livre && !(sel.kits >= KITS_MIN)){ avisar(`A quantidade mínima é de ${KITS_MIN} kits`); $('p-livre-n').focus(); return; }
   const kits = sel.livre ? sel.kits : null;
