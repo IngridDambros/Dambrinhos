@@ -1033,8 +1033,8 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (chapéu de festa, coroa, cowboy, pirata, mágico, bombeiro, chef, unicórnio, gatinho, coelhinho, raposinha, festa junina, formatura ou Natal).</li>
-          <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No topo de bolo, escolha as peças. Finalize o pedido pelo carrinho, como nos kits.</li>
+          <li>Escolha o que você quer: caixas ou toppers (chapéu de festa, coroa, cowboy, pirata, mágico, bombeiro, chef, unicórnio, gatinho, coelhinho, raposinha, festa junina, formatura ou Natal).</li>
+          <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
           <li>Os temas, fundos, cores e personagens são os que aparecem no site. Ainda não criamos temas sob medida, mas estamos sempre lançando novidades.</li>
@@ -1836,7 +1836,7 @@ const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola-parabens':
   'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
   'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
 /* MOSTRAR_TOPO_BOLO = false esconde a categoria Topo de bolo do site */
-const MOSTRAR_TOPO_BOLO = true;
+const MOSTRAR_TOPO_BOLO = false;
 if (!MOSTRAR_TOPO_BOLO) PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.grupo!=='topo-bolo'));
 /* MOSTRAR_VARAL = false esconde o Varal do site (seção, menu, busca); os produtos ficam guardados. Para voltar: true */
 const MOSTRAR_VARAL = false;
