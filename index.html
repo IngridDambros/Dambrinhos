@@ -410,7 +410,7 @@
   .pd-fundo{display:grid;gap:6px;justify-items:center;padding:8px 6px 10px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit;font-size:13px;font-weight:600}
   .pd-fundo svg{width:100%;aspect-ratio:1;border-radius:10px;display:block;border:1px solid var(--linha)}
   .pd-fundo[aria-pressed="true"]{border-color:var(--azul);background:var(--ceu-claro)}
-  /* Cor da caixa: uma cor ou duas (metade de cada) */
+  /* Cor da caixa: uma cor ou várias (divididas igualmente, no mínimo 4 caixas de cada) */
   .pd-modo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
   .pd-modo-op{display:grid;gap:2px;text-align:left;padding:12px 14px;border-radius:14px;border:1.5px solid var(--linha);background:#fff;cursor:pointer;color:var(--ink);font:inherit}
   .pd-modo-op span{font-size:13px;color:var(--muted)}
@@ -2151,7 +2151,8 @@ function padraoFundo(fundo, id, cor){
   return P(10, `<rect width="10" height="10" fill="#fff"/><rect width="10" height="5" fill="${cor||'#E7D8C6'}" fill-opacity="${cor?.35:.7}"/><rect width="5" height="10" fill="${cor||'#E7D8C6'}" fill-opacity="${cor?.35:.7}"/>`);
 }
 /* Cores das caixas: tons suaves, que combinam com qualquer festa. A cor vai nas linhas do fundo e nos detalhes
-   (nome, pompom, fita). O cliente escolhe uma cor ou mistura duas, metade de cada. Em ordem alfabética. */
+   (nome, pompom, fita). O cliente escolhe uma cor ou mistura várias, divididas igualmente, com no mínimo
+   4 caixas de cada cor: 12 caixas = até 3 cores; 24 ou 36 = até 6 (todas as cores). Em ordem alfabética. */
 const CORES_CAIXA = [
   { id:'amarelo',  nome:'Amarelo',  hex:'#E9BE4C' },
   { id:'azul',     nome:'Azul',     hex:'#6FA8DC' },
@@ -2162,7 +2163,12 @@ const CORES_CAIXA = [
 ];
 const corDe = id => CORES_CAIXA.find(c=>c.id===id) || CORES_CAIXA[0];
 /* Texto das cores de um pedido: "Azul" ou "6 em Azul + 6 em Vermelho" */
-const coresTxt = (cores, n) => cores.length > 1 ? cores.map(c=>`${(+n||12)/2} em ${corDe(c).nome}`).join(' + ') : corDe(cores[0]).nome;
+const coresTxt = (cores, n) => cores.length > 1 ? cores.map(c=>`${(+n||12)/cores.length} em ${corDe(c).nome}`).join(' + ') : corDe(cores[0]).nome;
+/* Várias cores na caixa: no mínimo 4 de cada e divisão igual (12 → 2 ou 3 cores; 24 e 36 → 2, 3, 4 ou 6) */
+const CAIXAS_POR_COR = 4;
+const maxCoresCaixa = n => Math.min(CORES_CAIXA.length, Math.floor((+n||12) / CAIXAS_POR_COR));
+const qtdsCoresCaixa = n => Array.from({length:maxCoresCaixa(n)-1}, (_,k)=>k+2).filter(k=>(+n||12) % k === 0);
+const listaE = a => a.length > 1 ? a.slice(0,-1).join(', ') + ' ou ' + a[a.length-1] : String(a[0]);
 const amostraFundo = (fundo, cor) => { const id = 'am' + (++_padrao); return `<svg viewBox="0 0 40 40" aria-hidden="true"><defs>${padraoFundo(fundo,id,cor)}</defs><rect width="40" height="40" fill="url(#${id})"/></svg>`; };
 /* Desenho de cada modelo: c = estampa do fundo; as laterais ganham uma sombra para dar volume */
 const rostinhoMini = (cx,cy,r) => `<circle cx="${cx}" cy="${cy}" r="${r+3}" fill="#fff"/><circle cx="${cx}" cy="${cy-1}" r="${r}" fill="#5A3A28"/>
@@ -2747,13 +2753,17 @@ function renderProduto(){
   }
   $('q-val').textContent = qtd;
   $('p-fundos').innerHTML = p.modelo ? FUNDOS.map(f=>`<button type="button" class="pd-fundo" data-fundo="${f.id}" aria-pressed="${f.id===sel.fundo}">${amostraFundo(f.id)}<span>${esc(f.nome)}</span></button>`).join('') : '';
-  /* Cor da caixa: uma cor, ou duas cores com metade de cada */
+  /* Cor da caixa: uma cor, ou várias cores divididas igualmente (até 3 em 12 caixas, até 6 em 24 ou 36) */
   if (p.modelo){
-    $('p-cor-modo').innerHTML = [['1','Uma cor','Todas as caixas iguais'],['2','Duas cores','Metade de cada cor']]
+    const nCx = +o.n, maxC = maxCoresCaixa(nCx), okC = qtdsCoresCaixa(nCx);
+    if (sel.cores.length > maxC) sel.cores = sel.cores.slice(0, maxC);
+    $('p-cor-modo').innerHTML = [['1','Uma cor','Todas as caixas iguais'],['2','Várias cores',`Até ${maxC} cores, divididas igualmente`]]
       .map(([v,t,d])=>`<button type="button" class="pd-modo-op" data-modo="${v}" aria-pressed="${(v==='2')===sel.misturar}"><b>${t}</b><span>${d}</span></button>`).join('');
     $('p-cores').innerHTML = CORES_CAIXA.map(c=>`<button type="button" class="pd-cor" data-cor="${c.id}" aria-pressed="${sel.cores.includes(c.id)}">${amostraFundo(sel.fundo, c.hex)}<span>${esc(c.nome)}</span></button>`).join('');
     $('p-cor-nota').innerHTML = sel.misturar
-      ? (sel.cores.length < 2 ? '<b>Escolha mais uma cor.</b> ' : `<b>${esc(coresTxt(sel.cores, o.n))}</b>. `) + 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom.'
+      ? (sel.cores.length < 2 ? `<b>Toque nas cores que você quer (até ${maxC}).</b> `
+          : !okC.includes(sel.cores.length) ? `<b>Com ${nCx} caixas, escolha ${listaE(okC)} cores</b>, para dividir igualmente. `
+          : `<b>${esc(coresTxt(sel.cores, o.n))}</b>. `) + 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom.'
       : 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom. As fotos mostram um exemplo.';
   }
   const ecos = p.opcoes.map(x=>{ const b = porKit(p.opcoes[0]) * +x.n; return b > x.preco ? Math.round((1 - x.preco/b)*100) : 0; });
@@ -2779,7 +2789,8 @@ $('view-product').addEventListener('click', e=>{
   else if (b.dataset.cor){ const c = b.dataset.cor;
     if (!sel.misturar) sel.cores = [c];
     else if (sel.cores.includes(c)){ if (sel.cores.length > 1) sel.cores = sel.cores.filter(x=>x!==c); }
-    else { sel.cores.push(c); if (sel.cores.length > 2) sel.cores.shift(); } }
+    else { const maxC = maxCoresCaixa(sel.p.opcoes[sel.opt].n);
+      if (sel.cores.length < maxC) sel.cores.push(c); else avisar(`Até ${maxC} cores neste pacote`); } }
   else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
   else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
@@ -2814,7 +2825,9 @@ $('add').onclick = ()=>{
     ex ? ex.qtd += qtd : carrinho.push({ pid:p.id, opt:0, qtd, msg:'', varal:vv });
     atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart'); return;
   }
-  if (p.modelo && sel.misturar && sel.cores.length < 2){ avisar('Escolha a segunda cor'); return; }
+  if (p.modelo && sel.misturar){ const okC = qtdsCoresCaixa(p.opcoes[opt].n);
+    if (sel.cores.length < 2){ avisar('Escolha mais uma cor'); return; }
+    if (!okC.includes(sel.cores.length)){ avisar(`Escolha ${listaE(okC)} cores, para dividir igualmente`); return; } }
   const cores = p.modelo ? sel.cores.slice() : null;
   if (sel.livre && !(sel.kits >= KITS_MIN)){ avisar(`A quantidade mínima é de ${KITS_MIN} kits`); $('p-livre-n').focus(); return; }
   const kits = sel.livre ? sel.kits : null;
