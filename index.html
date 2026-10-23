@@ -1609,6 +1609,16 @@ const PRODUTOS = [
     selos:['Gorro de Papai Noel','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e gorro de Papai Noel','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(4.99,'toppers') },
+  /* Kit Circo: 1 caixa de listras (vermelho e amarelo) + 1 topper Mágico por convidado, e o topo de bolo
+     (bandeirola com o nome + número da idade). Preço = (caixa + topper) × convidados + topo, com 10% de desconto. */
+  { id:'kit-circo', criacao:'afetiva', versao:'afetiva', grupo:'kits-tema', tema:'circo', unidade:'convidado', plural:'convidados', nome:'Kit Circo', cod:'KT-CI',
+    fotos:[`fotos/kit-circo.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagens Dambrinhos', resumo:'Caixas de lona listrada, toppers de mágico e topo de bolo com o nome, com 10% de desconto.',
+    descricao:'Tudo para a festa de circo, combinando: uma caixa de listras (lona de circo) e um topper de mágico com o rostinho para cada convidado, e o topo de bolo com o nome e a idade. As caixas vêm metade em vermelho e metade em amarelo. Depois do pedido e pagamento, você manda a foto do rostinho, o nome, a idade e o modelo de caixa que prefere pelo WhatsApp, e recebe a arte para aprovar.',
+    selos:['10% de desconto no kit','Tudo combinando','Arte para aprovar antes de imprimir'],
+    itens:['1 caixa de listras por convidado, metade vermelha e metade amarela (modelo à sua escolha: Alça Alta Coração, Cubo, Maleta, Milk ou Sextavada)','1 topper Mágico com o rostinho por convidado, frente e verso','Topo de bolo: bandeirola com o nome + número da idade, em vermelho','Embalagens Dambrinhos'],
+    opcoes:[12, 24, 36].map(n=>{ const cheio = Math.round(((7.99 + 4.99) * n + 34.99 + 14.99) * 100) / 100;
+      return { nome:`${n} convidados`, n:String(n).padStart(3,'0'), preco: Math.round(cheio * 0.9 * 100) / 100, cheio }; }) },
   /* Coroa: coroa dourada; as fotos (menino e, depois, menina) são crianças fictícias criadas por IA */
   { id:'afetiva-coroa', criacao:'afetiva', versao:'afetiva', grupo:'toppers', tema:'Fantasia', unidade:'topper', plural:'toppers', nome:'Coroa', cod:'AF-C',
     fotos:[`fotos/topper-coroa-menino.jpg?v=${FOTOS_VERSAO}`, `fotos/topper-coroa-menina.jpg?v=${FOTOS_VERSAO}`],
@@ -1836,6 +1846,14 @@ const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabét
 /* As partes da papelaria afetiva (Varal: em breve, sem produtos ainda) */
 const GRUPOS_AFETIVA = { caixas:'Caixas', 'topo-bolo':'Topo de bolo', toppers:'Toppers', varal:'Varal' };
 const afetivosDe = g => AFETIVOS.filter(p=>p.grupo===g);
+/* Festas por tema: tudo o que combina com o tema numa página só, com o kit (10% de desconto) em primeiro.
+   cores = as cores que já vêm escolhidas nas caixas; corTopo = a cor do número, da letra e do pompom do topo de bolo. */
+const TEMAS_FESTA = [
+  { id:'circo', nome:'Circo', fundo:'listras', cores:['vermelho','amarelo'], corTopo:'vermelho',
+    desc:'Lona listrada em vermelho e amarelo, o mágico de cartola e o topo de bolo com o nome: tudo combinando para a festa de circo. Leve o kit completo com 10% de desconto ou monte do seu jeito.',
+    kit:'kit-circo', toppers:['afetiva-magico'], topo:['topo-bandeirola-nome','topo-bandeirola-parabens','topo-idade','topo-letra','topo-pompom'] }
+];
+const temaDe = id => TEMAS_FESTA.find(t=>t.id===id);
 /* Toppers por tema (a ordem das seções da página e do menu) */
 const TEMAS_TOPPER = ['Animais','Fantasia','Profissões','Eventos'];
 const toppersPorTema = () => TEMAS_TOPPER.map(t=>({ tema:t, itens: afetivosDe('toppers').filter(p=>p.tema===t).sort((a,b)=>a.nome.localeCompare(b.nome,'pt')) })).filter(g=>g.itens.length);
@@ -2651,6 +2669,7 @@ function montarMenu(){
         { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
         { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
     { nome:'Lembrar', colunas:[
+      { titulo:'Festas por tema', col:'tema:'+TEMAS_FESTA[0].id, itens: TEMAS_FESTA.map(t=>({ nome:`Festa ${t.nome}`, sub:`Kit a partir de ${brl(prod(t.kit).opcoes[0].preco)}`, col:'tema:'+t.id })) },
       /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
       { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Monte o seu topo de bolo', col:'afetiva:topo-bolo', itens: afetivosDe('topo-bolo').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
@@ -2689,7 +2708,7 @@ document.addEventListener('keydown', e=>{ if (e.key==='Escape') fecharMenu(); })
 /* Navegação entre telas */
 const TELAS = ['home','colecao','product','cart','sensorial','afetiva','historia','ajuda'];
 function ir(view){
-  if (!['colecao','product','cart'].includes(view)) estado.fundo = null;   // o fundo das caixas só vale dentro da coleção por fundo
+  if (!['colecao','product','cart'].includes(view)){ estado.fundo = null; estado.tema = null; }   // o fundo das caixas só vale dentro da coleção por fundo
   TELAS.forEach(v=>{ $('view-'+v).hidden = v!==view; });
   $('footer').hidden = !['home','colecao','sensorial','afetiva','historia','ajuda'].includes(view);
   $('confete-faixa').hidden = $('footer').hidden;
@@ -2715,6 +2734,8 @@ function abrirColecao(chave){
     titulo=`Resultados para “${valor}”`;
     lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
   }
+  else if (tipo==='tema'){ const t = temaDe(valor); titulo = `Festa ${t.nome}`; desc = t.desc;
+    lista = [prod(t.kit), ...afetivosDe('caixas'), ...t.toppers.map(prod), ...t.topo.map(prod)].filter(Boolean); }
   else if (tipo==='afetiva'){ titulo = valor ? GRUPOS_AFETIVA[valor] : 'Papelaria afetiva'; lista = valor ? afetivosDe(valor) : AFETIVOS;
     desc = valor==='topo-bolo' ? 'Monte o seu topo de bolo: escolha as peças que quer, cada uma no seu palito de bambu. Depois do pedido e pagamento, você recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
@@ -2726,7 +2747,13 @@ function abrirColecao(chave){
   $('col-fundos-wrap').hidden = !ehCaixas;
   if (ehCaixas) renderColFundos();
   estado.lista = lista;
-  $('grid-colecao').innerHTML = (tipo==='afetiva' && valor==='toppers')
+  estado.tema = tipo==='tema' ? valor : null;
+  if (tipo==='tema') estado.fundo = temaDe(valor).fundo;
+  const secoes = grupos => grupos.filter(g=>g.itens.length).map(g=>`<h2 class="pgrid-tit">${esc(g.tema)}</h2>${g.itens.map(cardProduto).join('')}`).join('');
+  $('grid-colecao').innerHTML = tipo==='tema' ? secoes([
+      { tema:'O kit completo', itens: lista.filter(p=>p.grupo==='kits-tema') }, { tema:'Caixas', itens: lista.filter(p=>p.grupo==='caixas') },
+      { tema:'Toppers', itens: lista.filter(p=>p.grupo==='toppers') }, { tema:'Topo de bolo', itens: lista.filter(p=>p.grupo==='topo-bolo') } ])
+    : (tipo==='afetiva' && valor==='toppers')
     ? toppersPorTema().map(g=>`<h2 class="pgrid-tit">${esc(g.tema)}</h2>${g.itens.map(cardProduto).join('')}`).join('')
     : lista.map(cardProduto).join('');
   /* Se todos os kits da página são do mesmo tipo (ex.: todos "Lembrancinha"), a etiqueta não diz nada: some */
@@ -2780,10 +2807,12 @@ function fotosDe(p){
     return [fotosOk.has(src) ? `<img src="${esc(src)}" alt="${esc(`${p.nome} com fundo ${nomeFundo(f)}`)}">` : art(p, false, f, sel && sel.p===p ? corDe(sel.cores[0]).hex : undefined)]; }
   return (p.fotos && p.fotos.length) ? p.fotos.map(src=>`<img src="${esc(src)}" alt="${esc(p.nome)}">`) : [art(p)]; }
 function abrirProduto(pid){
-  const p = prod(pid), cr = criacaoDe(p);
+  const p = prod(pid), cr = criacaoDe(p), tm = temaDe(estado.tema);
   sel = { p, opt:0, qtd:1, foto:0, livre:false, kits:null, arco: p.corArco ? 'amarelo' : null, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], nCores:1,
           varal: p.varal ? { frase:'parabens', nome:'', cor:'colorido' } : null,
           topo: p.escolha==='bandeirola' ? { frase:'parabens', texto:'' } : p.escolha ? { frase:p.escolha, texto:'', cor: comCorTopo(p) ? CORES_CAIXA[0].id : null } : null };
+  if (tm && p.modelo){ sel.fundo = tm.fundo; sel.cores = tm.cores.slice(); sel.nCores = tm.cores.length; }
+  if (tm && sel.topo && sel.topo.cor) sel.topo.cor = tm.corTopo;
   $('p-topo-wrap').hidden = !p.escolha; $('p-topo-campo').value = '';
   $('p-arco-wrap').hidden = !p.corArco;
   $('p-fundo-wrap').hidden = !p.modelo;
@@ -2804,7 +2833,9 @@ function abrirProduto(pid){
     : (p.seguranca || cr.seguranca);
   $('p-pac-tit').textContent = afetivo ? `${p.plural==='caixas' ? 'Quantas' : 'Quantos'} ${p.plural}?` : 'Quantos convidados?';
   if (p.varal) $('p-pac-nota').textContent = '';
-  $('p-pac-nota').textContent = afetivo
+  $('p-pac-nota').textContent = p.grupo==='kits-tema'
+    ? 'Uma caixa e um topper para cada convidado, e um topo de bolo. Depois do pedido e pagamento, você manda a foto, o nome e a idade pelo WhatsApp e recebe a arte para aprovar.'
+    : afetivo
     ? `Cada embalagem leva 12 ${p.plural}. Depois do pedido e pagamento, você manda a foto do rostinho pelo WhatsApp e recebe a arte para aprovar antes de imprimirmos.`
     : 'Convidados de várias idades? Leve um pacote de cada kit: é só adicionar ao carrinho e escolher outro.';
   $('p-prazo').textContent = LOJA.prazo; $('p-prazo2').textContent = LOJA.prazo + '.';
@@ -2832,7 +2863,7 @@ function renderProduto(){
   $('g-prev').hidden = $('g-next').hidden = fotos.length < 2;
   $('p-thumbs').innerHTML = fotos.length < 2 ? '' : fotos.map((f,i)=>`<button type="button" data-foto="${i}" aria-label="Foto ${i+1}" aria-current="${i===sel.foto}">${f}</button>`).join('');
   /* Nos pacotes: preço "cheio" (pelo valor do menor pacote) riscado e a economia real */
-  const base = porKit(p.opcoes[0]) * +o.n, eco = base > v ? Math.round((1 - v/base)*100) : 0;
+  const base = o.cheio || porKit(p.opcoes[0]) * +o.n, eco = base > v ? Math.round((1 - v/base)*100) : 0;
   $('p-price').textContent = brl(v);
   $('p-de').textContent = eco ? brl(base) : '';
   $('p-eco').textContent = eco ? `Economize ${eco}%` : '';
@@ -2888,12 +2919,12 @@ function renderProduto(){
       ? (falta > 0 ? `<b>Toque em mais ${falta} ${falta===1 ? 'cor' : 'cores'}.</b> ` : `<b>${esc(coresTxt(sel.cores, o.n))}</b>. `) + 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom.'
       : 'A cor vai nas linhas do fundo e nos detalhes, como o nome e o pompom. As fotos mostram um exemplo.';
   }
-  const ecos = p.opcoes.map(x=>{ const b = porKit(p.opcoes[0]) * +x.n; return b > x.preco ? Math.round((1 - x.preco/b)*100) : 0; });
+  const ecos = p.opcoes.map(x=>{ const b = x.cheio || porKit(p.opcoes[0]) * +x.n; return b > x.preco ? Math.round((1 - x.preco/b)*100) : 0; });
   const melhor = ecos.indexOf(Math.max(...ecos));
   $('p-pacotes').classList.toggle('com-livre', qtdLivre(p));
   $('p-livre').hidden = !(qtdLivre(p) && sel.livre);
   $('p-pacotes').innerHTML = p.porUnidade ? '' : p.opcoes.map((x,i)=>{
-    const b = porKit(p.opcoes[0]) * +x.n;
+    const b = x.cheio || porKit(p.opcoes[0]) * +x.n;
     return `<button type="button" class="pd-pac" data-so="${i}" aria-pressed="${!sel.livre && i===opt}">
       ${ecos[i] && i===melhor ? '<span class="tag-top">Melhor custo</span>' : ''}<span class="chk" aria-hidden="true"></span>
       <span class="q">${esc(x.nome)}</span><span class="v">${brl(x.preco)}${ecos[i] ? `<s>${brl(b)}</s>` : ''}</span>
