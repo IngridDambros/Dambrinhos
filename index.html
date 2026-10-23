@@ -89,6 +89,8 @@
   .mega li a{color:var(--ink);text-decoration:none;font-size:15.5px;line-height:1.35}
   .mega li a:hover{color:var(--azul);text-decoration:underline}
   .mega li small{display:block;color:var(--muted);font-size:13px}
+  /* Lista comprida (Toppers): ocupa duas colunas do menu, com os itens lado a lado */
+  @media (min-width:900px){.mega-duas{grid-column:span 2} .mega-duas ul{display:block;columns:2;column-gap:26px} .mega-duas li{break-inside:avoid;margin-bottom:9px}}
   .top-acts{display:flex;align-items:center;gap:8px;margin-left:auto;align-self:center}
   .icon-btn{position:relative;width:44px;height:44px;border-radius:22px;border:0;background:rgba(10,82,114,.10);color:var(--azul);display:flex;align-items:center;justify-content:center;cursor:pointer}
   .icon-btn:hover{background:rgba(10,82,114,.18)}
@@ -2609,7 +2611,7 @@ function montarMenu(){
       /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
       { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Monte o seu topo de bolo', col:'afetiva:topo-bolo', itens: afetivosDe('topo-bolo').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
-      { titulo:'Toppers', col:'afetiva:toppers', itens: afetivosDe('toppers').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
+      { titulo:'Toppers', col:'afetiva:toppers', duas:true, itens: afetivosDe('toppers').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
       { titulo:'Varal', col:'afetiva:varal', itens: afetivosDe('varal').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
       { titulo:'Como funciona', destaque:true, go:'afetiva', itens:[
         { nome:'Caixas e toppers: 12, 24 ou 36', sub:MOSTRAR_TOPO_BOLO ? 'Topo de bolo e varal: por unidade' : 'Varal: por bandeirinha', go:'afetiva' },
@@ -2626,7 +2628,7 @@ function renderMenu(){
   $('menu').innerHTML = montarMenu().map(m => m.colunas ? `
     <details class="dd"><summary>${esc(m.nome)}</summary>
       <div class="mega"><div class="mega-in">${m.colunas.filter(c=>c.itens.length).map(c=>`
-        <div${c.destaque?' class="mega-dest"':''}><h4>${(c.nav||c.col||c.go)?`<a href="#" ${alvo(c)}>${esc(c.titulo)}</a>`:esc(c.titulo)}</h4><ul>${c.itens.map(link).join('')}</ul></div>`).join('')}
+        <div${c.destaque?' class="mega-dest"':c.duas?' class="mega-duas"':''}><h4>${(c.nav||c.col||c.go)?`<a href="#" ${alvo(c)}>${esc(c.titulo)}</a>`:esc(c.titulo)}</h4><ul>${c.itens.map(link).join('')}</ul></div>`).join('')}
       </div></div></details>`
     : `<a class="menu-link" href="#" ${alvo(m)}>${esc(m.nome)}</a>`).join('');
   /* No computador abre ao passar o mouse (como na Sculpd); no celular, ao tocar */
