@@ -877,9 +877,9 @@
             <label for="p-topo-campo" id="p-topo-campo-rot"></label>
             <input id="p-topo-campo" type="text" autocomplete="off">
           </div>
-          <!-- Idade e letra com linha: a cor da linha, nas mesmas cores das caixas -->
+          <!-- Número, letra e pompom: a cor da peça, nas mesmas cores das caixas -->
           <div id="p-topo-cor-wrap" hidden>
-            <h2 class="pd-h">Escolha a cor da linha</h2>
+            <h2 class="pd-h">Escolha a cor</h2>
             <div class="pd-cores" id="p-topo-cores"></div>
             <p class="small pd-cor-nota" id="p-topo-cor-nota"></p>
           </div>
@@ -1027,7 +1027,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, pirata, gatinho, coelhinho, formatura ou Natal) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, pirata, gatinho, coelhinho, festa junina, formatura ou Natal) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1338,7 +1338,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-10-21c';
+const FOTOS_VERSAO = '2026-10-23a';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1635,6 +1635,14 @@ const PRODUTOS = [
     selos:['Para festas de piratas','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e chapéu de pirata','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
+  /* Festa Junina: chapéu de palha e trancinhas (criança fictícia, criada por IA) */
+  { id:'afetiva-junina', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Festa Junina', cod:'AF-J',
+    fotos:[`fotos/topper-festa-junina.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de palha e trancinhas, para o arraiá.',
+    descricao:'O rostinho da criança com chapéu de palha, sardinhas e trancinhas de laço, para a festa junina da escola, o arraiá da família ou uma festa caipira. Para meninos, o chapéu vai sem as trancinhas. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
+    selos:['Para o arraiá','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e chapéu de palha (com trancinhas, para meninas)','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    opcoes:pacotes(3.99,'toppers') },
   /* Gatinho: o cliente escolhe a cor do arco e a foto troca (fotos/topper-gatinho-<cor>.jpg; criança fictícia, criada por IA) */
   { id:'afetiva-gatinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Gatinho', cod:'AF-G',
     corArco:'topper-gatinho', fotos:[`fotos/topper-gatinho-amarelo.jpg?v=${FOTOS_VERSAO}`],
@@ -1658,21 +1666,21 @@ const PRODUTOS = [
     seguranca:'As hastes são de bambu e têm ponta: tire o topo de bolo antes de servir o bolo e guarde longe das crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 bandeirola', n:'001', preco:34.99 }] })),
   { id:'topo-idade', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha:'idade',
-    unidade:'peça', plural:'peças', nome:'Idade com linha', cod:'TB-ID',
+    unidade:'peça', plural:'peças', nome:'Número da idade', cod:'TB-ID',
     fotos:[`fotos/topo-bolo-idade-1.jpg?v=${FOTOS_VERSAO}`],
-    embalagem:'Embalagem Dambrinhos', resumo:'O número da idade enrolado à mão com linha colorida, num palito de bambu.',
-    descricao:'O número da idade que a criança vai completar, enrolado à mão com linha de algodão colorida, volta por volta, e preso num palito de bambu. Uma peça artesanal, que dá textura e cor ao topo do bolo. Combine com a bandeirola para montar o seu topo de bolo.',
-    selos:['Enrolado à mão','Cor da linha à escolha','Monte o seu topo de bolo'],
-    itens:['Número da idade enrolado com linha, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
+    embalagem:'Embalagem Dambrinhos', resumo:'O número da idade em papel colorido, num palito de bambu.',
+    descricao:'O número da idade que a criança vai completar, recortado em papel encorpado na cor que você escolher e preso num palito de bambu. Combine com a bandeirola e a letra do nome para montar o seu topo de bolo.',
+    selos:['Na cor da festa','Papel encorpado','Monte o seu topo de bolo'],
+    itens:['Número da idade em papel encorpado, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
     seguranca:'O palito é de bambu e tem ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 número', n:'001', preco:24.99 }] },
   { id:'topo-letra', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, escolha:'letra',
-    unidade:'peça', plural:'peças', nome:'Letra do nome com linha', cod:'TB-LT',
+    unidade:'peça', plural:'peças', nome:'Letra do nome', cod:'TB-LT',
     fotos:[`fotos/topo-bolo-letra-1.jpg?v=${FOTOS_VERSAO}`],
-    embalagem:'Embalagem Dambrinhos', resumo:'A letra inicial do nome da criança enrolada à mão com linha colorida, num palito de bambu.',
-    descricao:'A letra inicial do nome da criança, enrolada à mão com linha de algodão colorida, volta por volta, e presa num palito de bambu. Combina com a idade de linha e com a bandeirola para montar o seu topo de bolo.',
-    selos:['Enrolada à mão','Cor da linha à escolha','Monte o seu topo de bolo'],
-    itens:['Letra inicial do nome enrolada com linha, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
+    embalagem:'Embalagem Dambrinhos', resumo:'A letra inicial do nome da criança em papel colorido, num palito de bambu.',
+    descricao:'A letra inicial do nome da criança, recortada em papel encorpado na cor que você escolher e presa num palito de bambu. Combina com o número da idade e com a bandeirola para montar o seu topo de bolo.',
+    selos:['Na cor da festa','Papel encorpado','Monte o seu topo de bolo'],
+    itens:['Letra inicial do nome em papel encorpado, na cor que você escolher: amarelo, azul, laranja, rosa, verde ou vermelho','1 palito de bambu','Embalagem Dambrinhos'],
     seguranca:'O palito é de bambu e tem ponta: tire o topo de bolo antes de servir o bolo para as crianças pequenas. É só para decorar.',
     opcoes:[{ nome:'1 letra', n:'001', preco:24.99 }] },
   { id:'topo-pompom', criacao:'afetiva', versao:'afetiva', grupo:'topo-bolo', porUnidade:true, desenho:'pompom', escolha:'pompom',
@@ -2279,7 +2287,7 @@ function artVaral(p, v){
     <path d="M4 ${y1.toFixed(1)} Q100 ${(yAt(100)+ (yAt(100)-y1)).toFixed(1)} 196 ${y2.toFixed(1)}" fill="none" stroke="#C9A96E" stroke-width="1"/>
     ${out}</svg>`;
 }
-/* Peças com linha (idade e letra): o cliente escolhe a cor da linha, nas mesmas cores das caixas */
+/* Número e letra (papel colorido): o cliente escolhe a cor, nas mesmas cores das caixas */
 const comCorTopo = p => ['idade','letra','pompom'].includes(p.escolha);
 /* Foto da peça na cor escolhida: fotos/topo-bolo-<idade|letra>-<cor>.jpg. Só é baixada quando o cliente clica na cor;
    enquanto não existir, aparece a foto padrão da peça. */
@@ -2287,7 +2295,7 @@ const fotoCorTopo = (p, cor) => `fotos/topo-bolo-${p.escolha}-${cor}.jpg?v=${FOT
 /* Idade com linha: o número desenhado com traços de linha enrolada, num palito */
 function artIdade(p){
   const n = (sel && sel.p===p && sel.topo && sel.topo.texto) || '5';
-  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração da idade com linha" preserveAspectRatio="xMidYMid meet">
+  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração do número da idade" preserveAspectRatio="xMidYMid meet">
     <defs><pattern id="linha-${p.id}" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(80)"><rect width="6" height="6" fill="#6FCFC0"/><rect width="2" height="6" fill="#4FB3A5"/></pattern></defs>
     <rect width="200" height="160" fill="#EFEFEF"/>
     <rect x="98" y="104" width="4" height="54" fill="#D9B98C"/>
@@ -2792,9 +2800,9 @@ function renderProduto(){
     $('p-topo-campo').placeholder = nomeCampo ? 'Ex.: Luiza' : letra ? 'Ex.: L' : 'Ex.: 5';
     $('p-topo-cor-wrap').hidden = !comCorTopo(p);
     if (comCorTopo(p)){
-      $('p-topo-cor-wrap').querySelector('h2').textContent = pp ? 'Escolha a cor do pompom' : 'Escolha a cor da linha';
+      $('p-topo-cor-wrap').querySelector('h2').textContent = pp ? 'Escolha a cor do pompom' : 'Escolha a cor';
       $('p-topo-cores').innerHTML = CORES_CAIXA.map(c=>`<button type="button" class="pd-cor" data-topo-cor="${c.id}" aria-pressed="${tp.cor===c.id}"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/>${[6,12,18,24,30].map(y=>`<path d="M4 ${y} H36" stroke="${c.hex}" stroke-width="5.5" stroke-linecap="round"/>`).join('')}</svg><span>${esc(c.nome)}</span></button>`).join('');
-      $('p-topo-cor-nota').textContent = (pp ? 'Cor: ' : 'Cor da linha: ') + corDe(tp.cor).nome + (fotosOk.has(fotoCorTopo(p, tp.cor)) ? '.' : '. A foto mostra um exemplo de cor.');
+      $('p-topo-cor-nota').textContent = 'Cor: ' + corDe(tp.cor).nome + (fotosOk.has(fotoCorTopo(p, tp.cor)) ? '.' : '. A foto mostra um exemplo de cor.');
     }
   }
   if (p.corArco){
@@ -2898,7 +2906,7 @@ $('add').onclick = ()=>{
 /* Carrinho */
 function atualizarBadge(){ const n=carrinho.reduce((s,i)=>s+i.qtd,0); $('badge').textContent=n; $('badge').hidden=n===0; }
 function itemDet(i){ const p = prod(i.pid), o = opcaoDe(p, i.opt, i.kits);
-  if (i.topo) return ['Monte o seu topo de bolo', ...(i.topo.cor ? [`${p.escolha==='pompom' ? 'Cor' : 'Cor da linha'}: ${corDe(i.topo.cor).nome}`] : []), ...(p.escolha==='pompom' ? [] : [p.escolha==='idade' ? `Idade: ${i.topo.texto}` : p.escolha==='letra' ? `Letra: ${i.topo.texto}` : `Escrito: “${i.topo.frase==='nome' ? i.topo.texto : 'Parabéns'}”`])];
+  if (i.topo) return ['Monte o seu topo de bolo', ...(i.topo.cor ? [`Cor: ${corDe(i.topo.cor).nome}`] : []), ...(p.escolha==='pompom' ? [] : [p.escolha==='idade' ? `Idade: ${i.topo.texto}` : p.escolha==='letra' ? `Letra: ${i.topo.texto}` : `Escrito: “${i.topo.frase==='nome' ? i.topo.texto : 'Parabéns'}”`])];
   if (i.varal){ const n = bandeirinhasVaral(i.varal);
     return [criacaoDe(p).titulo, `Frase: “${textoVaral(i.varal)}”`, `Cor: ${corVaralTxt(i.varal.cor)}`, `${n} bandeirinhas · ${brl(VARAL.preco)} por bandeirinha`]; }
   return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, i.fundo ? `Fundo: ${nomeFundo(i.fundo)}` : null, i.cores ? `${i.cores.length>1?'Cores':'Cor'}: ${coresTxt(i.cores, o.n)}` : null, i.arco ? `Cor do arco: ${corDe(i.arco).nome}` : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por ${unidadeDe(p)}`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
