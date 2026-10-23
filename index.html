@@ -396,7 +396,7 @@
   .sens-aviso{margin:16px 0 72px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--linha);font-size:15px;color:var(--muted)}
   .sens-aviso b{color:var(--ink)}
 
-  /* Lembrar: papelaria afetiva (toppers de rostinho, formatura, datas especiais) */
+  /* Lembrar: papelaria afetiva (toppers de rostinho: chapéu de festa, coroa, formatura, datas especiais...) */
   .afe-hero{background:var(--rosa-claro)}
   .afe-hero .sens-hero-in{max-width:860px}
   .afe-datas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -1029,7 +1029,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, pirata, chef, unicórnio, gatinho, coelhinho, festa junina, formatura ou Natal) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (chapéu de festa, coroa, cowboy, pirata, chef, unicórnio, gatinho, coelhinho, festa junina, formatura ou Natal) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1583,8 +1583,8 @@ const PRODUTOS = [
   /* Papelaria afetiva: pacotes de 12, 24 ou 36 toppers (12 por embalagem). unidade = palavra que vem depois do preço ("por topper").
      As fotos são exemplos FICTÍCIOS, criados por IA: nunca usar o rosto de um cliente.
      Preço: R$ 3,99 por topper e R$ 7,99 por caixa. */
-  { id:'afetiva-toppers', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Toppers de rostinho', cod:'AF-T',
-    fotos:[FOTO.afetiva('toppers')],
+  { id:'afetiva-toppers', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Chapéu de festa', cod:'AF-T',
+    fotos:[`fotos/topper-chapeu-de-festa.jpg?v=${FOTOS_VERSAO}`],
     embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de festa, para os doces e o bolo.',
     descricao:'Toppers com o rostinho da criança e um chapéu de festa, prontos para enfeitar os docinhos e o bolo. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu na cor que combina com a festa.',
     selos:['Feito com a foto que você tem','Arte para aprovar antes de imprimir','Frente e verso'],
