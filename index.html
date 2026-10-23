@@ -1027,7 +1027,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, gatinho, coelhinho, formatura ou Natal) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, pirata, gatinho, coelhinho, formatura ou Natal) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1626,6 +1626,14 @@ const PRODUTOS = [
     descricao:'O rostinho da criança com um chapéu de cowboy, para festas com tema de fazendinha, country, rodeio ou faroeste. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
     selos:['Para festas de fazendinha e country','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e chapéu de cowboy','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    opcoes:pacotes(3.99,'toppers') },
+  /* Pirata: chapéu de pirata (criança fictícia, criada por IA) */
+  { id:'afetiva-pirata', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Pirata', cod:'AF-P',
+    fotos:[`fotos/topper-pirata.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com chapéu de pirata, para festas de piratas e fundo do mar.',
+    descricao:'O rostinho da criança com um chapéu de pirata, para festas com tema de piratas, ilha do tesouro ou fundo do mar. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o chapéu.',
+    selos:['Para festas de piratas','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e chapéu de pirata','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   /* Gatinho: o cliente escolhe a cor do arco e a foto troca (fotos/topper-gatinho-<cor>.jpg; criança fictícia, criada por IA) */
   { id:'afetiva-gatinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Gatinho', cod:'AF-G',
