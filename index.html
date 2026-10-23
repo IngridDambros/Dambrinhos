@@ -394,7 +394,7 @@
   .sens-aviso{margin:16px 0 72px;padding:18px 20px;border-radius:16px;background:#fff;border:1px solid var(--linha);font-size:15px;color:var(--muted)}
   .sens-aviso b{color:var(--ink)}
 
-  /* Lembrar: papelaria afetiva (toppers de rostinho, mesversário, datas especiais) */
+  /* Lembrar: papelaria afetiva (toppers de rostinho, formatura, datas especiais) */
   .afe-hero{background:var(--rosa-claro)}
   .afe-hero .sens-hero-in{max-width:860px}
   .afe-datas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -728,7 +728,7 @@
     <section class="sec" id="afetiva-home">
       <div class="sec-head">
         <div><p class="eyebrow">Lembrar</p><h2 class="sec-title">Papelaria afetiva</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Caixas e toppers com o rostinho da criança, para o aniversário, a formatura e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
         <button class="btn-out" type="button" data-go="afetiva">Conhecer a papelaria afetiva</button>
       </div>
       <div class="criacoes ocasioes" id="afetiva-row"></div>
@@ -991,7 +991,7 @@
         <p class="crumbs"><button type="button" data-go="home">Início</button> / Lembrar</p>
         <p class="eyebrow">Lembrar · papelaria afetiva</p>
         <h1>O rostinho de cada fase, no centro da festa.</h1>
-        <p>Caixas e toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra. Você escolhe entre os temas e modelos que mostramos aqui, manda a foto que tem, e a gente cuida do recorte e das cores.</p>
+        <p>Caixas e toppers com o rostinho da criança, para o aniversário, a formatura e as datas que a família celebra. Você escolhe entre os temas e modelos que mostramos aqui, manda a foto que tem, e a gente cuida do recorte e das cores.</p>
       </div>
     </section>
 
@@ -1027,7 +1027,7 @@
       <section class="sens-box" style="background:var(--dourado)">
         <h2>Como pedir</h2>
         <ol>
-          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, gatinho, coelhinho, mesversário ou Natal) ou o varal de bandeirinhas.</li>
+          <li>Escolha o que você quer: caixas, peças para montar o topo de bolo, toppers (de festa, coroa, cowboy, gatinho, coelhinho, formatura ou Natal) ou o varal de bandeirinhas.</li>
           <li>Nas caixas e nos toppers, escolha o pacote de 12, 24 ou 36. No varal, escolha o formato, a frase e a cor. Finalize o pedido pelo carrinho, como nos kits.</li>
           <li>Depois do pedido e pagamento, mande pelo WhatsApp uma foto do rostinho, de frente e com boa luz, e conte quais opções do site você escolheu. Pode ser foto de celular ou da escola.</li>
           <li>A arte é criada depois do pagamento e enviada para você aprovar antes de imprimirmos.</li>
@@ -1049,7 +1049,6 @@
       </section>
     </div>
 
-    <p class="sens-aviso"><b>Mesversário:</b> a cada mês, você manda uma foto nova do rostinho e escolhe o tema. Assim, o bebê aparece em cada fase, e no fim do ano você tem a coleção inteira.</p>
   </div>
 
   <!-- ====== AJUDA (tela própria, como a Nossa história) ====== -->
@@ -1312,7 +1311,7 @@ const CRIACOES = [
     seguranca:'A massa de EVA vem lacrada na embalagem do fabricante, com o selo do INMETRO, e é indicada a partir de 3 anos. Seca ao ar e não vai ao forno. Não é comestível.' },
   /* Papelaria afetiva: fica FORA da escadinha (linha:'afetiva'), sem idade, e aparece só em "Lembrar" */
   { id:'afetiva', linha:'afetiva', nome:'Papelaria afetiva', titulo:'Papelaria afetiva', cor:'#C9396B', fundo:'#FBEFF3',
-    desc:'Toppers com o rostinho da criança, para o aniversário, o mesversário e as datas que a família celebra.',
+    desc:'Toppers com o rostinho da criança, para o aniversário, a formatura e as datas que a família celebra.',
     seguranca:'Os palitos são de madeira e têm ponta: tire o topper antes de entregar o doce para as crianças pequenas. O topper é de papel, só para decorar.' }
 ];
 /* Crie seu Jogo DESATIVADO (a Cerâmica passou para 9+ e a escadinha ficou com nove criações) e Biscuit DESATIVADO
@@ -1589,12 +1588,13 @@ const PRODUTOS = [
     selos:['Feito com a foto que você tem','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e chapéu de festa, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
-  { id:'afetiva-mesversario', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Mesversário', cod:'AF-M',
-    fotos:[FOTO.afetiva('mesversario')],
-    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'Um tema por mês, com o rostinho de cada fase do bebê.',
-    descricao:'A cada mês, você manda uma foto nova do rostinho e escolhe o tema. Assim, o bebê aparece em cada fase, e no fim do primeiro ano você tem a coleção inteira, mês a mês.',
-    selos:['Um tema novo a cada mês','Arte para aprovar antes de imprimir','Frente e verso'],
-    itens:['Toppers com o rostinho do bebê no tema do mês','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+  /* Formatura (antes, Mesversário): capelo de formatura (criança fictícia, criada por IA). O id continua o mesmo. */
+  { id:'afetiva-mesversario', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Formatura', cod:'AF-F',
+    fotos:[`fotos/topper-formatura.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com capelo, para a formatura do ABC e da escolinha.',
+    descricao:'O rostinho da criança com um capelo de formatura, para comemorar a formatura do ABC, da educação infantil ou do fim do ano na escola. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o capelo.',
+    selos:['Para a formatura do ABC','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e capelo de formatura','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
   { id:'afetiva-datas', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Natal', cod:'AF-D',
     fotos:[`fotos/topper-natal.jpg?v=${FOTOS_VERSAO}`],
@@ -1774,7 +1774,6 @@ const afetivosDe = g => AFETIVOS.filter(p=>p.grupo===g);
 /* Datas da papelaria afetiva: [quando, data, acessório] */
 const DATAS_AFETIVAS = [
   ['O ano todo',     'Aniversário',      'Chapéu de festa ou coroa'],
-  ['Todo mês',       'Mesversário',      'Um tema novo a cada mês'],
   ['Março ou abril', 'Páscoa',           'Orelhas de coelho'],
   ['Maio',           'Dia das Mães',     'Coroa de flores'],
   ['Junho e julho',  'Festa Junina',     'Chapéu de palha e sardinhas'],
