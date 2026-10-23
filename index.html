@@ -1841,6 +1841,9 @@ if (!MOSTRAR_TOPO_BOLO) PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p
 /* MOSTRAR_VARAL = false esconde o Varal do site (seção, menu, busca); os produtos ficam guardados. Para voltar: true */
 const MOSTRAR_VARAL = false;
 if (!MOSTRAR_VARAL) PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.grupo!=='varal'));
+/* MOSTRAR_TEMAS = false esconde as Festas por tema (página do tema, kits e menu); tudo fica guardado. Para voltar: true */
+const MOSTRAR_TEMAS = false;
+if (!MOSTRAR_TEMAS) PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.grupo!=='kits-tema'));
 const AFETIVOS = PRODUTOS.filter(p=>p.versao==='afetiva')   // em ordem alfabética: a parte (Caixas, Toppers) e depois o nome
   .sort((a,b)=>a.grupo.localeCompare(b.grupo,'pt') || a.nome.localeCompare(b.nome,'pt'));
 /* As partes da papelaria afetiva (Varal: em breve, sem produtos ainda) */
@@ -2669,7 +2672,7 @@ function montarMenu(){
         { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
         { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
     { nome:'Lembrar', colunas:[
-      { titulo:'Festas por tema', col:'tema:'+TEMAS_FESTA[0].id, itens: TEMAS_FESTA.map(t=>({ nome:`Festa ${t.nome}`, sub:`Kit a partir de ${brl(prod(t.kit).opcoes[0].preco)}`, col:'tema:'+t.id })) },
+      { titulo:'Festas por tema', col:'tema:'+TEMAS_FESTA[0].id, itens: !MOSTRAR_TEMAS ? [] : TEMAS_FESTA.map(t=>({ nome:`Festa ${t.nome}`, sub:`Kit a partir de ${brl(prod(t.kit).opcoes[0].preco)}`, col:'tema:'+t.id })) },
       /* Papelaria afetiva em três partes, em ordem alfabética: Caixas, Toppers e Varal (Varal: em breve) */
       { titulo:'Caixas por fundo', col:'afetiva:caixas', itens: FUNDOS.map(f=>({ nome:f.nome, sub:`As ${afetivosDe('caixas').length} caixas com esse fundo · ${precoTxt(afetivosDe('caixas')[0])}`, col:`afetiva:caixas:${f.id}` })) },
       { titulo:'Monte o seu topo de bolo', col:'afetiva:topo-bolo', itens: afetivosDe('topo-bolo').map(p=>({ nome:p.nome, sub:precoTxt(p), pid:p.id })) },
