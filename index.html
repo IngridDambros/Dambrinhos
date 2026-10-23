@@ -884,6 +884,12 @@
             <p class="small pd-cor-nota" id="p-topo-cor-nota"></p>
           </div>
         </div>
+        <!-- Toppers com arco (gatinho): a cor do arco, e a foto troca na hora -->
+        <div id="p-arco-wrap" hidden>
+          <h2 class="pd-h">Escolha a cor do arco</h2>
+          <div class="pd-cores" id="p-arco-cores"></div>
+          <p class="small pd-cor-nota" id="p-arco-nota"></p>
+        </div>
         <!-- Caixas da papelaria afetiva: o cliente escolhe o fundo e a imagem troca na hora -->
         <div id="p-fundo-wrap" hidden>
           <h2 class="pd-h">Escolha o fundo</h2>
@@ -1597,6 +1603,14 @@ const PRODUTOS = [
     selos:['O acessório de cada data','Arte para aprovar antes de imprimir','Frente e verso'],
     itens:['Toppers com o rostinho da criança e o acessório da data','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
     opcoes:pacotes(3.99,'toppers') },
+  /* Gatinho: o cliente escolhe a cor do arco e a foto troca (fotos/topper-gatinho-<cor>.jpg; criança fictícia, criada por IA) */
+  { id:'afetiva-gatinho', criacao:'afetiva', versao:'afetiva', grupo:'toppers', unidade:'topper', plural:'toppers', nome:'Gatinho', cod:'AF-G',
+    corArco:'topper-gatinho', fotos:[`fotos/topper-gatinho-amarelo.jpg?v=${FOTOS_VERSAO}`],
+    embalagem:'Embalagem Dambrinhos com 12 toppers', resumo:'O rostinho da criança com um arco de orelhinhas de gatinho, na cor da festa.',
+    descricao:'O rostinho da criança com um arco de orelhinhas de gatinho, na cor que você escolher. Você manda a foto que tem, de celular ou da escola: a gente recorta o rostinho, cuida das cores e coloca o arco.',
+    selos:['Arco na cor da festa','Arte para aprovar antes de imprimir','Frente e verso'],
+    itens:['Toppers com o rostinho da criança e arco de orelhinhas de gatinho, na cor que você escolher','Rostinho com cerca de 3 cm de altura, com contorno branco','Impresso frente e verso: o rostinho aparece dos dois lados, para quem olhar de qualquer lado da mesa','Palitos de madeira','Embalagem Dambrinhos com 12 toppers'],
+    opcoes:pacotes(3.99,'toppers') },
   /* Topo de bolo: o cliente monta o dele, escolhendo as peças (cada uma no seu palito de bambu, vendida por unidade).
      escolha = o que o cliente define na página da peça (ver ESCOLHAS_TOPO). Em ordem alfabética. */
   /* Bandeirola: dois anúncios, um com "Parabéns" e outro com o nome da criança (o cliente escolhe) */
@@ -2164,7 +2178,10 @@ const CORES_CAIXA = [
   { id:'verde',    nome:'Verde',    hex:'#86B98A' },
   { id:'vermelho', nome:'Vermelho', hex:'#E06C5F' }
 ];
-const corDe = id => CORES_CAIXA.find(c=>c.id===id) || CORES_CAIXA[0];
+const corDe = id => CORES_CAIXA.find(c=>c.id===id) || CORES_ARCO.find(c=>c.id===id) || CORES_CAIXA[0];
+/* Cores do arco do topper de gatinho: as das caixas + lilás (cada uma tem a sua foto) */
+const CORES_ARCO = [...CORES_CAIXA, { id:'lilas', nome:'Lilás', hex:'#A98BD6' }].sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
+const fotoCorArco = (p, cor) => `fotos/${p.corArco}-${cor}.jpg?v=${FOTOS_VERSAO}`;
 /* Texto das cores de um pedido: "Azul" ou "6 em Azul + 6 em Vermelho" */
 const coresTxt = (cores, n) => cores.length > 1 ? cores.map(c=>`${(+n||12)/cores.length} em ${corDe(c).nome}`).join(' + ') : corDe(cores[0]).nome;
 /* Várias cores na caixa: no mínimo 4 de cada e divisão igual (12 → 2 ou 3 cores; 24 e 36 → 2, 3, 4 ou 6) */
@@ -2658,6 +2675,8 @@ document.addEventListener('click', e=>{
 
 /* Produto */
 function fotosDe(p){
+  /* Topper com arco: a foto da cor escolhida */
+  if (p.corArco && sel && sel.p===p && sel.arco) return [`<img src="${esc(fotoCorArco(p, sel.arco))}" alt="${esc(`Topper ${p.nome} com arco ${corDe(sel.arco).nome.toLowerCase()}`)}">`];
   /* Idade e letra com linha: a foto da cor escolhida, se já existir */
   if (comCorTopo(p) && sel && sel.p===p && sel.topo && sel.topo.cor){ const src = fotoCorTopo(p, sel.topo.cor);
     if (fotosOk.has(src)) return [`<img src="${esc(src)}" alt="${esc(`${p.nome} na cor ${corDe(sel.topo.cor).nome}`)}">`];
@@ -2668,10 +2687,11 @@ function fotosDe(p){
   return (p.fotos && p.fotos.length) ? p.fotos.map(src=>`<img src="${esc(src)}" alt="${esc(p.nome)}">`) : [art(p)]; }
 function abrirProduto(pid){
   const p = prod(pid), cr = criacaoDe(p);
-  sel = { p, opt:0, qtd:1, foto:0, livre:false, kits:null, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], nCores:1,
+  sel = { p, opt:0, qtd:1, foto:0, livre:false, kits:null, arco: p.corArco ? 'amarelo' : null, fundo: p.modelo ? capaFundo(p) : null, cores:[CORES_CAIXA[0].id], nCores:1,
           varal: p.varal ? { frase:'parabens', nome:'', cor:'colorido' } : null,
           topo: p.escolha==='bandeirola' ? { frase:'parabens', texto:'' } : p.escolha ? { frase:p.escolha, texto:'', cor: comCorTopo(p) ? CORES_CAIXA[0].id : null } : null };
   $('p-topo-wrap').hidden = !p.escolha; $('p-topo-campo').value = '';
+  $('p-arco-wrap').hidden = !p.corArco;
   $('p-fundo-wrap').hidden = !p.modelo;
   $('p-varal-wrap').hidden = !p.varal; $('p-nome').value = '';
   $('p-name').textContent = p.nome;
@@ -2746,6 +2766,10 @@ function renderProduto(){
       $('p-topo-cor-nota').textContent = (pp ? 'Cor: ' : 'Cor da linha: ') + corDe(tp.cor).nome + (fotosOk.has(fotoCorTopo(p, tp.cor)) ? '.' : '. A foto mostra um exemplo de cor.');
     }
   }
+  if (p.corArco){
+    $('p-arco-cores').innerHTML = CORES_ARCO.map(c=>`<button type="button" class="pd-cor" data-arco="${c.id}" aria-pressed="${sel.arco===c.id}"><svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/><path d="M5 34 Q20 8 35 34" fill="none" stroke="${c.hex}" stroke-width="3.5" stroke-linecap="round"/><path d="M8 25 L10 7 L19 16 Z M32 25 L30 7 L21 16 Z" fill="${c.hex}" stroke="${c.hex}" stroke-width="1.5" stroke-linejoin="round"/><path d="M11 20 L12 12 L16 16 Z M29 20 L28 12 L24 16 Z" fill="#fff" opacity=".55"/></svg><span>${esc(c.nome)}</span></button>`).join('');
+    $('p-arco-nota').textContent = `Arco ${corDe(sel.arco).nome.toLowerCase()}. A foto mostra um exemplo, criado por IA.`;
+  }
   if (p.varal){
     const vv = sel.varal, fr = VARAL.frases.find(x=>x.id===vv.frase), n = bandeirinhasVaral(vv);
     $('p-frases').innerHTML = VARAL.frases.map(f=>`<button type="button" class="pd-modo-op" data-frase="${f.id}" aria-pressed="${f.id===vv.frase}"><b>${esc(f.nome)}</b><span>${esc(f.texto((vv.nome||'').trim()||'Luiza'))}</span></button>`).join('');
@@ -2797,6 +2821,7 @@ $('view-product').addEventListener('click', e=>{
   else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
   else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
+  else if (b.dataset.arco){ sel.arco = b.dataset.arco; sel.foto = 0; }
   else if (b.dataset.topo){ sel.topo.frase = b.dataset.topo; if (b.dataset.topo==='nome') setTimeout(()=>$('p-topo-campo').focus(),0); }
   else if (b.dataset.foto) sel.foto = +b.dataset.foto;
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
@@ -2833,8 +2858,9 @@ $('add').onclick = ()=>{
   const cores = p.modelo ? sel.cores.slice() : null;
   if (sel.livre && !(sel.kits >= KITS_MIN)){ avisar(`A quantidade mínima é de ${KITS_MIN} kits`); $('p-livre-n').focus(); return; }
   const kits = sel.livre ? sel.kits : null;
-  const ex = carrinho.find(i=>i.pid===p.id && i.opt===opt && (i.kits||null)===kits && (i.msg||'')===msg && !!i.sens===sens && (i.fundo||null)===fundo && (i.cores||[]).join()===(cores||[]).join());
-  ex ? ex.qtd += qtd : carrinho.push({pid:p.id, opt, qtd, msg, sens, fundo, cores, ...(kits ? {kits} : {})});
+  const arco = p.corArco ? sel.arco : null;
+  const ex = carrinho.find(i=>i.pid===p.id && i.opt===opt && (i.kits||null)===kits && (i.arco||null)===arco && (i.msg||'')===msg && !!i.sens===sens && (i.fundo||null)===fundo && (i.cores||[]).join()===(cores||[]).join());
+  ex ? ex.qtd += qtd : carrinho.push({pid:p.id, opt, qtd, msg, sens, fundo, cores, ...(kits ? {kits} : {}), ...(arco ? {arco} : {})});
   atualizarBadge(); avisar('Adicionado ao carrinho'); ir('cart');
 };
 
@@ -2844,7 +2870,7 @@ function itemDet(i){ const p = prod(i.pid), o = opcaoDe(p, i.opt, i.kits);
   if (i.topo) return ['Monte o seu topo de bolo', ...(i.topo.cor ? [`${p.escolha==='pompom' ? 'Cor' : 'Cor da linha'}: ${corDe(i.topo.cor).nome}`] : []), ...(p.escolha==='pompom' ? [] : [p.escolha==='idade' ? `Idade: ${i.topo.texto}` : p.escolha==='letra' ? `Letra: ${i.topo.texto}` : `Escrito: “${i.topo.frase==='nome' ? i.topo.texto : 'Parabéns'}”`])];
   if (i.varal){ const n = bandeirinhasVaral(i.varal);
     return [criacaoDe(p).titulo, `Frase: “${textoVaral(i.varal)}”`, `Cor: ${corVaralTxt(i.varal.cor)}`, `${n} bandeirinhas · ${brl(VARAL.preco)} por bandeirinha`]; }
-  return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, i.fundo ? `Fundo: ${nomeFundo(i.fundo)}` : null, i.cores ? `${i.cores.length>1?'Cores':'Cor'}: ${coresTxt(i.cores, o.n)}` : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por ${unidadeDe(p)}`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
+  return [criacaoDe(p).titulo, i.sens ? 'Versão sensorial' : null, i.fundo ? `Fundo: ${nomeFundo(i.fundo)}` : null, i.cores ? `${i.cores.length>1?'Cores':'Cor'}: ${coresTxt(i.cores, o.n)}` : null, i.arco ? `Cor do arco: ${corDe(i.arco).nome}` : null, p.porUnidade ? null : `${o.nome} · ${brl(porKit(o))} por ${unidadeDe(p)}`, i.msg ? `Cartão: “${i.msg}”` : null].filter(Boolean); }
 function totais(){
   const sub = carrinho.reduce((s,i)=>s+precoItem(i)*i.qtd,0);
   const pag = document.querySelector('input[name=pag]:checked').value, pix = pag.startsWith('Pix'), metade = pag.startsWith('Pix em 2');
@@ -2998,7 +3024,7 @@ $('checkout').addEventListener('submit',e=>{
   if (LOJA.pedidosUrl){
     const itens = carrinho.map(i=>{ const p=prod(i.pid), o=opcaoDe(p, i.opt, i.kits);
       return { kit:p.nome, atividade:criacaoDe(p).titulo, codigo:sku(p,i.opt,i.kits), pacote:o.nome, quantidade:i.qtd,
-               totalKits:(+o.n||1)*i.qtd, valor:precoItem(i)*i.qtd, mensagem:i.msg||'', fundo:i.fundo ? nomeFundo(i.fundo) : '', cor:i.cores ? coresTxt(i.cores, o.n) : '' }; });
+               totalKits:(+o.n||1)*i.qtd, valor:precoItem(i)*i.qtd, mensagem:i.msg||'', fundo:i.fundo ? nomeFundo(i.fundo) : '', cor:i.cores ? coresTxt(i.cores, o.n) : i.arco ? 'Arco ' + corDe(i.arco).nome : '' }; });
     /* text/plain evita a checagem de CORS; o pedido segue para o WhatsApp mesmo se a planilha falhar */
     fetch(LOJA.pedidosUrl, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'},
       body: JSON.stringify({ origem:'site-dambrinhos', pedido, cliente:$('cliente').value.trim(), cep:ehRetirada() ? 'Retirada' : $('cep').value,
