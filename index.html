@@ -1341,6 +1341,9 @@ const CRIACOES = [
   { id:'cuida-colagem', linha:'cuidar', nome:'Mimo Criar com as mãos', titulo:'Mimo Criar com as mãos', idade:3, cor:'#E09BBE', fundo:'#FBE9F1',
     desc:'Formas já recortadas, papéis coloridos e papel crepom para a criança montar uma cena do jeito dela, sem precisar de tesoura.',
     seguranca:'Sem tesoura: as formas já vêm recortadas. Cola bastão com selo do INMETRO, indicada a partir de 3 anos.' },
+  { id:'cuida-pintar', linha:'cuidar', arte:'pintar', nome:'Mimo Pintar', titulo:'Mimo Pintar', idade:3, cor:'#5DAA9B', fundo:'#E3F1EE',
+    desc:'Tinta guache de 6 cores, pincel e folhas com desenhos do tema da sua profissão para a criança pintar do jeito dela.',
+    seguranca:'A tinta guache é à base de água, vem lacrada com selo do INMETRO e sai com água e sabão. Pinte sempre com um adulto por perto.' },
   { id:'cuida-argila', linha:'cuidar', arte:'modelar', nome:'Argila de verdade', titulo:'Kit Argila de verdade', idade:3, cor:'#C9744B', fundo:'#F8E8DD',
     desc:'Argila de verdade, que seca ao ar, para a criança modelar, carimbar e pintar uma peça que vira obra de arte.',
     seguranca:'A argila vem lacrada na embalagem do fabricante, com o selo do INMETRO. Seca ao ar e não vai ao forno. As ferramentas são de madeira e sem ponta. Tinta à base de água, lacrada.' },
@@ -1639,6 +1642,13 @@ const PRODUTOS = [
     selos:['Sem tesoura','A partir de 3 anos','Com a sua marca'],
     itens:['1 base de papel cartão','Formas de papel já recortadas','Papéis coloridos e papel crepom','1 cola bastão, com selo do INMETRO',TAG_CUIDAR],
     opcoes:pacoteCuidar(34.99) },
+  /* Pintar: guache 6 cores (a mesma caixa do Mini Tela), pincel e folhas 10×15 com os desenhos das capas do Desenhar, só o contorno */
+  { id:'cuida-pintar', criacao:'cuida-pintar', versao:'cuidar', nome:'Mimo Pintar', cod:'CU-PT',
+    embalagem:'Saquinho de algodão cru', resumo:'Tinta guache de 6 cores, pincel e folhas com desenhos da sua profissão para pintar.',
+    descricao:'Tinta guache de 6 cores, um pincel e folhas de papel grosso com desenhos para pintar. Os desenhos têm o tema da sua profissão (dentista, pediatra, neuropediatra, fonoaudiologia, psicologia, terapia ocupacional, escola ou creche), os mesmos das capas do Mimo Desenhar. No Natal, os desenhos ganham uma edição especial.',
+    selos:['Desenhos da sua profissão','Seis cores de guache','Com a sua marca'],
+    itens:['1 caixa de tinta guache com 6 cores, lacrada, com selo do INMETRO','1 pincel','3 folhas de papel grosso 10×15 cm com desenhos do tema da sua profissão',TAG_CUIDAR],
+    opcoes:pacoteCuidar(34.99) },
   { id:'cuida-argila', criacao:'cuida-argila', versao:'cuidar', nome:'Argila de verdade', cod:'CU-AR',
     embalagem:'Saquinho de algodão cru', resumo:'Argila que seca ao ar para modelar, carimbar e pintar uma peça de verdade.',
     descricao:'Argila branca que seca ao ar, sem forno. A criança achata, modela e carimba folhas, texturas ou a própria mãozinha e, depois de seca, pinta com as cores dela. Uma peça de verdade para guardar, perfeita para fazer com a turma.',
@@ -1856,17 +1866,19 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.
 /* Cuidar: Argila de verdade DESATIVADA (pede tempo, mesa e secagem: pouco provável como mimo de consultório).
    Os dados continuam guardados. Para reativar, apague a linha abaixo. */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.id!=='cuida-argila'));
+/* Cuidar: Mimo Criar com as mãos DESATIVADO (o Mimo Pintar entrou no lugar). Para reativar, apague a linha abaixo. */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.id!=='cuida-colagem'));
 
 /* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato não tem espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
 /* O Dobradura não leva a ficha da obra: no lugar, vai o certificado de dobrador */
-PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva','cuida-desenhar','cuida-colagem','cuida-argila'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
+PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva','cuida-desenhar','cuida-colagem','cuida-argila','cuida-pintar'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
 const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='sensorial';
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
 /* Produtos exclusivos da área sensorial, em ordem alfabética */
 const SENSORIAIS = PRODUTOS.filter(ehBrinquedoSensorial).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
-/* Produtos do Cuidar, em ordem de preço (Mimo, Desenhar, Criar com as mãos) */
+/* Produtos do Cuidar, em ordem de preço (Massinha, Desenhar, Pintar) */
 const CUIDADOS = PRODUTOS.filter(p=>p.versao==='cuidar');
 
 /* Ocasiões — o carrossel "Como você vai celebrar?" e o menu.
