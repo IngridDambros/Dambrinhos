@@ -750,7 +750,7 @@
     <!-- Assinatura da marca: toda criação vira arte, com a ficha da obra -->
     <section class="arte" id="arte">
       <!-- img/ficha-da-obra.jpg: versão leve de "Ficha da Obra.png" -->
-      <img class="arte-img" src="img/ficha-da-obra.jpg" width="1200" height="800" loading="lazy"
+      <img class="arte-img" src="img/ficha-da-obra.jpg?v=2026-10-25" width="1200" height="800" loading="lazy"
         alt="Desenho de criança de 1 ano emoldurado, com a ficha da obra preenchida: artista, idade, data e nome da obra">
       <div>
         <p class="eyebrow">Guardado como arte</p>
@@ -1342,8 +1342,8 @@ const CRIACOES = [
   { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo sensorial', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
     desc:'Um mimo simples e singelo, para a data não passar em branco: um material sensorial lacrado e um cartão com a marca do profissional.',
     seguranca:'O material sensorial vem lacrado na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição da massinha.' },
-  { id:'cuida-colorir', linha:'cuidar', arte:'colorir', nome:'Colorir', titulo:'Kit Colorir', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
-    desc:'O clássico, com um diferencial: um bloquinho com 100 desenhos exclusivos Dambrinhos para colorir, com temas variados ou no tema que você escolher do catálogo.',
+  { id:'cuida-desenhar', linha:'cuidar', arte:'colorir', nome:'Desenhar', titulo:'Kit Desenhar', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
+    desc:'Um bloquinho de desenho com espiral, folhas lisas e capa de papel fotográfico, e giz de cera: a criança desenha o que imaginar.',
     seguranca:'Giz de cera com selo do INMETRO, indicado a partir de 3 anos.' },
   { id:'cuida-colagem', linha:'cuidar', nome:'Criar com as mãos', titulo:'Kit Criar com as mãos', idade:3, cor:'#E09BBE', fundo:'#FBE9F1',
     desc:'Formas já recortadas, papéis coloridos e papel crepom para a criança montar uma cena do jeito dela, sem precisar de tesoura.',
@@ -1633,12 +1633,13 @@ const PRODUTOS = [
     selos:['Você escolhe o material','Com a sua marca','Selo do INMETRO'],
     itens:['1 material sensorial à sua escolha, em versão menor e lacrada: massa de modelar, areia mágica ou massa de EVA','Cartão com a mensagem da data',TAG_CUIDAR],
     opcoes:pacoteCuidar(24.99) },
-  { id:'cuida-colorir', criacao:'cuida-colorir', versao:'cuidar', nome:'Colorir', cod:'CU-CL',
-    embalagem:'Saquinho de algodão cru', resumo:'Giz de cera e um bloquinho com 100 desenhos exclusivos para colorir.',
-    descricao:'O clássico, com um diferencial que ninguém dá: um bloquinho 10×15 cm com 100 desenhos exclusivos Dambrinhos para colorir. Os temas podem ser variados ou no tema que você escolher do nosso catálogo. Os desenhos são todos criados pela Dambrinhos: não usamos personagens de desenho animado.',
-    selos:['100 desenhos exclusivos','Tema à sua escolha','Com a sua marca'],
-    itens:['1 bloquinho 10×15 cm com 100 desenhos exclusivos Dambrinhos (temas variados ou um tema do catálogo)','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
-    opcoes:pacoteCuidar(30.99) },
+  /* Desenhar: folhas Chamex Notes 80 × 115 mm encadernadas com espiral, capa de papel fotográfico um pouco maior */
+  { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Desenhar', cod:'CU-DS',
+    embalagem:'Saquinho de algodão cru', resumo:'Um bloquinho de desenho com espiral e giz de cera, para desenhar o que imaginar.',
+    descricao:'Em vez de colorir um desenho pronto, a criança cria o dela: um bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e capa de papel fotográfico, com giz de cera para desenhar o que imaginar. Cabe na mochila e acompanha a criança depois do dia especial.',
+    selos:['Folhas lisas para criar','Encadernado com espiral','Com a sua marca'],
+    itens:['1 bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e capa de papel fotográfico','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
+    opcoes:pacoteCuidar(29.99) },
   { id:'cuida-colagem', criacao:'cuida-colagem', versao:'cuidar', nome:'Criar com as mãos', cod:'CU-CM',
     embalagem:'Saquinho de algodão cru', resumo:'Formas já recortadas para montar uma cena, sem tesoura.',
     descricao:'Uma base de papel cartão, formas já recortadas, papéis coloridos e bolinhas de papel crepom para a criança montar uma cena do jeito dela: uma cidade, o fundo do mar ou uma floresta. Sem tesoura, então serve para turmas a partir de 3 anos.',
@@ -1863,13 +1864,13 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.
 /* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato não tem espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
 /* O Dobradura não leva a ficha da obra: no lugar, vai o certificado de dobrador */
-PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva','cuida-colorir','cuida-colagem','cuida-argila'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
+PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva','cuida-desenhar','cuida-colagem','cuida-argila'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
 const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='sensorial';
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
 /* Produtos exclusivos da área sensorial, em ordem alfabética */
 const SENSORIAIS = PRODUTOS.filter(ehBrinquedoSensorial).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
-/* Produtos do Cuidar, na ordem da escadinha (Mimo, Colorir, Criar com as mãos, Argila de verdade) */
+/* Produtos do Cuidar, na ordem da escadinha (Mimo, Desenhar, Criar com as mãos, Argila de verdade) */
 const CUIDADOS = PRODUTOS.filter(p=>p.versao==='cuidar');
 
 /* Ocasiões — o carrossel "Como você vai celebrar?" e o menu.
