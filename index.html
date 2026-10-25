@@ -1634,11 +1634,13 @@ const PRODUTOS = [
     itens:['1 material sensorial à sua escolha, em versão menor e lacrada: massa de modelar, areia mágica ou massa de EVA','Cartão com a mensagem da data',TAG_CUIDAR],
     opcoes:pacoteCuidar(24.99) },
   /* Desenhar: folhas Chamex Notes 80 × 115 mm encadernadas com espiral, capa de papel fotográfico um pouco maior */
+  /* Fotos provisórias (criadas por IA): as capas de Natal por profissão. A 1 é a montagem com três capas. */
   { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Desenhar', cod:'CU-DS',
-    embalagem:'Saquinho de algodão cru', resumo:'Um bloquinho de desenho com espiral e giz de cera, para desenhar o que imaginar.',
-    descricao:'Em vez de colorir um desenho pronto, a criança cria o dela: um bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e capa de papel fotográfico, com giz de cera para desenhar o que imaginar. Cabe na mochila e acompanha a criança depois do dia especial.',
-    selos:['Folhas lisas para criar','Encadernado com espiral','Com a sua marca'],
-    itens:['1 bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e capa de papel fotográfico','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
+    fotos:[1,2,3,4,5,6,7,8].map(i=>`fotos/cuida-desenhar-${i}.jpg?v=${FOTOS_VERSAO}`),
+    embalagem:'Saquinho de algodão cru', resumo:'Um bloquinho de desenho com a capa da sua profissão e giz de cera.',
+    descricao:'Em vez de colorir um desenho pronto, a criança cria o dela: um bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e giz de cera para desenhar o que imaginar. A capa, de papel fotográfico, tem o tema da sua profissão (dentista, pediatra, neuropediatra, fonoaudiologia, psicologia, terapia ocupacional, escola ou creche) e um espaço com o seu nome. No Natal, as capas ganham uma edição especial.',
+    selos:['Capa com o tema da sua profissão','Folhas lisas para criar','Com o seu nome'],
+    itens:['1 bloquinho de desenho com espiral e folhas lisas de 8 × 11,5 cm','Capa de papel fotográfico com o tema da sua profissão e o seu nome','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
     opcoes:pacoteCuidar(29.99) },
   { id:'cuida-colagem', criacao:'cuida-colagem', versao:'cuidar', nome:'Criar com as mãos', cod:'CU-CM',
     embalagem:'Saquinho de algodão cru', resumo:'Formas já recortadas para montar uma cena, sem tesoura.',
