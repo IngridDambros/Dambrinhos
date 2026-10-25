@@ -1391,7 +1391,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-10-23a';
+const FOTOS_VERSAO = '2026-10-25a';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1645,9 +1645,9 @@ const PRODUTOS = [
     itens:['Massa de modelar, lacrada','Cortadores de formas','Cartão com a mensagem da data',TAG_CUIDAR],
     opcoes:pacoteCuidar(19.99) },
   /* Desenhar: folhas Chamex Notes 80 × 115 mm encadernadas com espiral, capa de papel fotográfico um pouco maior */
-  /* Fotos provisórias (criadas por IA): as capas de Natal por profissão. A 1 é a montagem com três capas. */
+  /* Fotos provisórias (criadas por IA): as capas de Natal por profissão. A 1 (montagem com três capas) fica fora: o cartão abre na capa do dentista, como o Mimo Massinha. */
   { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Mimo Desenhar', cod:'CU-DS',
-    fotos:[1,2,3,4,5,6,7,8].map(i=>`fotos/cuida-desenhar-${i}.jpg?v=${FOTOS_VERSAO}`),
+    fotos:[2,3,4,5,6,7,8].map(i=>`fotos/cuida-desenhar-${i}.jpg?v=${FOTOS_VERSAO}`),
     embalagem:'Saquinho de algodão cru', resumo:'Um bloquinho de desenho com a capa da sua profissão e giz de cera.',
     descricao:'Em vez de colorir um desenho pronto, a criança cria o dela: um bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e giz de cera para desenhar o que imaginar. A capa, de papel fotográfico, tem o tema da sua profissão (dentista, pediatra, neuropediatra, fonoaudiologia, psicologia, terapia ocupacional, escola ou creche) e um espaço com o seu nome. No Natal, as capas ganham uma edição especial.',
     selos:['Capa com o tema da sua profissão','Folhas lisas para criar','Com o seu nome'],
