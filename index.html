@@ -156,19 +156,20 @@
   .criacoes .cri-card{padding:20px 18px 0}
   .criacoes .cri-card h3{font-size:clamp(18px,1.7vw,24px);min-height:2.2em}  /* títulos de 1 ou 2 linhas ocupam o mesmo espaço */
   .criacoes .cri-card .preco,.criacoes .cri-card .ver{font-size:14px}
-  /* Criar: no computador, as nove criações numa linha só, em cartões compactos (nome curto, preço sem "A partir de") */
-  #grid-criacoes .curto,#grid-criacoes .ap{display:none}
-  #grid-criacoes .ap{display:inline}
+  /* Cartões compactos da página inicial (Criar, Sentir, Celebrar, Cuidar e Lembrar): no computador, nove por linha,
+     com nome curto e preço sem "A partir de". No celular, continuam dois por linha, com o título completo. */
+  .compacto .curto{display:none}
   @media (min-width:1100px){
-    #grid-criacoes{grid-template-columns:repeat(9,minmax(0,1fr));gap:10px}
-    #grid-criacoes .cri-card{padding:14px 10px 0;gap:4px;border-radius:14px}
-    #grid-criacoes .cri-card h3{font-size:16px;min-height:2.3em}
-    #grid-criacoes .longo,#grid-criacoes .ap{display:none}
-    #grid-criacoes .curto{display:inline}
-    #grid-criacoes .cri-card .preco,#grid-criacoes .cri-card .ver{font-size:12.5px}
-    #grid-criacoes .cri-card .ver{margin-bottom:8px}
-    #grid-criacoes .cri-card .img{margin-bottom:10px;border-radius:10px;aspect-ratio:1}
-    #grid-criacoes .idade-tag{width:30%}
+    .criacoes.compacto{grid-template-columns:repeat(9,minmax(0,1fr));gap:10px}
+    .compacto .cri-card{padding:14px 10px 0;gap:4px;border-radius:14px}
+    .compacto .cri-card h3{font-size:16px;min-height:2.3em}
+    .compacto .longo,.compacto .ap{display:none}
+    .compacto .curto{display:inline}
+    .compacto .cri-card .preco,.compacto .cri-card .ver{font-size:12.5px}
+    .compacto .cri-card .sub{font-size:12px;min-height:0}
+    .compacto .cri-card .ver{margin-bottom:8px}
+    .compacto .cri-card .img{margin-bottom:10px;border-radius:10px;aspect-ratio:1}
+    .compacto .idade-tag{width:30%}
   }
 
   /* Fotos reais (com a idade no canto) */
@@ -701,7 +702,7 @@
         <div><p class="eyebrow">Criar</p><h2 class="sec-title">O que a criança vai criar?</h2>
           <p class="small" style="margin:8px 0 0;max-width:70ch">Cada atividade vem em pacotes de 12, 24 ou 36 kits: uma lembrancinha para cada convidado. A idade é a sugerida para começar: depois dela, qualquer idade aproveita.</p></div>
       </div>
-      <div class="criacoes" id="grid-criacoes"></div>
+      <div class="criacoes compacto" id="grid-criacoes"></div>
     </section>
 
     <!-- Área sensorial: os kits de textura, que só existem nessa área (mesmos cartões das criações) -->
@@ -711,7 +712,7 @@
           <p class="small" style="margin:8px 0 0;max-width:70ch">Área sensorial: materiais de texturas diferentes, que só existem aqui. Todos a partir de 3 anos.</p></div>
         <button class="btn-out" type="button" data-go="sensorial">Conhecer a área sensorial</button>
       </div>
-      <div class="criacoes" id="sens-row"></div>
+      <div class="criacoes compacto" id="sens-row"></div>
     </section>
 
     <!-- Espaço de Natal: aparece sozinho de 1º de outubro a 25 de dezembro (ver mostrarNatal) -->
@@ -733,7 +734,7 @@
     <section class="sec" id="ocasioes">
       <p class="eyebrow">Celebrar</p>
       <h2 class="sec-title">Como você vai celebrar?</h2>
-      <div class="criacoes ocasioes" id="oc-row"></div>
+      <div class="criacoes ocasioes compacto" id="oc-row"></div>
     </section>
 
     <!-- Para quem cuida: os kits para profissionais (produtos com versao:'cuidar'), com o Mimo à parte.
@@ -743,7 +744,7 @@
         <div><p class="eyebrow">Cuidar</p><h2 class="sec-title">Para quem cuida</h2>
           <p class="small" style="margin:8px 0 0;max-width:70ch">Mimos para alunos e pequenos pacientes, com a marca da sua escola, clínica ou consultório. Você escolhe o mimo, a partir de 24 unidades. Todos a partir de 3 anos.</p></div>
       </div>
-      <div class="criacoes" id="cuida-row"></div>
+      <div class="criacoes compacto" id="cuida-row"></div>
       <div class="cuida-pe"><span class="small" id="cuida-quem"></span><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
     </section>
 
@@ -755,7 +756,7 @@
           <p class="small" style="margin:8px 0 0;max-width:70ch">Caixas e toppers com o rostinho da criança, para o aniversário, a formatura e as datas que a família celebra. Feitos sob encomenda, a partir da foto que você tem.</p></div>
         <button class="btn-out" type="button" data-go="afetiva">Conhecer a papelaria afetiva</button>
       </div>
-      <div class="criacoes ocasioes" id="afetiva-row"></div>
+      <div class="criacoes ocasioes compacto" id="afetiva-row"></div>
     </section>
 
     <!-- Assinatura da marca: toda criação vira arte, com a ficha da obra -->
@@ -2672,7 +2673,7 @@ function renderHome(){
   /* Área sensorial na página inicial: um cartão por kit, igual aos das criações */
   $('sens-row').innerHTML = SENSORIAIS.map(p=>{ const cr = criacaoDe(p);
     return `<button type="button" class="cri-card" style="background:${cr.cor}" data-pid="${p.id}">
-      <h3>${esc(cr.titulo)}</h3><span class="preco">A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por kit</span><span class="ver">Ver o kit →</span>
+      <h3><span class="longo">${esc(cr.titulo)}</span><span class="curto">${esc(p.nome)}</span></h3><span class="preco"><span class="ap">A partir de </span><b>${brl(porKit(p.opcoes[0]))}</b> por kit</span><span class="ver">Ver o kit →</span>
       <span class="img">${imagemProduto(p)}</span></button>`; }).join('');
   /* Datas sazonais: foto do kit da data, com a idade, e o preço */
   $('oc-row').innerHTML = OCASIOES.filter(o=>o.sazonal && prod(o.produtos[0])).map(o=>{
@@ -2692,7 +2693,7 @@ function renderHome(){
   $('cuida-quem').textContent = `Para ${CUIDA.map(c=>c.nome.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
   /* Lembrar: papelaria afetiva (mesmos cartões na página inicial e na página Lembrar) */
   const cardsAfetiva = lista => lista.map(p=>`<button type="button" class="cri-card" style="background:${AFETIVA_CORES[p.id]}" data-pid="${p.id}">
-      <h3>${esc(p.nome)}</h3><span class="preco">${p.grupo==='topo-bolo' ? `<b>${brl(p.opcoes[0].preco)}</b>` : `A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}`}</span><span class="ver">${p.grupo==='caixas' ? 'Ver a caixa' : p.grupo==='varal' ? 'Montar o varal' : p.grupo==='topo-bolo' ? 'Ver a peça' : 'Ver os toppers'} →</span>
+      <h3>${esc(p.nome)}</h3><span class="preco">${p.grupo==='topo-bolo' ? `<b>${brl(p.opcoes[0].preco)}</b>` : `<span class="ap">A partir de </span><b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}`}</span><span class="ver">${p.grupo==='caixas' ? 'Ver a caixa' : p.grupo==='varal' ? 'Montar o varal' : p.grupo==='topo-bolo' ? 'Ver a peça' : 'Ver os toppers'} →</span>
       <span class="img">${imagemProduto(p)}</span></button>`).join('');
   $('afetiva-row').innerHTML = cardsAfetiva(AFETIVOS);
   $('afetiva-produtos').innerHTML = cardsAfetiva(afetivosDe('toppers'));
