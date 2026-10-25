@@ -239,7 +239,6 @@
   a.cri-card{text-decoration:none}
   #empresas{scroll-margin-top:110px}
   #empresas .cuida-pe{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:14px}
-  #empresas .cuida-sub{margin:26px 0 0;font-family:var(--font-head);font-variation-settings:"SOFT" 100;font-size:20px;font-weight:700}
 
   /* Cards de produto (vitrine) */
   .pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}
@@ -731,8 +730,6 @@
           <p class="small" style="margin:8px 0 0;max-width:70ch">Do mimo simbólico ao kit de criar, com a marca da sua escola, clínica ou consultório. Você escolhe o kit, a partir de 24 unidades. Todos a partir de 3 anos.</p></div>
       </div>
       <div class="criacoes" id="cuida-row"></div>
-      <h3 class="cuida-sub">Mimo: para a data não passar em branco</h3>
-      <div class="criacoes" id="cuida-mimo"></div>
       <div class="cuida-pe"><span class="small" id="cuida-quem"></span><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
     </section>
 
@@ -1335,7 +1332,7 @@ const CRIACOES = [
   /* Cuidar: kits para profissionais (escolas, creches, clínicas, consultórios). Ficam FORA da escadinha (linha:'cuidar')
      e aparecem só em "Cuidar". Todos a partir de 3+ (o giz de argola do 1+ e do 2+ fica caro em quantidade).
      arte = qual ilustração usar enquanto não houver foto (fotos/<id-do-produto>-1.jpg) */
-  { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo sensorial', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
+  { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo de massinha', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
     desc:'Um mimo simples e singelo, para a data não passar em branco: massa de modelar, cortadores e um cartão com a marca do profissional.',
     seguranca:'A massa de modelar vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
   { id:'cuida-desenhar', linha:'cuidar', arte:'colorir', nome:'Desenhar', titulo:'Kit Desenhar', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
@@ -1856,6 +1853,9 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='modelar')
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.criacao!=='fantoches'));
 /* Crie seu Jogo e Biscuit DESATIVADOS (ver CRIACOES_DESATIVADAS) */
 PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.includes(p.criacao)));
+/* Cuidar: Argila de verdade DESATIVADA (pede tempo, mesa e secagem: pouco provável como mimo de consultório).
+   Os dados continuam guardados. Para reativar, apague a linha abaixo. */
+PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>p.id!=='cuida-argila'));
 
 /* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato não tem espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
@@ -1866,7 +1866,7 @@ const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='se
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
 /* Produtos exclusivos da área sensorial, em ordem alfabética */
 const SENSORIAIS = PRODUTOS.filter(ehBrinquedoSensorial).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
-/* Produtos do Cuidar, na ordem da escadinha (Mimo, Desenhar, Criar com as mãos, Argila de verdade) */
+/* Produtos do Cuidar, em ordem de preço (Mimo, Desenhar, Criar com as mãos) */
 const CUIDADOS = PRODUTOS.filter(p=>p.versao==='cuidar');
 
 /* Ocasiões — o carrossel "Como você vai celebrar?" e o menu.
@@ -2660,8 +2660,7 @@ function renderHome(){
     return `<button type="button" class="cri-card" style="background:${cr.cor}" data-pid="${p.id}">
       <h3>${esc(cr.titulo)}</h3><span class="preco"><b>${brl(porKit(p.opcoes[0]))}</b> por kit</span><span class="ver">Ver o kit →</span>
       <span class="img">${imagemProduto(p)}</span></button>`; };
-  $('cuida-row').innerHTML = CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(cardCuidar).join('');
-  $('cuida-mimo').innerHTML = CUIDADOS.filter(p=>p.id==='cuida-mimo').map(cardCuidar).join('');
+  $('cuida-row').innerHTML = CUIDADOS.map(cardCuidar).join('');
   $('cuida-quem').textContent = `Para ${CUIDA.map(c=>c.nome.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
   /* Lembrar: papelaria afetiva (mesmos cartões na página inicial e na página Lembrar) */
   const cardsAfetiva = lista => lista.map(p=>`<button type="button" class="cri-card" style="background:${AFETIVA_CORES[p.id]}" data-pid="${p.id}">
@@ -2733,8 +2732,7 @@ function montarMenu(){
         { nome:'Um kit por data', sub:'Vendido por unidade, para presentear', nav:'ocasioes' },
         { nome:'Ver todas as datas →', nav:'ocasioes' } ] } ]},
     { nome:'Cuidar', oculto:!MOSTRAR_CUIDAR, colunas:[
-      { titulo:'Os kits', nav:'empresas', itens: CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(p=>({ nome:`3+ · ${p.nome}`, sub:`${brl(porKit(p.opcoes[0]))} por kit`, pid:p.id })) },
-      { titulo:'Mimo', nav:'empresas', itens: CUIDADOS.filter(p=>p.id==='cuida-mimo').map(p=>({ nome:'Mimo sensorial', sub:`Para a data não passar em branco · ${brl(porKit(p.opcoes[0]))} por kit`, pid:p.id })) },
+      { titulo:'Os kits', nav:'empresas', itens: CUIDADOS.map(p=>({ nome:`3+ · ${criacaoDe(p).titulo}`, sub:`${brl(porKit(p.opcoes[0]))} por kit`, pid:p.id })) },
       { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
       { titulo:'Como funciona', nav:'empresas', itens:[
         { nome:`A partir de ${CUIDA_MIN} unidades`, sub:'Você escolhe o kit e a quantidade', nav:'empresas' },
@@ -3345,7 +3343,7 @@ const DAM_PERGUNTAS = [
   { id:'personagem', q:'Vocês fazem o tema do personagem favorito da criança?', a:()=>`Não fazemos personagens de desenhos, filmes ou marcas, os chamados <b>temas comerciais</b>. Eles têm dono e só podem ser usados com autorização (licença), e a gente prefere fazer tudo do jeito certo.<br><br>No lugar, oferecemos <b>temas lúdicos</b>, com arte própria da Dambrinhos. Os temas disponíveis são os que aparecem no site, em cada produto: é só escolher o que você mais gostar.` },
   { id:'cores', q:'Vocês criam um tema sob medida para a minha festa?', a:()=>`Ainda não. Por enquanto, trabalhamos só com os <b>temas, fundos, cores e personagens lúdicos que aparecem no site</b>. Assim, cada peça sai com a qualidade e o capricho de sempre, e você já vê como vai ficar antes de comprar.<br><br>Em cada produto, você escolhe entre as opções mostradas, e o nome, a idade e a foto do rostinho são personalizados para a criança. Antes de produzir, você recebe a arte para aprovar.<br><br>Estamos sempre criando temas novos: acompanhe no Instagram <b>@${LOJA.instagram}</b>.` },
   { id:'licenciado', q:'Por que vocês não usam personagens?', a:()=>`Por três motivos:<ul><li><b>Respeito a quem criou:</b> os personagens são protegidos por direitos autorais, e usar sem licença é proibido;</li><li><b>Arte exclusiva:</b> os temas da Dambrinhos são desenhados por nós, e não uma cópia que aparece em toda festa;</li><li><b>Uma lembrança que fica:</b> um tema lúdico continua especial por anos, mesmo quando a criança muda de personagem preferido.</li></ul>` },
-  ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São três kits, todos a partir de 3 anos:<ul>${CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(p=>`<li>${damKit(p)} · ${brl(porKit(p.opcoes[0]))} por kit</li>`).join('')}</ul>E o ${damKit(prod('cuida-mimo'))}, para a data não passar em branco, por ${brl(porKit(prod('cuida-mimo').opcoes[0]))}. Todos vão com uma tag com a sua marca, a partir de ${CUIDA_MIN} unidades, e o pedido é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
+  ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São ${CUIDADOS.length} opções, todas a partir de 3 anos:<ul>${CUIDADOS.map(p=>`<li>${damKit(p)} · ${brl(porKit(p.opcoes[0]))} por kit</li>`).join('')}</ul>Todas vão com uma tag com a sua marca, a partir de ${CUIDA_MIN} unidades, e o pedido é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
 ];
 
 /* Temas: a primeira tela mostra só estes cartões; ao tocar, aparecem as perguntas daquele tema */
