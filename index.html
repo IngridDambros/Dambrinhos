@@ -239,6 +239,7 @@
   a.cri-card{text-decoration:none}
   #empresas{scroll-margin-top:110px}
   #empresas .cuida-pe{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:14px}
+  #empresas .cuida-sub{margin:26px 0 0;font-family:var(--font-head);font-variation-settings:"SOFT" 100;font-size:20px;font-weight:700}
 
   /* Cards de produto (vitrine) */
   .pgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 16px}
@@ -722,11 +723,17 @@
       <div class="criacoes ocasioes" id="oc-row"></div>
     </section>
 
-    <!-- Para quem cuida: um cartão por tipo de profissional, cada um abre o WhatsApp com a mensagem pronta -->
+    <!-- Para quem cuida: os kits para profissionais (produtos com versao:'cuidar'), com o Mimo à parte.
+         O pedido é feito pelo WhatsApp, a partir de CUIDA_MIN kits -->
     <section class="sec" id="empresas">
-      <div class="sec-head"><div><p class="eyebrow">Cuidar</p><h2 class="sec-title">Para quem cuida</h2></div><span class="small">Mini kits para alunos e pequenos pacientes, com a tag da sua marca. A partir de 24 unidades.</span></div>
-      <div class="criacoes ocasioes" id="cuida-row"></div>
-      <div class="cuida-pe"><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
+      <div class="sec-head">
+        <div><p class="eyebrow">Cuidar</p><h2 class="sec-title">Para quem cuida</h2>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Do mimo simbólico ao kit de criar, com a marca da sua escola, clínica ou consultório. Você escolhe o kit, a partir de 24 unidades. Todos a partir de 3 anos.</p></div>
+      </div>
+      <div class="criacoes" id="cuida-row"></div>
+      <h3 class="cuida-sub">Mimo: para a data não passar em branco</h3>
+      <div class="criacoes" id="cuida-mimo"></div>
+      <div class="cuida-pe"><span class="small" id="cuida-quem"></span><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
     </section>
 
     <!-- Lembrar: papelaria afetiva com o rostinho da criança. As imagens do site são ilustrações ou exemplos fictícios:
@@ -922,6 +929,19 @@
             <button type="button" id="q-inc" aria-label="Aumentar quantidade">+</button>
           </div>
         </div>
+        <!-- Cuidar: kits para profissionais, pedidos pelo WhatsApp (sem carrinho), a partir de CUIDA_MIN kits -->
+        <div id="p-cuida-wrap" hidden>
+          <div id="p-mimo-wrap">
+            <h2 class="pd-h">Qual material?</h2>
+            <div class="pd-modo" id="p-mimo"></div>
+          </div>
+          <h2 class="pd-h">Quantas crianças?</h2>
+          <div class="pd-livre" style="margin-top:0">
+            <label for="p-cuida-n">Quantos kits? (mínimo de 24)</label>
+            <input id="p-cuida-n" type="number" min="24" step="1" inputmode="numeric" value="24">
+          </div>
+          <p class="small" id="p-cuida-nota" style="margin:10px 0 0" aria-live="polite"></p>
+        </div>
         <label class="pd-sens" id="p-sens-wrap" hidden>
           <input type="checkbox" id="p-sens">
           <span><b>Quero a versão sensorial</b>
@@ -931,6 +951,7 @@
         <div class="pd-paylogos" aria-label="Formas de pagamento"><span>Pix</span><span class="so-cartao">Visa</span><span class="so-cartao">Mastercard</span><span class="so-cartao">Elo</span><span id="p-parc-logo"></span></div>
         <button class="cta pd-add" type="button" id="add">Adicionar ao carrinho</button>
         <a class="cta pd-add" id="p-avise" href="#" target="_blank" rel="noopener" hidden>Em breve · Avise-me pelo WhatsApp</a>
+        <a class="cta pd-add" id="p-cuida-wa" href="#" target="_blank" rel="noopener" hidden>Pedir pelo WhatsApp</a>
         <div class="pd-benef" id="p-benef"></div>
         <div class="pd-acc">
           <details open><summary>Por que você vai adorar este kit?</summary><div class="pd-acc-body"><p id="p-desc"></p><div class="selos" id="p-selos"></div></div></details>
@@ -1315,6 +1336,21 @@ const CRIACOES = [
   { id:'eva', linha:'sensorial', nome:'Massa de EVA', titulo:'Kit de massa de EVA', idade:3, cor:'#8E7BD8', fundo:'#EEE9FA',
     desc:'Massa de EVA colorida, muito leve e fofa, para apertar, enrolar e modelar. Depois de seca, vira uma obra de arte para guardar.',
     seguranca:'A massa de EVA vem lacrada na embalagem do fabricante, com o selo do INMETRO, e é indicada a partir de 3 anos. Seca ao ar e não vai ao forno. Não é comestível.' },
+  /* Cuidar: kits para profissionais (escolas, creches, clínicas, consultórios). Ficam FORA da escadinha (linha:'cuidar')
+     e aparecem só em "Cuidar". Todos a partir de 3+ (o giz de argola do 1+ e do 2+ fica caro em quantidade).
+     arte = qual ilustração usar enquanto não houver foto (fotos/<id-do-produto>-1.jpg) */
+  { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo sensorial', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
+    desc:'Um mimo simples e singelo, para a data não passar em branco: um material sensorial lacrado e um cartão com a marca do profissional.',
+    seguranca:'O material sensorial vem lacrado na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição da massinha.' },
+  { id:'cuida-colorir', linha:'cuidar', arte:'colorir', nome:'Colorir', titulo:'Kit Colorir', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
+    desc:'O clássico, com um diferencial: um bloquinho com 100 desenhos exclusivos Dambrinhos para colorir, com temas variados ou no tema que você escolher do catálogo.',
+    seguranca:'Giz de cera com selo do INMETRO, indicado a partir de 3 anos.' },
+  { id:'cuida-colagem', linha:'cuidar', nome:'Criar com as mãos', titulo:'Kit Criar com as mãos', idade:3, cor:'#E09BBE', fundo:'#FBE9F1',
+    desc:'Formas já recortadas, papéis coloridos e papel crepom para a criança montar uma cena do jeito dela, sem precisar de tesoura.',
+    seguranca:'Sem tesoura: as formas já vêm recortadas. Cola bastão com selo do INMETRO, indicada a partir de 3 anos.' },
+  { id:'cuida-argila', linha:'cuidar', arte:'modelar', nome:'Argila de verdade', titulo:'Kit Argila de verdade', idade:3, cor:'#C9744B', fundo:'#F8E8DD',
+    desc:'Argila de verdade, que seca ao ar, para a criança modelar, carimbar e pintar uma peça que vira obra de arte.',
+    seguranca:'A argila vem lacrada na embalagem do fabricante, com o selo do INMETRO. Seca ao ar e não vai ao forno. As ferramentas são de madeira e sem ponta. Tinta à base de água, lacrada.' },
   /* Papelaria afetiva: fica FORA da escadinha (linha:'afetiva'), sem idade, e aparece só em "Lembrar" */
   { id:'afetiva', linha:'afetiva', nome:'Papelaria afetiva', titulo:'Papelaria afetiva', cor:'#C9396B', fundo:'#FBEFF3',
     desc:'Toppers com o rostinho da criança, para o aniversário, a formatura e as datas que a família celebra.',
@@ -1377,6 +1413,12 @@ const VARAL = {
   colorido: ['#8FC1B5','#C9B6E4','#F29C8F','#F6C26B','#E06C78','#9CC7E4']   // tons suaves, uma bandeirinha de cada cor
 };
 const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${nomeUn}`, n:String(n).padStart(3,'0'), preco:Math.round(porKit*n*100)/100 }));
+/* Cuidar: pedido mínimo para profissionais. A opção guarda o preço do pedido mínimo; o preço por kit sai de porKit */
+const CUIDA_MIN = 24;
+const pacoteCuidar = porKit => [{ nome:`${CUIDA_MIN} kits`, n:String(CUIDA_MIN).padStart(3,'0'), preco:Math.round(porKit*CUIDA_MIN*100)/100 }];
+/* Mimo: o profissional escolhe um material sensorial para o pedido inteiro */
+const MIMO_ITENS = ['Massa de modelar','Areia mágica','Massa de EVA'];
+const TAG_CUIDAR = 'Tag com o nome ou a logo da escola, clínica ou consultório';
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Rabiscos', cod:'RB-M',
     embalagem:'Saquinho de algodão cru', resumo:'Os primeiros desenhos, com porta-retrato para a primeira obra.',
@@ -1584,6 +1626,31 @@ const PRODUTOS = [
     selos:['Vira obra de arte depois de seca','Seca ao ar, sem forno','Saquinho reutilizável'],
     itens:['1 embalagem de massa de EVA em várias cores, lacrada','Cartão com o passo a passo da escultura'],
     opcoes:pacotes(41.99) },
+  /* Cuidar: kits para profissionais, a partir de CUIDA_MIN unidades, pedidos pelo WhatsApp (não entram no carrinho) */
+  { id:'cuida-mimo', criacao:'cuida-mimo', versao:'cuidar', nome:'Mimo', cod:'CU-MI',
+    embalagem:'Saquinho de algodão cru', resumo:'Um material sensorial e um cartão com a sua marca, para a data não passar em branco.',
+    descricao:'Um mimo simples e singelo, com o mesmo cuidado dos nossos kits. Você escolhe um material sensorial para o pedido (massa de modelar, areia mágica ou massa de EVA), em versão menor e lacrada, e cada criança recebe o dela num saquinho de algodão cru, com um cartão com o nome ou a logo da sua escola, clínica ou consultório e uma mensagem para a data.',
+    selos:['Você escolhe o material','Com a sua marca','Selo do INMETRO'],
+    itens:['1 material sensorial à sua escolha, em versão menor e lacrada: massa de modelar, areia mágica ou massa de EVA','Cartão com a mensagem da data',TAG_CUIDAR],
+    opcoes:pacoteCuidar(24.99) },
+  { id:'cuida-colorir', criacao:'cuida-colorir', versao:'cuidar', nome:'Colorir', cod:'CU-CL',
+    embalagem:'Saquinho de algodão cru', resumo:'Giz de cera e um bloquinho com 100 desenhos exclusivos para colorir.',
+    descricao:'O clássico, com um diferencial que ninguém dá: um bloquinho 10×15 cm com 100 desenhos exclusivos Dambrinhos para colorir. Os temas podem ser variados ou no tema que você escolher do nosso catálogo. Os desenhos são todos criados pela Dambrinhos: não usamos personagens de desenho animado.',
+    selos:['100 desenhos exclusivos','Tema à sua escolha','Com a sua marca'],
+    itens:['1 bloquinho 10×15 cm com 100 desenhos exclusivos Dambrinhos (temas variados ou um tema do catálogo)','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
+    opcoes:pacoteCuidar(30.99) },
+  { id:'cuida-colagem', criacao:'cuida-colagem', versao:'cuidar', nome:'Criar com as mãos', cod:'CU-CM',
+    embalagem:'Saquinho de algodão cru', resumo:'Formas já recortadas para montar uma cena, sem tesoura.',
+    descricao:'Uma base de papel cartão, formas já recortadas, papéis coloridos e bolinhas de papel crepom para a criança montar uma cena do jeito dela: uma cidade, o fundo do mar ou uma floresta. Sem tesoura, então serve para turmas a partir de 3 anos.',
+    selos:['Sem tesoura','A partir de 3 anos','Com a sua marca'],
+    itens:['1 base de papel cartão','Formas de papel já recortadas','Papéis coloridos e papel crepom','1 cola bastão, com selo do INMETRO',TAG_CUIDAR],
+    opcoes:pacoteCuidar(34.99) },
+  { id:'cuida-argila', criacao:'cuida-argila', versao:'cuidar', nome:'Argila de verdade', cod:'CU-AR',
+    embalagem:'Saquinho de algodão cru', resumo:'Argila que seca ao ar para modelar, carimbar e pintar uma peça de verdade.',
+    descricao:'Argila branca que seca ao ar, sem forno. A criança achata, modela e carimba folhas, texturas ou a própria mãozinha e, depois de seca, pinta com as cores dela. Uma peça de verdade para guardar, perfeita para fazer com a turma.',
+    selos:['Seca ao ar, sem forno','Vira obra de arte depois de seca','Com a sua marca'],
+    itens:['Argila branca de secar ao ar (150 g)','1 rolinho de madeira','1 espátula de madeira sem ponta','3 potes de tinta','1 pincel','Cartão com o passo a passo da plaquinha',TAG_CUIDAR],
+    opcoes:pacoteCuidar(39.99) },
   /* Papelaria afetiva: pacotes de 12, 24 ou 36 toppers (12 por embalagem). unidade = palavra que vem depois do preço ("por topper").
      As fotos são exemplos FICTÍCIOS, criados por IA: nunca usar o rosto de um cliente.
      Preço: R$ 4,99 por topper e R$ 7,99 por caixa. */
@@ -1796,12 +1863,14 @@ PRODUTOS.splice(0, PRODUTOS.length, ...PRODUTOS.filter(p=>!CRIACOES_DESATIVADAS.
 /* Ficha da obra: vai em todos os kits da escadinha e nos de modelar (o porta-retrato não tem espaço para o registro) */
 const FICHA_DA_OBRA = 'Ficha da obra, para anotar o nome do artista, a idade, a data e o nome da obra';
 /* O Dobradura não leva a ficha da obra: no lugar, vai o certificado de dobrador */
-PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
+PRODUTOS.filter(p=>(ESCADA.some(cr=>cr.id===p.criacao) && p.criacao!=='dobradura') || ['modelar','biscuit','eva','cuida-colorir','cuida-colagem','cuida-argila'].includes(p.criacao)).forEach(p=>p.itens.push(FICHA_DA_OBRA));
 /* Produtos da área sensorial: a versão sensorial dos kits e os brinquedos sensoriais */
 const ehBrinquedoSensorial = p => CRIACOES.find(c=>c.id===p.criacao).linha==='sensorial';
 const ehSensorial = p => p.sensorial || ehBrinquedoSensorial(p);
 /* Produtos exclusivos da área sensorial, em ordem alfabética */
 const SENSORIAIS = PRODUTOS.filter(ehBrinquedoSensorial).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
+/* Produtos do Cuidar, na ordem da escadinha (Mimo, Colorir, Criar com as mãos, Argila de verdade) */
+const CUIDADOS = PRODUTOS.filter(p=>p.versao==='cuidar');
 
 /* Ocasiões — o carrossel "Como você vai celebrar?" e o menu.
    produtos = ids sugeridos · alvo = vai direto para uma seção da página inicial
@@ -1820,9 +1889,9 @@ const OCASIOES = [
     produtos:['estrela-mini'], sazonal:true },
   { id:'escola',      nome:'Para quem cuida', sub:'Escolas, clínicas, terapeutas e consultórios',         cor:'#EDE4F6', icone:'escola', alvo:'empresas' }
 ];
-/* Cuidar DESATIVADO por enquanto (foco nas festas e na papelaria afetiva). Com false, somem a seção da página inicial,
-   o item do menu, o link do rodapé e o assunto do Dam; os textos ficam guardados abaixo. Para reativar, troque para true. */
-const MOSTRAR_CUIDAR = false;
+/* Cuidar: kits para profissionais (produtos com versao:'cuidar'). Com false, somem a seção da página inicial,
+   o item do menu, o link do rodapé, os kits na busca e o assunto do Dam; os dados ficam guardados. */
+const MOSTRAR_CUIDAR = true;
 /* Para quem cuida — os cartões da página inicial e a coluna "Para quem" do menu.
    quem = completa a mensagem pronta do WhatsApp · foto = imagem do cartão, na pasta fotos/ */
 const CUIDA = [
@@ -2037,7 +2106,7 @@ const CENAS = {
     if (!completo) s += saquinho(26,92);
     return s;
   },
-  colagem(completo){
+  colagem(completo, semTesoura){
     let s = sombra(100,80);
     if (completo) s += caixa(164,58);
     /* cenário recortado e colado: uma cidade com sol, prédios, árvore e bolinhas de papel crepom */
@@ -2049,13 +2118,16 @@ const CENAS = {
     s += `<path d="M${cx+24} 126 V112" stroke="${MADEIRA_ESC}" stroke-width="3"/>` + c(cx+24,108,8,COR[2]);
     s += [[cx+20,104,COR[5]],[cx+28,110,COR[0]],[cx+22,112,COR[1]]].map(([x,y,f])=>c(x,y,2.6,f)).join('');
     s += rc(cx-36,122,72,4,1,'#9CC56B');
-    /* tesoura sem ponta, tiras de papel e cola bastão */
-    s += `<g transform="rotate(-35 ${completo?150:160} 128)">${rc(completo?147:157,94,6,30,3,'#C9CED6')}${rc(completo?152:162,94,6,30,3,'#B5BBC5')}`
+    /* tesoura sem ponta (ou, no kit sem tesoura do Cuidar, uma cola bastão), tiras de papel e cola bastão */
+    s += semTesoura ? rc(150,100,12,30,3,'#fff','stroke="#D7D2C8"') + rc(150,92,12,10,2,COR[5])
+      : `<g transform="rotate(-35 ${completo?150:160} 128)">${rc(completo?147:157,94,6,30,3,'#C9CED6')}${rc(completo?152:162,94,6,30,3,'#B5BBC5')}`
       + c(completo?147:157,131,7,'none',`stroke="${COR[3]}" stroke-width="4"`) + c(completo?160:170,131,7,'none',`stroke="${COR[3]}" stroke-width="4"`) + `</g>`;
     s += [[16,66,COR[0],-20],[26,58,COR[2],-8],[36,62,COR[4],8]].map(([x,y,f,r])=>rc(x,y,7,34,1.5,f,`transform="rotate(${r} ${x} ${y})"`)).join('');
     s += completo ? rc(24,104,12,30,3,'#fff','stroke="#D7D2C8"') + rc(24,96,12,10,2,COR[5]) : saquinho(168,44);
     return s;
   },
+  /* Cuidar: Criar com as mãos, a colagem sem tesoura (as formas já vêm recortadas) */
+  'cuida-colagem'(){ return CENAS.colagem(false, true); },
   modelar(completo){
     let s = sombra(100,80);
     if (completo) s += caixa(160,60);
@@ -2387,7 +2459,7 @@ function art(p, comSelo=true, fundo, cor){
   const cr = criacaoDe(p), completo = p.versao==='completo';
   if (p.modelo){ const f = fundo || capaFundo(p), id = 'pf' + (++_padrao);
     return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração da ${esc(p.nome)} com fundo ${esc(nomeFundo(f))}" preserveAspectRatio="xMidYMid meet"><defs>${padraoFundo(f,id,cor)}</defs><rect width="200" height="160" fill="#EFEFEF"/><ellipse cx="100" cy="140" rx="46" ry="5" fill="rgba(0,0,0,.08)"/>${ARTE_CAIXA[p.modelo](`url(#${id})`)}</svg>`; }
-  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração do ${p.nome}" preserveAspectRatio="xMidYMid meet"><rect width="200" height="160" fill="${cr.fundo}"/>${CENAS[cr.id](completo)}${comSelo?seloIdade(cr.idade):''}</svg>`;
+  return `<svg class="art" viewBox="0 0 200 160" role="img" aria-label="Ilustração do ${p.nome}" preserveAspectRatio="xMidYMid meet"><rect width="200" height="160" fill="${cr.fundo}"/>${CENAS[cr.arte || cr.id](completo)}${comSelo?seloIdade(cr.idade):''}</svg>`;
 }
 
 /* Foto real do produto (com a idade no canto) ou, se ainda não houver, a ilustração */
@@ -2449,7 +2521,7 @@ const corVaralTxt = id => id==='colorido' ? 'Colorido' : corDe(id).nome;
 const amostraVaral = id => { const cs = id==='colorido' ? VARAL.colorido.slice(0,4) : [corDe(id).hex];
   return `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" fill="#fff"/><path d="M0 8 Q20 13 40 8" fill="none" stroke="#C9A96E" stroke-width="1"/>${[0,1,2,3].map(i=>`<path d="M${2+i*9.5} ${8.6+ (i===1||i===2?1.4:0)} h8 v14 l-4 -4 l-4 4 z" fill="${cs[i % cs.length]}"/>`).join('')}</svg>`; };
 const sku = (p,oi,kits) => `${p.cod}-${opcaoDe(p, oi, kits).n}`;
-const versaoTxt = p => p.versao==='afetiva' ? 'Sob encomenda' : (p.versao==='mini' && !p.porUnidade) ? 'Lembrancinha' : 'Presente';
+const versaoTxt = p => p.versao==='afetiva' ? 'Sob encomenda' : p.versao==='cuidar' ? 'Para quem cuida' : (p.versao==='mini' && !p.porUnidade) ? 'Lembrancinha' : 'Presente';
 const unidadeDe = p => p.unidade || 'kit';   // "por kit" ou, na papelaria afetiva, "por topper"
 const idadeTxt = n => `A partir de ${n} ${n===1?'ano':'anos'}`;
 const FOLHA = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13 C3 6 7 3 13 3 C13 9 10 13 3 13 Z M3 13 L9 7"/></svg>`;
@@ -2583,12 +2655,17 @@ function renderHome(){
     return `<button type="button" class="cri-card" style="background:${o.cor}" data-oc="${o.id}">
       <h3>${esc(o.nome)}</h3><span class="sub">${esc(o.sub)}</span><span class="preco"><b>${brl(p.opcoes[0].preco)}</b> o kit</span><span class="ver">Ver o kit →</span>
       <span class="img">${imagemProduto(p)}</span></button>`; }).join('');
-  /* Para quem cuida: cada cartão abre o WhatsApp com a mensagem pronta daquele público (desativado: MOSTRAR_CUIDAR) */
+  /* Para quem cuida (liga e desliga em MOSTRAR_CUIDAR) */
   $('empresas').hidden = !MOSTRAR_CUIDAR;
   $('foot-cuidar').hidden = !MOSTRAR_CUIDAR;
-  $('cuida-row').innerHTML = CUIDA.map(c=>`<a class="cri-card" style="background:${c.cor}" href="${waCuida(c.quem)}" target="_blank" rel="noopener">
-      <h3>${esc(c.nome)}</h3><span class="sub">${esc(c.sub)}</span><span class="ver">Pedir orçamento →</span>
-      <span class="img">${imgFoto(c.foto, `Kit para ${c.nome.toLowerCase()}`)}</span></a>`).join('');
+  /* Os kits do Cuidar, com o Mimo numa linha à parte; os públicos vão numa frase embaixo */
+  const cardCuidar = p => { const cr = criacaoDe(p);
+    return `<button type="button" class="cri-card" style="background:${cr.cor}" data-pid="${p.id}">
+      <h3>${esc(cr.titulo)}</h3><span class="preco"><b>${brl(porKit(p.opcoes[0]))}</b> por kit</span><span class="ver">Ver o kit →</span>
+      <span class="img">${imagemProduto(p)}</span></button>`; };
+  $('cuida-row').innerHTML = CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(cardCuidar).join('');
+  $('cuida-mimo').innerHTML = CUIDADOS.filter(p=>p.id==='cuida-mimo').map(cardCuidar).join('');
+  $('cuida-quem').textContent = `Para ${CUIDA.map(c=>c.nome.toLowerCase()).join(', ').replace(/, ([^,]*)$/, ' e $1')}.`;
   /* Lembrar: papelaria afetiva (mesmos cartões na página inicial e na página Lembrar) */
   const cardsAfetiva = lista => lista.map(p=>`<button type="button" class="cri-card" style="background:${AFETIVA_CORES[p.id]}" data-pid="${p.id}">
       <h3>${esc(p.nome)}</h3><span class="preco">${p.grupo==='topo-bolo' ? `<b>${brl(p.opcoes[0].preco)}</b>` : `A partir de <b>${brl(porKit(p.opcoes[0]))}</b> por ${unidadeDe(p)}`}</span><span class="ver">${p.grupo==='caixas' ? 'Ver a caixa' : p.grupo==='varal' ? 'Montar o varal' : p.grupo==='topo-bolo' ? 'Ver a peça' : 'Ver os toppers'} →</span>
@@ -2659,15 +2736,13 @@ function montarMenu(){
         { nome:'Um kit por data', sub:'Vendido por unidade, para presentear', nav:'ocasioes' },
         { nome:'Ver todas as datas →', nav:'ocasioes' } ] } ]},
     { nome:'Cuidar', oculto:!MOSTRAR_CUIDAR, colunas:[
+      { titulo:'Os kits', nav:'empresas', itens: CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(p=>({ nome:`3+ · ${p.nome}`, sub:`${brl(porKit(p.opcoes[0]))} por kit`, pid:p.id })) },
+      { titulo:'Mimo', nav:'empresas', itens: CUIDADOS.filter(p=>p.id==='cuida-mimo').map(p=>({ nome:'Mimo sensorial', sub:`Para a data não passar em branco · ${brl(porKit(p.opcoes[0]))} por kit`, pid:p.id })) },
       { titulo:'Para quem', nav:'empresas', itens: CUIDA.map(c=>({ nome:c.nome, sub:c.sub, href:waCuida(c.quem) })) },
-      { titulo:'O que oferecemos', nav:'empresas', itens:[
-        { nome:'Mini kits compactos', sub:'Caixinha pequena para entregar no dia a dia', nav:'empresas' },
-        { nome:'Lembrancinhas para a turma', sub:'Os kits de festa, em pacotes de 12, 24 ou 36', col:'minis' },
-        { nome:'Natal e fim de ano', sub:'Oficina de Natal, com orçamento para a turma', col:'oc:natal' } ] },
       { titulo:'Como funciona', nav:'empresas', itens:[
-        { nome:'A partir de 24 unidades', sub:'Pedidos maiores, com preço especial', nav:'empresas' },
-        { nome:'Pedidos recorrentes', sub:'Todo mês, sem precisar pedir de novo', nav:'empresas' },
-        { nome:'Com a sua marca', sub:'Tag com o nome ou a logo da escola ou da clínica', nav:'empresas' } ] },
+        { nome:`A partir de ${CUIDA_MIN} unidades`, sub:'Você escolhe o kit e a quantidade', nav:'empresas' },
+        { nome:'Com a sua marca', sub:'Tag com o nome ou a logo da escola ou da clínica', nav:'empresas' },
+        { nome:'Pedido pelo WhatsApp', sub:'Na página do kit, com a mensagem pronta', nav:'empresas' } ] },
       { titulo:'Peça um orçamento', destaque:true, nav:'empresas', itens:[
         { nome:'Falar pelo WhatsApp', sub:'Conte quantas crianças e para quando', href:waCuida('') },
         { nome:'Conhecer a área →', nav:'empresas' } ] } ]},
@@ -2735,7 +2810,7 @@ function abrirColecao(chave){
   else if (tipo==='busca'){
     const sem = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(), q = sem(valor||'');
     titulo=`Resultados para “${valor}”`;
-    lista = PRODUTOS.filter(p=>sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':''].join(' ')).includes(q));
+    lista = PRODUTOS.filter(p=>(MOSTRAR_CUIDAR || p.versao!=='cuidar') && sem([p.nome,p.resumo,p.descricao,p.embalagem,criacaoDe(p).nome,criacaoDe(p).titulo,...p.itens,ehSensorial(p)?'sensorial autista autismo':'',p.versao==='cuidar'?'escola creche clinica consultorio terapeuta dentista pediatra profissional':''].join(' ')).includes(q));
   }
   else if (tipo==='tema'){ const t = temaDe(valor); titulo = `Festa ${t.nome}`; desc = t.desc;
     lista = [prod(t.kit), ...afetivosDe('caixas'), ...t.toppers.map(prod), ...t.topo.map(prod)].filter(Boolean); }
@@ -2743,7 +2818,7 @@ function abrirColecao(chave){
     desc = valor==='topo-bolo' ? 'Monte o seu topo de bolo: escolha as peças que quer, cada uma no seu palito de bambu. Depois do pedido e pagamento, você recebe a arte para aprovar.'
       : valor==='varal' ? 'Varais de bandeirinhas com a frase e a cor que você escolher. Uma bandeirinha para cada letra.'
       : `${valor==='caixas' ? 'Caixas' : valor==='toppers' ? 'Toppers' : (MOSTRAR_VARAL ? 'Caixas, toppers e varais' : 'Caixas e toppers')} com o rostinho da criança, em pacotes de 12, 24 ou 36. Depois do pedido e pagamento, você manda a foto pelo WhatsApp e recebe a arte para aprovar.`; }
-  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>p.versao!=='afetiva'); }
+  else { titulo='Todos os kits'; desc='As nove criações, em pacotes de 12, 24 ou 36 kits.'; lista=PRODUTOS.filter(p=>!['afetiva','cuidar'].includes(p.versao)); }
   lista = lista.filter(Boolean);
   $('col-titulo').textContent = titulo; $('col-crumb').textContent = tipo==='busca' ? 'Busca' : titulo; $('col-desc').textContent = desc;
   $('col-extra').hidden = tipo!=='sensorial';
@@ -2851,6 +2926,15 @@ function abrirProduto(pid){
   $('p-pacotes-wrap').hidden = !!p.porUnidade; $('p-livre-n').value = '';
   $('p-qty-row').hidden = !p.porUnidade;
   $('p-sens-wrap').hidden = !p.sensorial; $('p-sens').checked = false;
+  /* Cuidar: sem pacotes nem carrinho; quantidade livre a partir de CUIDA_MIN e pedido pelo WhatsApp */
+  const cuidar = p.versao==='cuidar';
+  sel.cuida = cuidar ? { n:CUIDA_MIN, mimo:null } : null;
+  $('p-cuida-wrap').hidden = $('p-cuida-wa').hidden = !cuidar;
+  if (cuidar){
+    $('p-pacotes-wrap').hidden = $('p-qty-row').hidden = $('add').hidden = $('p-avise').hidden = true;
+    $('p-mimo-wrap').hidden = p.id!=='cuida-mimo';
+    $('p-cuida-n').value = CUIDA_MIN;
+  }
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
   $('p-benef').innerHTML = [
     [ico('<path d="M3 7h11v9H3z M14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/>'), LOJA.freteGratisAcima ? `Frete grátis no RJ acima de ${brl(LOJA.freteGratisAcima)}` : 'Enviamos para todo o Brasil'],
@@ -2858,6 +2942,22 @@ function abrirProduto(pid){
     [ico('<path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/>'), 'Atendimento pelo WhatsApp']
   ].map(([s,t])=>`<div>${s}<span>${esc(t)}</span></div>`).join('');
   renderProduto(); ir('product');
+}
+/* Cuidar: preço pela quantidade digitada (mínimo CUIDA_MIN), escolha do material no Mimo e a mensagem pronta do WhatsApp */
+function renderCuidar(p){
+  const c = sel.cuida, n = Math.max(CUIDA_MIN, c.n||0), un = porKit(p.opcoes[0]), v = Math.round(un*n*100)/100;
+  $('p-price').textContent = brl(v);
+  $('p-de').textContent = $('p-eco').textContent = '';
+  $('p-pix').textContent = LOJA.cashbackPix>0 ? `No Pix: ${brl(v*LOJA.cashbackPix/100)} de cashback` : '';
+  $('p-sku').textContent = `Código: ${p.cod} · ${brl(un)} por kit · ${n} kits`;
+  $('p-mimo').innerHTML = MIMO_ITENS.map(m=>`<button type="button" class="pd-modo-op" data-mimo="${esc(m)}" aria-pressed="${c.mimo===m}"><b>${esc(m)}</b><span>Para todas as crianças</span></button>`).join('');
+  $('p-cuida-nota').innerHTML = (c.n||0) < CUIDA_MIN
+    ? `<b>O pedido mínimo é de ${CUIDA_MIN} kits.</b> O preço mostra ${CUIDA_MIN} kits.`
+    : `${n} kits × ${brl(un)} = <b>${brl(v)}</b>. Cada kit vai com a tag da sua escola, clínica ou consultório.`;
+  const linhas = [`Olá! Quero pedir o kit *${p.nome}* da ${LOJA.nome} (Para quem cuida).`, '',
+    `• Quantidade: ${n} kits`, ...(p.id==='cuida-mimo' ? [`• Material: ${c.mimo || 'ainda vou escolher'}`] : []),
+    `• Total estimado: ${brl(v)} (${brl(un)} por kit)`, '', 'Escola, clínica ou consultório:', 'Para quando:'];
+  $('p-cuida-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(linhas.join('\n'))}`;
 }
 function renderProduto(){
   const {p,opt,qtd} = sel, kitsOk = sel.livre && sel.kits >= KITS_MIN, o = opcaoDe(p, opt, sel.livre ? Math.max(KITS_MIN, sel.kits||0) : null), v = p.varal ? precoVaral(sel.varal) : o.preco;
@@ -2874,6 +2974,7 @@ function renderProduto(){
   $('p-parc').textContent = LOJA.cartao && LOJA.parcelas>1 ? `ou em até ${LOJA.parcelas}x no cartão` : '';
   $('p-parc-logo').textContent = LOJA.cartao && LOJA.parcelas>1 ? `até ${LOJA.parcelas}x` : '';
   $('p-sku').textContent = `Código: ${p.cod}-${o.n}` + (p.varal ? ` · ${brl(VARAL.preco)} por bandeirinha` : p.porUnidade ? '' : ` · ${brl(porKit(o))} por ${unidadeDe(p)}`);
+  if (sel.cuida) renderCuidar(p);
   if (p.escolha){
     const tp = sel.topo, ban = p.escolha==='bandeirola';
     const letra = p.escolha==='letra', nomeCampo = ban || p.escolha==='nome';
@@ -2951,6 +3052,7 @@ $('view-product').addEventListener('click', e=>{
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
   else if (b.dataset.arco){ sel.arco = b.dataset.arco; sel.foto = 0; }
   else if (b.dataset.topo){ sel.topo.frase = b.dataset.topo; if (b.dataset.topo==='nome') setTimeout(()=>$('p-topo-campo').focus(),0); }
+  else if (b.dataset.mimo && sel.cuida) sel.cuida.mimo = b.dataset.mimo;
   else if (b.dataset.foto) sel.foto = +b.dataset.foto;
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
   else if (b.id==='q-dec') sel.qtd = Math.max(1, sel.qtd-1);
@@ -2958,6 +3060,9 @@ $('view-product').addEventListener('click', e=>{
   else return;
   renderProduto();
 });
+/* Cuidar: a quantidade digitada atualiza o total e a mensagem; no Mimo, o material precisa estar escolhido */
+$('p-cuida-n').addEventListener('input', ()=>{ if (!sel || !sel.cuida) return; const n = parseInt($('p-cuida-n').value, 10); sel.cuida.n = n > 0 ? Math.min(n, 9999) : null; renderProduto(); });
+$('p-cuida-wa').addEventListener('click', e=>{ if (sel && sel.p.id==='cuida-mimo' && !sel.cuida.mimo){ e.preventDefault(); avisar('Escolha o material do mimo'); } });
 /* Outra quantidade de kits: o preço muda enquanto o cliente digita */
 $('p-livre-n').addEventListener('input', ()=>{ if (!sel) return; const n = parseInt($('p-livre-n').value, 10); sel.kits = n > 0 ? Math.min(n, 9999) : null; renderProduto(); });
 /* Varal: o nome digitado atualiza a prévia e o preço na hora */
@@ -3112,7 +3217,7 @@ try {
 function contar(evento, titulo){ try { window.goatcounter && window.goatcounter.count({ path:evento, title:titulo||evento, event:true }); } catch(e){} }
 document.addEventListener('click', e=>{
   const a = e.target.closest('a[href*="wa.me"]'); if (!a) return;
-  const nomes = { 'dam-ingrid':'whatsapp-dam', 'empresas-wa':'whatsapp-cuidar', 'p-avise':'whatsapp-avise-me', 'wa-link':'whatsapp-rodape', 'ajuda-wa':'whatsapp-ajuda', 'mural-wa':'whatsapp-mural', 'sens-wa':'whatsapp-sensorial', 'afetiva-wa':'whatsapp-afetiva' };
+  const nomes = { 'dam-ingrid':'whatsapp-dam', 'empresas-wa':'whatsapp-cuidar', 'p-cuida-wa':'whatsapp-cuidar-kit','p-avise':'whatsapp-avise-me', 'wa-link':'whatsapp-rodape', 'ajuda-wa':'whatsapp-ajuda', 'mural-wa':'whatsapp-mural', 'sens-wa':'whatsapp-sensorial', 'afetiva-wa':'whatsapp-afetiva' };
   contar(nomes[a.id] || (a.closest('#cuida-row') ? 'whatsapp-cuidar' : a.closest('#afetiva-row,#afetiva-produtos') ? 'whatsapp-afetiva' : 'whatsapp-outros'), (a.textContent||'WhatsApp').trim().slice(0,60));
 }, true);
 
@@ -3247,7 +3352,7 @@ const DAM_PERGUNTAS = [
   { id:'personagem', q:'Vocês fazem o tema do personagem favorito da criança?', a:()=>`Não fazemos personagens de desenhos, filmes ou marcas, os chamados <b>temas comerciais</b>. Eles têm dono e só podem ser usados com autorização (licença), e a gente prefere fazer tudo do jeito certo.<br><br>No lugar, oferecemos <b>temas lúdicos</b>, com arte própria da Dambrinhos. Os temas disponíveis são os que aparecem no site, em cada produto: é só escolher o que você mais gostar.` },
   { id:'cores', q:'Vocês criam um tema sob medida para a minha festa?', a:()=>`Ainda não. Por enquanto, trabalhamos só com os <b>temas, fundos, cores e personagens lúdicos que aparecem no site</b>. Assim, cada peça sai com a qualidade e o capricho de sempre, e você já vê como vai ficar antes de comprar.<br><br>Em cada produto, você escolhe entre as opções mostradas, e o nome, a idade e a foto do rostinho são personalizados para a criança. Antes de produzir, você recebe a arte para aprovar.<br><br>Estamos sempre criando temas novos: acompanhe no Instagram <b>@${LOJA.instagram}</b>.` },
   { id:'licenciado', q:'Por que vocês não usam personagens?', a:()=>`Por três motivos:<ul><li><b>Respeito a quem criou:</b> os personagens são protegidos por direitos autorais, e usar sem licença é proibido;</li><li><b>Arte exclusiva:</b> os temas da Dambrinhos são desenhados por nós, e não uma cópia que aparece em toda festa;</li><li><b>Uma lembrança que fica:</b> um tema lúdico continua especial por anos, mesmo quando a criança muda de personagem preferido.</li></ul>` },
-  ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São mini kits para alunos e pequenos pacientes, com uma tag com a sua marca, a partir de 24 unidades. O orçamento é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
+  ...(MOSTRAR_CUIDAR ? [{ id:'cuidar', q:'Vocês atendem escolas, clínicas e empresas?', a:()=>`Atendemos! São três kits, todos a partir de 3 anos:<ul>${CUIDADOS.filter(p=>p.id!=='cuida-mimo').map(p=>`<li>${damKit(p)} · ${brl(porKit(p.opcoes[0]))} por kit</li>`).join('')}</ul>E o ${damKit(prod('cuida-mimo'))}, para a data não passar em branco, por ${brl(porKit(prod('cuida-mimo').opcoes[0]))}. Todos vão com uma tag com a sua marca, a partir de ${CUIDA_MIN} unidades, e o pedido é feito pelo WhatsApp.`, wa:'Olá! Quero um orçamento de kits da Dambrinhos para escola, clínica ou empresa.' }] : []),
 ];
 
 /* Temas: a primeira tela mostra só estes cartões; ao tocar, aparecem as perguntas daquele tema */
