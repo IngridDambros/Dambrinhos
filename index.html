@@ -2745,8 +2745,8 @@ function montarMenu(){
         .map(p=>({ nome:`${criacaoDe(p).idade}+ · ${p.nome}`, sub:precoTxt(p), pid:p.id })) })),
     { titulo:'Para a festa', destaque:true, itens:[ ...OCASIOES.filter(o=>o.id==='aniversario').map(ocasiao), { nome:verTudo, col:colTudo } ] }
   ];
-  /* Menu com os cinco verbos da marca: Criar (lembrancinhas por idade), Sentir (área sensorial),
-     Celebrar (datas sazonais), Cuidar (para quem cuida, desativado por enquanto) e Lembrar (papelaria afetiva) */
+  /* Menu com os cinco verbos da marca, em ordem alfabética: Celebrar (datas sazonais), Criar (lembrancinhas por idade),
+     Cuidar (para quem cuida), Lembrar (papelaria afetiva) e Sentir (área sensorial). Nossa história e Ajuda ficam no fim. */
   return [
     { nome:'Criar', colunas: painelVersao('mini', 'Ver todas as lembrancinhas →', 'minis') },
     { nome:'Sentir', colunas:[
@@ -2784,7 +2784,8 @@ function montarMenu(){
         { nome:'Conhecer a papelaria afetiva →', go:'afetiva' } ] } ]},
     { nome:'Nossa história', go:'historia' },
     { nome:'Ajuda', go:'ajuda' }
-  ].filter(m=>!m.oculto);
+  ].filter(m=>!m.oculto)
+   .sort((a,b)=> a.colunas && b.colunas ? a.nome.localeCompare(b.nome,'pt') : a.colunas ? -1 : b.colunas ? 1 : 0);
 }
 function renderMenu(){
   const alvo = i => i.guia ? 'data-guia' : i.href ? `href="${i.href}" target="_blank" rel="noopener"` : i.pid ? `data-pid="${i.pid}"` : i.col ? `data-col="${i.col}"` : i.go ? `data-go="${i.go}"` : `data-nav="${i.nav}"`;
