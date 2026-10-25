@@ -727,7 +727,7 @@
     <section class="sec" id="empresas">
       <div class="sec-head">
         <div><p class="eyebrow">Cuidar</p><h2 class="sec-title">Para quem cuida</h2>
-          <p class="small" style="margin:8px 0 0;max-width:70ch">Do mimo simbólico ao kit de criar, com a marca da sua escola, clínica ou consultório. Você escolhe o kit, a partir de 24 unidades. Todos a partir de 3 anos.</p></div>
+          <p class="small" style="margin:8px 0 0;max-width:70ch">Mimos para alunos e pequenos pacientes, com a marca da sua escola, clínica ou consultório. Você escolhe o mimo, a partir de 24 unidades. Todos a partir de 3 anos.</p></div>
       </div>
       <div class="criacoes" id="cuida-row"></div>
       <div class="cuida-pe"><span class="small" id="cuida-quem"></span><a class="cta" id="empresas-wa" href="#" target="_blank" rel="noopener">Pedir orçamento</a></div>
@@ -1332,13 +1332,13 @@ const CRIACOES = [
   /* Cuidar: kits para profissionais (escolas, creches, clínicas, consultórios). Ficam FORA da escadinha (linha:'cuidar')
      e aparecem só em "Cuidar". Todos a partir de 3+ (o giz de argola do 1+ e do 2+ fica caro em quantidade).
      arte = qual ilustração usar enquanto não houver foto (fotos/<id-do-produto>-1.jpg) */
-  { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo de massinha', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
+  { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo Massinha', titulo:'Mimo Massinha', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
     desc:'Um mimo simples e singelo, para a data não passar em branco: massa de modelar, cortadores e um cartão com a marca do profissional.',
     seguranca:'A massa de modelar vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
-  { id:'cuida-desenhar', linha:'cuidar', arte:'colorir', nome:'Desenhar', titulo:'Kit Desenhar', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
+  { id:'cuida-desenhar', linha:'cuidar', arte:'colorir', nome:'Mimo Desenhar', titulo:'Mimo Desenhar', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
     desc:'Um bloquinho de desenho com espiral, folhas lisas e capa de papel fotográfico, e giz de cera: a criança desenha o que imaginar.',
     seguranca:'Giz de cera com selo do INMETRO, indicado a partir de 3 anos.' },
-  { id:'cuida-colagem', linha:'cuidar', nome:'Criar com as mãos', titulo:'Kit Criar com as mãos', idade:3, cor:'#E09BBE', fundo:'#FBE9F1',
+  { id:'cuida-colagem', linha:'cuidar', nome:'Mimo Criar com as mãos', titulo:'Mimo Criar com as mãos', idade:3, cor:'#E09BBE', fundo:'#FBE9F1',
     desc:'Formas já recortadas, papéis coloridos e papel crepom para a criança montar uma cena do jeito dela, sem precisar de tesoura.',
     seguranca:'Sem tesoura: as formas já vêm recortadas. Cola bastão com selo do INMETRO, indicada a partir de 3 anos.' },
   { id:'cuida-argila', linha:'cuidar', arte:'modelar', nome:'Argila de verdade', titulo:'Kit Argila de verdade', idade:3, cor:'#C9744B', fundo:'#F8E8DD',
@@ -1618,7 +1618,7 @@ const PRODUTOS = [
     itens:['1 embalagem de massa de EVA em várias cores, lacrada','Cartão com o passo a passo da escultura'],
     opcoes:pacotes(41.99) },
   /* Cuidar: kits para profissionais, a partir de CUIDA_MIN unidades, pedidos pelo WhatsApp (não entram no carrinho) */
-  { id:'cuida-mimo', criacao:'cuida-mimo', versao:'cuidar', nome:'Mimo', cod:'CU-MI',
+  { id:'cuida-mimo', criacao:'cuida-mimo', versao:'cuidar', nome:'Mimo Massinha', cod:'CU-MI',
     embalagem:'Saquinho de algodão cru', resumo:'Massa de modelar e cortadores, com a sua marca, para a data não passar em branco.',
     descricao:'Um mimo simples e singelo, com o mesmo cuidado dos nossos kits: massa de modelar lacrada e cortadores para apertar, modelar e carimbar formas. Cada criança recebe o dela num saquinho de algodão cru, com um cartão com o nome ou a logo da sua escola, clínica ou consultório e uma mensagem para a data.',
     selos:['Massa de modelar e cortadores','Com a sua marca','Selo do INMETRO'],
@@ -1626,14 +1626,14 @@ const PRODUTOS = [
     opcoes:pacoteCuidar(19.99) },
   /* Desenhar: folhas Chamex Notes 80 × 115 mm encadernadas com espiral, capa de papel fotográfico um pouco maior */
   /* Fotos provisórias (criadas por IA): as capas de Natal por profissão. A 1 é a montagem com três capas. */
-  { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Desenhar', cod:'CU-DS',
+  { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Mimo Desenhar', cod:'CU-DS',
     fotos:[1,2,3,4,5,6,7,8].map(i=>`fotos/cuida-desenhar-${i}.jpg?v=${FOTOS_VERSAO}`),
     embalagem:'Saquinho de algodão cru', resumo:'Um bloquinho de desenho com a capa da sua profissão e giz de cera.',
     descricao:'Em vez de colorir um desenho pronto, a criança cria o dela: um bloquinho de desenho com espiral, folhas lisas de 8 × 11,5 cm e giz de cera para desenhar o que imaginar. A capa, de papel fotográfico, tem o tema da sua profissão (dentista, pediatra, neuropediatra, fonoaudiologia, psicologia, terapia ocupacional, escola ou creche) e um espaço com o seu nome. No Natal, as capas ganham uma edição especial.',
     selos:['Capa com o tema da sua profissão','Folhas lisas para criar','Com o seu nome'],
     itens:['1 bloquinho de desenho com espiral e folhas lisas de 8 × 11,5 cm','Capa de papel fotográfico com o tema da sua profissão e o seu nome','1 caixa de giz de cera, com selo do INMETRO',TAG_CUIDAR],
     opcoes:pacoteCuidar(29.99) },
-  { id:'cuida-colagem', criacao:'cuida-colagem', versao:'cuidar', nome:'Criar com as mãos', cod:'CU-CM',
+  { id:'cuida-colagem', criacao:'cuida-colagem', versao:'cuidar', nome:'Mimo Criar com as mãos', cod:'CU-CM',
     embalagem:'Saquinho de algodão cru', resumo:'Formas já recortadas para montar uma cena, sem tesoura.',
     descricao:'Uma base de papel cartão, formas já recortadas, papéis coloridos e bolinhas de papel crepom para a criança montar uma cena do jeito dela: uma cidade, o fundo do mar ou uma floresta. Sem tesoura, então serve para turmas a partir de 3 anos.',
     selos:['Sem tesoura','A partir de 3 anos','Com a sua marca'],
@@ -2891,7 +2891,7 @@ function abrirProduto(pid){
   $('p-fundo-wrap').hidden = !p.modelo;
   $('p-varal-wrap').hidden = !p.varal; $('p-nome').value = '';
   $('p-name').textContent = p.nome;
-  $('p-crumb').textContent = `${cr.titulo} / ${p.nome}`;
+  $('p-crumb').textContent = `${p.versao==='cuidar' ? 'Para quem cuida' : cr.titulo} / ${p.nome}`;
   $('p-sub').textContent = p.resumo;
   $('p-desc').textContent = p.descricao;
   $('p-selos').innerHTML = (p.selos||[]).map(s=>`<span class="selo">${FOLHA}${esc(s)}</span>`).join('');
@@ -2947,7 +2947,7 @@ function renderCuidar(p){
   $('p-cuida-nota').innerHTML = (c.n||0) < CUIDA_MIN
     ? `<b>O pedido mínimo é de ${CUIDA_MIN} kits.</b> O preço mostra ${CUIDA_MIN} kits.`
     : `${n} kits × ${brl(un)} = <b>${brl(v)}</b>. Cada kit vai com a tag da sua escola, clínica ou consultório.`;
-  const linhas = [`Olá! Quero pedir o kit *${p.nome}* da ${LOJA.nome} (Para quem cuida).`, '',
+  const linhas = [`Olá! Quero pedir o *${p.nome}* da ${LOJA.nome} (Para quem cuida).`, '',
     `• Quantidade: ${n} kits`,
     `• Total estimado: ${brl(v)} (${brl(un)} por kit)`, '', 'Escola, clínica ou consultório:', 'Para quando:'];
   $('p-cuida-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(linhas.join('\n'))}`;
