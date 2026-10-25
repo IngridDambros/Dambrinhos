@@ -931,10 +931,6 @@
         </div>
         <!-- Cuidar: kits para profissionais, pedidos pelo WhatsApp (sem carrinho), a partir de CUIDA_MIN kits -->
         <div id="p-cuida-wrap" hidden>
-          <div id="p-mimo-wrap">
-            <h2 class="pd-h">Qual material?</h2>
-            <div class="pd-modo" id="p-mimo"></div>
-          </div>
           <h2 class="pd-h">Quantas crianças?</h2>
           <div class="pd-livre" style="margin-top:0">
             <label for="p-cuida-n">Quantos kits? (mínimo de 24)</label>
@@ -1340,8 +1336,8 @@ const CRIACOES = [
      e aparecem só em "Cuidar". Todos a partir de 3+ (o giz de argola do 1+ e do 2+ fica caro em quantidade).
      arte = qual ilustração usar enquanto não houver foto (fotos/<id-do-produto>-1.jpg) */
   { id:'cuida-mimo', linha:'cuidar', arte:'massinha', nome:'Mimo', titulo:'Mimo sensorial', idade:3, cor:'#B9A3D3', fundo:'#EEE9FA',
-    desc:'Um mimo simples e singelo, para a data não passar em branco: um material sensorial lacrado e um cartão com a marca do profissional.',
-    seguranca:'O material sensorial vem lacrado na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição da massinha.' },
+    desc:'Um mimo simples e singelo, para a data não passar em branco: massa de modelar, cortadores e um cartão com a marca do profissional.',
+    seguranca:'A massa de modelar vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível. Se alguma criança tem alergia a trigo ou doença celíaca, fale com a gente antes do pedido: confirmamos a composição.' },
   { id:'cuida-desenhar', linha:'cuidar', arte:'colorir', nome:'Desenhar', titulo:'Kit Desenhar', idade:3, cor:'#9CC56B', fundo:'#EEF6E3',
     desc:'Um bloquinho de desenho com espiral, folhas lisas e capa de papel fotográfico, e giz de cera: a criança desenha o que imaginar.',
     seguranca:'Giz de cera com selo do INMETRO, indicado a partir de 3 anos.' },
@@ -1416,8 +1412,6 @@ const pacotes = (porKit, nomeUn='kits') => [12,24,36].map(n => ({ nome:`${n} ${n
 /* Cuidar: pedido mínimo para profissionais. A opção guarda o preço do pedido mínimo; o preço por kit sai de porKit */
 const CUIDA_MIN = 24;
 const pacoteCuidar = porKit => [{ nome:`${CUIDA_MIN} kits`, n:String(CUIDA_MIN).padStart(3,'0'), preco:Math.round(porKit*CUIDA_MIN*100)/100 }];
-/* Mimo: o profissional escolhe um material sensorial para o pedido inteiro */
-const MIMO_ITENS = ['Massa de modelar','Areia mágica','Massa de EVA'];
 const TAG_CUIDAR = 'Tag com o nome ou a logo da escola, clínica ou consultório';
 const PRODUTOS = [
   { id:'rabiscos-mini', criacao:'rabiscos', versao:'mini', nome:'Rabiscos', cod:'RB-M',
@@ -1628,11 +1622,11 @@ const PRODUTOS = [
     opcoes:pacotes(41.99) },
   /* Cuidar: kits para profissionais, a partir de CUIDA_MIN unidades, pedidos pelo WhatsApp (não entram no carrinho) */
   { id:'cuida-mimo', criacao:'cuida-mimo', versao:'cuidar', nome:'Mimo', cod:'CU-MI',
-    embalagem:'Saquinho de algodão cru', resumo:'Um material sensorial e um cartão com a sua marca, para a data não passar em branco.',
-    descricao:'Um mimo simples e singelo, com o mesmo cuidado dos nossos kits. Você escolhe um material sensorial para o pedido (massa de modelar, areia mágica ou massa de EVA), em versão menor e lacrada, e cada criança recebe o dela num saquinho de algodão cru, com um cartão com o nome ou a logo da sua escola, clínica ou consultório e uma mensagem para a data.',
-    selos:['Você escolhe o material','Com a sua marca','Selo do INMETRO'],
-    itens:['1 material sensorial à sua escolha, em versão menor e lacrada: massa de modelar, areia mágica ou massa de EVA','Cartão com a mensagem da data',TAG_CUIDAR],
-    opcoes:pacoteCuidar(24.99) },
+    embalagem:'Saquinho de algodão cru', resumo:'Massa de modelar e cortadores, com a sua marca, para a data não passar em branco.',
+    descricao:'Um mimo simples e singelo, com o mesmo cuidado dos nossos kits: massa de modelar lacrada e cortadores para apertar, modelar e carimbar formas. Cada criança recebe o dela num saquinho de algodão cru, com um cartão com o nome ou a logo da sua escola, clínica ou consultório e uma mensagem para a data.',
+    selos:['Massa de modelar e cortadores','Com a sua marca','Selo do INMETRO'],
+    itens:['Massa de modelar, lacrada','Cortadores de formas','Cartão com a mensagem da data',TAG_CUIDAR],
+    opcoes:pacoteCuidar(19.99) },
   /* Desenhar: folhas Chamex Notes 80 × 115 mm encadernadas com espiral, capa de papel fotográfico um pouco maior */
   /* Fotos provisórias (criadas por IA): as capas de Natal por profissão. A 1 é a montagem com três capas. */
   { id:'cuida-desenhar', criacao:'cuida-desenhar', versao:'cuidar', nome:'Desenhar', cod:'CU-DS',
@@ -2931,11 +2925,10 @@ function abrirProduto(pid){
   $('p-sens-wrap').hidden = !p.sensorial; $('p-sens').checked = false;
   /* Cuidar: sem pacotes nem carrinho; quantidade livre a partir de CUIDA_MIN e pedido pelo WhatsApp */
   const cuidar = p.versao==='cuidar';
-  sel.cuida = cuidar ? { n:CUIDA_MIN, mimo:null } : null;
+  sel.cuida = cuidar ? { n:CUIDA_MIN } : null;
   $('p-cuida-wrap').hidden = $('p-cuida-wa').hidden = !cuidar;
   if (cuidar){
     $('p-pacotes-wrap').hidden = $('p-qty-row').hidden = $('add').hidden = $('p-avise').hidden = true;
-    $('p-mimo-wrap').hidden = p.id!=='cuida-mimo';
     $('p-cuida-n').value = CUIDA_MIN;
   }
   const ico = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -2946,19 +2939,18 @@ function abrirProduto(pid){
   ].map(([s,t])=>`<div>${s}<span>${esc(t)}</span></div>`).join('');
   renderProduto(); ir('product');
 }
-/* Cuidar: preço pela quantidade digitada (mínimo CUIDA_MIN), escolha do material no Mimo e a mensagem pronta do WhatsApp */
+/* Cuidar: preço pela quantidade digitada (mínimo CUIDA_MIN) e a mensagem pronta do WhatsApp */
 function renderCuidar(p){
   const c = sel.cuida, n = Math.max(CUIDA_MIN, c.n||0), un = porKit(p.opcoes[0]), v = Math.round(un*n*100)/100;
   $('p-price').textContent = brl(v);
   $('p-de').textContent = $('p-eco').textContent = '';
   $('p-pix').textContent = LOJA.cashbackPix>0 ? `No Pix: ${brl(v*LOJA.cashbackPix/100)} de cashback` : '';
   $('p-sku').textContent = `Código: ${p.cod} · ${brl(un)} por kit · ${n} kits`;
-  $('p-mimo').innerHTML = MIMO_ITENS.map(m=>`<button type="button" class="pd-modo-op" data-mimo="${esc(m)}" aria-pressed="${c.mimo===m}"><b>${esc(m)}</b><span>Para todas as crianças</span></button>`).join('');
   $('p-cuida-nota').innerHTML = (c.n||0) < CUIDA_MIN
     ? `<b>O pedido mínimo é de ${CUIDA_MIN} kits.</b> O preço mostra ${CUIDA_MIN} kits.`
     : `${n} kits × ${brl(un)} = <b>${brl(v)}</b>. Cada kit vai com a tag da sua escola, clínica ou consultório.`;
   const linhas = [`Olá! Quero pedir o kit *${p.nome}* da ${LOJA.nome} (Para quem cuida).`, '',
-    `• Quantidade: ${n} kits`, ...(p.id==='cuida-mimo' ? [`• Material: ${c.mimo || 'ainda vou escolher'}`] : []),
+    `• Quantidade: ${n} kits`,
     `• Total estimado: ${brl(v)} (${brl(un)} por kit)`, '', 'Escola, clínica ou consultório:', 'Para quando:'];
   $('p-cuida-wa').href = `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(linhas.join('\n'))}`;
 }
@@ -3055,7 +3047,6 @@ $('view-product').addEventListener('click', e=>{
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
   else if (b.dataset.arco){ sel.arco = b.dataset.arco; sel.foto = 0; }
   else if (b.dataset.topo){ sel.topo.frase = b.dataset.topo; if (b.dataset.topo==='nome') setTimeout(()=>$('p-topo-campo').focus(),0); }
-  else if (b.dataset.mimo && sel.cuida) sel.cuida.mimo = b.dataset.mimo;
   else if (b.dataset.foto) sel.foto = +b.dataset.foto;
   else if (b.id==='g-prev' || b.id==='g-next'){ const n = fotosDe(sel.p).length; sel.foto = (sel.foto + (b.id==='g-next'?1:-1) + n) % n; }
   else if (b.id==='q-dec') sel.qtd = Math.max(1, sel.qtd-1);
@@ -3063,9 +3054,8 @@ $('view-product').addEventListener('click', e=>{
   else return;
   renderProduto();
 });
-/* Cuidar: a quantidade digitada atualiza o total e a mensagem; no Mimo, o material precisa estar escolhido */
+/* Cuidar: a quantidade digitada atualiza o total e a mensagem */
 $('p-cuida-n').addEventListener('input', ()=>{ if (!sel || !sel.cuida) return; const n = parseInt($('p-cuida-n').value, 10); sel.cuida.n = n > 0 ? Math.min(n, 9999) : null; renderProduto(); });
-$('p-cuida-wa').addEventListener('click', e=>{ if (sel && sel.p.id==='cuida-mimo' && !sel.cuida.mimo){ e.preventDefault(); avisar('Escolha o material do mimo'); } });
 /* Outra quantidade de kits: o preço muda enquanto o cliente digita */
 $('p-livre-n').addEventListener('input', ()=>{ if (!sel) return; const n = parseInt($('p-livre-n').value, 10); sel.kits = n > 0 ? Math.min(n, 9999) : null; renderProduto(); });
 /* Varal: o nome digitado atualiza a prévia e o preço na hora */
