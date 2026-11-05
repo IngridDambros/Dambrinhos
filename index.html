@@ -721,8 +721,8 @@
         <div class="banner-art" id="natal-art" aria-hidden="true"></div>
         <div>
           <p class="eyebrow">Edição especial de Natal</p>
-          <h2>Enfeites pintados pela criança, para a árvore de todo ano.</h2>
-          <p>Três enfeites de madeira, tintas e pincel. Vendido por unidade, para dar de presente.</p>
+          <h2>Cartões de Natal feitos pela criança, para presentear quem ela ama.</h2>
+          <p>Dez cartões com as peças já cortadas, envelopes e manual ilustrado. Vendido por unidade, para dar de presente.</p>
           <div class="hero-ctas" style="margin-top:0">
             <button class="cta" type="button" data-pid="estrela-mini">Ver o kit de Natal</button>
             
@@ -1325,9 +1325,11 @@ const CRIACOES = [
   { id:'fantoches', linha:'sazonal', nome:'Teatro de Fantoches', titulo:'Kit Teatro de Fantoches', idade:3, cor:'#F2A46B', fundo:'#FDEBDD',
     desc:'Saquinhos de papel que viram personagens: a criança cria os fantoches, inventa a história e a caixa do kit vira o palco.',
     seguranca:'Tudo de papel. Cola bastão e giz de cera com selo do INMETRO, indicados a partir de 3 anos. Sem tesoura: as formas já vêm recortadas.' },
-  { id:'estrela', linha:'natal', nome:'Oficina de Natal', titulo:'Kit Oficina de Natal', idade:3, cor:'#C8463A', fundo:'#F8E6E2',
-    desc:'Enfeites de madeira para a criança pintar, escrever o nome e o ano e pendurar na árvore, Natal após Natal.',
-    seguranca:'Enfeites de madeira lixados e sem farpas, com cordão para pendurar. Tinta guache com selo do INMETRO, indicada a partir de 3 anos.' },
+  /* Natal: Oficina de Cartões (o id continua "estrela" porque o resto do site usa esse nome). Antes eram enfeites de madeira,
+     que saíram do site em 05/11/2026 por falta de fornecedor. Arquivos de impressão: D:\Ingrid\Oficina de Cartoes */
+  { id:'estrela', linha:'natal', nome:'Oficina de Cartões', titulo:'Kit Oficina de Cartões de Natal', idade:3, cor:'#C8463A', fundo:'#F8E6E2',
+    desc:'Dez cartões de Natal montados pela criança, com as peças já cortadas, para presentear quem ela ama: avós, padrinhos, pais, professora.',
+    seguranca:'Sem tesoura: todas as peças já vêm cortadas, a criança só monta e cola. Cola bastão com selo do INMETRO, indicada a partir de 3 anos.' },
   { id:'areia', linha:'sensorial', nome:'Areia mágica', titulo:'Kit de areia mágica', idade:3, cor:'#E3A857', fundo:'#FBF1DC',
     desc:'Areia que molda e desmancha nas mãos e não seca: dá para brincar hoje, amanhã e depois.',
     seguranca:'A areia vem lacrada na embalagem do fabricante, com o selo do INMETRO. Não é comestível: brinque sobre uma mesa ou bandeja e guarde no pote fechado.' },
@@ -1391,7 +1393,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-10-25a';
+const FOTOS_VERSAO = '2026-11-05a';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1577,11 +1579,11 @@ const PRODUTOS = [
     selos:['Edição de Dia das Crianças','Tudo de papel','A caixa vira o palco'],
     itens:['3 saquinhos de papel para os fantoches','Formas de papel colorido, já recortadas','1 cola bastão','Giz de cera 6 cores, lacrado','Roteiro em branco para inventar a história','Cartão com o passo a passo e ideias de personagens'],
     opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
-  { id:'estrela-mini', criacao:'estrela', versao:'mini', nome:'Oficina de Natal', cod:'NT-M', porUnidade:true,
-    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Três enfeites de madeira para pintar e pendurar na árvore.',
-    descricao:'Três enfeites de madeira, com cordão para pendurar, três potes de tinta e pincel. A criança pinta do jeito dela, escreve o nome e o ano no verso, e os enfeites vão para a árvore da família ou viram presente para alguém especial. Todo Natal, eles voltam para a árvore.',
-    selos:['Edição de Natal','Enfeites de madeira','Para pendurar todo ano'],
-    itens:['3 enfeites de madeira com cordão (modelos variados: estrela, árvore, sino, anjo ou botinha)','3 potes de tinta guache, lacrados','1 pincel','Cartão com ideias: listras, bolinhas, neve, o nome e o ano'],
+  { id:'estrela-mini', criacao:'estrela', versao:'mini', nome:'Oficina de Cartões', cod:'NT-M', porUnidade:true,
+    embalagem:'Caixa branca Dambrinhos com papel de seda', resumo:'Dez cartões de Natal para a criança montar e dar de presente.',
+    descricao:'Dez cartões de Natal para a criança montar com as próprias mãos e presentear quem ela ama: avós, padrinhos, pais, professora. Cada cartão vem num envelope numerado, com o papel colorido e as peças já cortadas, e o manual ilustrado mostra o passo a passo de cada um, do gorro do Papai Noel à rena. A criança só monta e cola, escreve o “De / Para” e entrega o cartão no mesmo envelope.',
+    selos:['Edição de Natal','Peças já cortadas, sem tesoura','10 cartões para presentear'],
+    itens:['10 cartões de papel colorido (10,5 × 14,8 cm)','Peças já cortadas para montar os 10 cartões','10 envelopes numerados','10 etiquetas adesivas “De / Para”','Barbante e lacinhos prontos','1 cola bastão, com selo do INMETRO','Manual ilustrado com o passo a passo de cada cartão'],
     opcoes:[{nome:'1 kit', n:'001', preco:49.99}] },
   { id:'areia-mini', criacao:'areia', versao:'mini', nome:'Areia Mágica', cod:'AM-M',
     embalagem:'Saquinho de algodão cru', resumo:'Areia que molda e não seca, com 10 ideias de brincadeiras.',
@@ -1911,7 +1913,7 @@ const OCASIOES = [
   { id:'ferias',      nome:'Férias',             sub:'Uma horta para cuidar o mês inteiro',            cor:'#DCEBF7', icone:'sol',
     produtos:['horta-mini'], sazonal:true },
   { id:'criancas',    nome:'Dia das Crianças',   sub:'Uma casinha de passarinho para montar e pintar', cor:'#FDE1D3', icone:'balao',  produtos:['casinha-mini'], sazonal:true },
-  { id:'natal',       nome:'Natal',              sub:'Edição especial: enfeites pintados pela criança', cor:'#DCEFE2', icone:'arvore',
+  { id:'natal',       nome:'Natal',              sub:'Edição especial: 10 cartões para a criança presentear', cor:'#DCEFE2', icone:'arvore',
     produtos:['estrela-mini'], sazonal:true },
   { id:'escola',      nome:'Para quem cuida', sub:'Escolas, clínicas, terapeutas e consultórios',         cor:'#EDE4F6', icone:'escola', alvo:'empresas' }
 ];
