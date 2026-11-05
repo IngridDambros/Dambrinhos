@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mimos de Natal · Dambrinhos</title>
+<meta name="description" content="Catálogo de Mimos de Natal da Dambrinhos para escolas, clínicas e consultórios.">
+<meta property="og:title" content="Mimos de Natal · Dambrinhos">
+<meta property="og:description" content="Presentinhos feitos à mão, com a sua marca, para as suas crianças. Passe as páginas e escolha o seu.">
+<meta property="og:image" content="https://www.dambrinhos.com.br/natal/paginas/1.jpg">
+<meta property="og:url" content="https://www.dambrinhos.com.br/natal/">
+<meta property="og:type" content="website">
+<link rel="icon" href="../img/dam-icone.png">
+<!-- Catálogo virtual que vira a página. As páginas são imagens geradas de catalogo/catalogo-mimos-natal.html
+     (pasta catalogo, fora do site). Biblioteca: page-flip 2.0.7 (StPageFlip), copiada aqui para não depender de CDN. -->
+<style>
+  :root{--ink:#14295C;--red:#CF2A2A;--green:#1F8A4C;--cream:#F4EBDA}
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);
+       display:flex;flex-direction:column;align-items:center;min-height:100%;padding:14px 12px 20px}
+  .livro-wrap{width:100%;max-width:1100px;flex:1;display:flex;align-items:center;justify-content:center}
+  #livro{margin:0 auto}
+  .pagina{background:#FFFDF6;box-shadow:0 8px 24px rgba(20,41,92,.16)}
+  .pagina img{width:100%;height:100%;display:block;object-fit:cover;user-select:none;-webkit-user-drag:none;pointer-events:none}
+  .barra{display:flex;align-items:center;gap:14px;margin-top:14px}
+  .barra button{width:46px;height:46px;border-radius:50%;border:none;background:#fff;color:var(--ink);font-size:22px;
+                cursor:pointer;box-shadow:0 2px 8px rgba(20,41,92,.15)}
+  .barra button:disabled{opacity:.35;cursor:default}
+  .num{font-size:14px;min-width:70px;text-align:center}
+  .dica{font-size:13px;opacity:.7;margin-top:8px;text-align:center}
+  .acoes{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+  .acoes a{text-decoration:none;font-weight:600;font-size:15px;padding:12px 20px;border-radius:30px}
+  .wa{background:var(--green);color:#fff}
+  .pdf{background:#fff;color:var(--ink);border:1px solid #e2d6bd}
+</style>
+</head>
+<body>
+  <div class="livro-wrap"><div id="livro"></div></div>
+  <div class="barra">
+    <button id="ant" aria-label="Página anterior">‹</button>
+    <span class="num" id="num">1 / 8</span>
+    <button id="prox" aria-label="Próxima página">›</button>
+  </div>
+  <p class="dica">Clique no canto da página ou arraste para virar</p>
+  <div class="acoes">
+    <a class="wa" href="https://wa.me/5521993966116?text=Ol%C3%A1%2C%20Ingrid!%20Vi%20o%20cat%C3%A1logo%20de%20Mimos%20de%20Natal%20e%20quero%20fazer%20um%20pedido.">Fazer meu pedido pelo WhatsApp</a>
+    <a class="pdf" href="catalogo-mimos-natal-dambrinhos.pdf" download>Baixar em PDF</a>
+  </div>
+
+<script src="page-flip.browser.js"></script>
+<script>
+  const N = 8, V = '2026-11-05';
+  const paginas = Array.from({length:N}, (_, i) => `paginas/${i+1}.jpg?v=${V}`);
+  const livro = new St.PageFlip(document.getElementById('livro'), {
+    width: 540, height: 675,            // proporção 4:5 das páginas
+    size: 'stretch', minWidth: 260, maxWidth: 540, minHeight: 325, maxHeight: 675,
+    showCover: true,                    // a capa aparece sozinha, depois as páginas em pares
+    usePortrait: true,                  // no celular, uma página por vez
+    maxShadowOpacity: .45, mobileScrollSupport: false, flippingTime: 800
+  });
+  const el = document.getElementById('livro');
+  el.innerHTML = paginas.map((src, i) => `<div class="pagina"${i===0||i===N-1?' data-density="hard"':''}><img src="${src}" alt="Página ${i+1}"></div>`).join('');
+  livro.loadFromHTML(el.querySelectorAll('.pagina'));
+  const num = document.getElementById('num'), ant = document.getElementById('ant'), prox = document.getElementById('prox');
+  // no computador, a capa (sozinha à direita) e a última página (sozinha à esquerda) ficam no centro da tela
+  el.style.transition = 'transform .6s ease';
+  function centralizar(i){
+    const dupla = livro.getOrientation() === 'landscape';
+    el.style.transform = !dupla ? '' : i === 0 ? 'translateX(-25%)' : i >= N-1 ? 'translateX(25%)' : '';
+  }
+  function atualizar(){
+    const i = livro.getCurrentPageIndex();
+    centralizar(i);
+    const par = livro.getOrientation() === 'landscape' && i > 0 && i < N-1;
+    num.textContent = par ? `${i+1}–${i+2} / ${N}` : `${i+1} / ${N}`;
+    ant.disabled = i === 0; prox.disabled = i >= N - 1;
+  }
+  livro.on('changeState', e => { if (e.data === 'flipping' || e.data === 'user_fold') el.style.transform = ''; });
+  livro.on('flip', atualizar); livro.on('changeOrientation', atualizar); livro.on('init', atualizar);
+  ant.onclick = () => livro.flipPrev();
+  prox.onclick = () => livro.flipNext();
+  // abrir direto numa página: .../natal/#5
+  const ini = parseInt(location.hash.slice(1)); if (ini > 1) livro.turnToPage(Math.min(ini, N) - 1), atualizar();
+  document.addEventListener('keydown', e => { if (e.key==='ArrowRight') livro.flipNext(); if (e.key==='ArrowLeft') livro.flipPrev(); });
+</script>
+</body>
+</html>
