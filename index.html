@@ -1393,7 +1393,7 @@ const FAIXAS = [
    ilustração (veja fotos/LEIA-ME.txt). Enquanto o arquivo não existir, o site mostra a ilustração. */
 /* Versão das fotos: quando trocar uma foto, mude este número para os navegadores baixarem a nova na hora,
    em vez de mostrarem a antiga que ficou guardada */
-const FOTOS_VERSAO = '2026-11-05a';
+const FOTOS_VERSAO = '2026-11-10a';
 const FOTO = {
   topo:    `fotos/topo.jpg?v=${FOTOS_VERSAO}`,
   historia:`fotos/historia.jpg?v=${FOTOS_VERSAO}`,
@@ -1402,7 +1402,8 @@ const FOTO = {
   produto: (pid,i) => `fotos/${pid}-${i}.jpg?v=${FOTOS_VERSAO}`,
   galeria: i => `fotos/galeria-${i}.jpg?v=${FOTOS_VERSAO}`,
   afetiva: id => `fotos/afetiva-${id}.jpg?v=${FOTOS_VERSAO}`,
-  caixa:   (modelo, fundo) => `fotos/caixa-${modelo}-${fundo}.jpg?v=${FOTOS_VERSAO}`
+  caixa:   (modelo, fundo) => `fotos/caixa-${modelo}-${fundo}.jpg?v=${FOTOS_VERSAO}`,
+  caixaCor:(modelo, fundo, cor) => `fotos/caixa-${modelo}-${fundo}-${cor}.jpg?v=${FOTOS_VERSAO}`
 };
 
 /* Produtos: cada criação em versão mini (lembrancinha, em pacotes) e completa (presente, por unidade).
@@ -1706,7 +1707,7 @@ const PRODUTOS = [
     embalagem:'Embalagens Dambrinhos', resumo:'Caixas de lona listrada, toppers de mágico e topo de bolo com o nome, com 10% de desconto.',
     descricao:'Tudo para a festa de circo, combinando: uma caixa de listras (lona de circo) e um topper de mágico com o rostinho para cada convidado, e o topo de bolo com o nome e a idade. As caixas vêm metade em vermelho e metade em amarelo. Depois do pedido e pagamento, você manda a foto do rostinho, o nome, a idade e o modelo de caixa que prefere pelo WhatsApp, e recebe a arte para aprovar.',
     selos:['10% de desconto no kit','Tudo combinando','Arte para aprovar antes de imprimir'],
-    itens:['1 caixa de listras por convidado, metade vermelha e metade amarela (modelo à sua escolha: Alça Alta Coração, Cubo, Maleta, Milk ou Sextavada)','1 topper Mágico com o rostinho por convidado, frente e verso','Topo de bolo: bandeirola com o nome + número da idade, em vermelho','Embalagens Dambrinhos'],
+    itens:['1 caixa de listras por convidado, metade vermelha e metade amarela (modelo à sua escolha: Alça Alta Coração, Casinha, Maleta, Milk ou Sextavada)','1 topper Mágico com o rostinho por convidado, frente e verso','Topo de bolo: bandeirola com o nome + número da idade, em vermelho','Embalagens Dambrinhos'],
     opcoes:[12, 24, 36].map(n=>{ const cheio = Math.round(((7.99 + 4.99) * n + 34.99 + 14.99) * 100) / 100;
       return { nome:`${n} convidados`, n:String(n).padStart(3,'0'), preco: Math.round(cheio * 0.9 * 100) / 100, cheio }; }) },
   /* Coroa: coroa dourada; as fotos (menino e, depois, menina) são crianças fictícias criadas por IA */
@@ -1843,7 +1844,7 @@ const PRODUTOS = [
   /* Em ordem alfabética */
   ...[
     ['coracao',  'Caixa Alça Alta Coração',  'CX-AC', 'Caixa com alça alta em formato de coração, para levar na mão.'],
-    ['cubo',     'Caixa Cubo',               'CX-CU', 'Um cubo com tampa, com o rostinho em destaque.'],
+    ['casinha',  'Caixa Casinha',            'CX-CS', 'Uma casinha com alça e o fundo no telhado: na frente, só o rostinho ou o personagem; o nome e a idade vão na lateral.'],
     ['maleta',   'Caixa Maleta',             'CX-MA', 'Uma maletinha com alça, com o rostinho na frente.'],
     ['milk',     'Caixa Milk',               'CX-MI', 'No formato de caixinha de leite, com o rostinho na frente.'],
     ['sextavada','Caixa Sextavada',          'CX-SX', 'Caixa de seis lados, com tampa e o rostinho no centro.']
@@ -1930,7 +1931,7 @@ const CUIDA = [
 ];
 /* Lembrar: papelaria afetiva — os produtos ficam em PRODUTOS (versao:'afetiva'); aqui só a cor de cada cartão */
 const AFETIVA_CORES = { 'afetiva-toppers':'#FFE8A3', 'topo-bandeirola-parabens':'#F7DDE5', 'topo-bandeirola-nome':'#DCEBF7', 'topo-idade':'#DCEFE2', 'topo-letra':'#FCE1E8', 'topo-pompom':'#FFE8A3', 'afetiva-mesversario':'#DCEBF7', 'afetiva-datas':'#DCEFE2',
-  'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-cubo':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
+  'caixa-milk':'#F7DDE5', 'caixa-sextavada':'#DCEBF7', 'caixa-casinha':'#FFE8A3', 'caixa-coracao':'#FCE1E8', 'caixa-maleta':'#DCEFE2',
   'varal-arredondado':'#EDE4F6', 'varal-escudo':'#FDE1D3', 'varal-andorinha':'#DCEFE2', 'varal-triangulo':'#DCEBF7' };
 /* MOSTRAR_TOPO_BOLO = false esconde a categoria Topo de bolo do site */
 const MOSTRAR_TOPO_BOLO = false;
@@ -2412,8 +2413,11 @@ const ARTE_CAIXA = {
     return S('M90 30 H110 V40 H90 Z') + S('M72 58 L100 40 L128 58 Z') + F('M72 58 H128 V136 H72 Z') + rostinhoMini(100,98,16); },
   sextavada: c => { const F = d=>`<path d="${d}" fill="${c}"/>`, S = d=>F(d)+`<path d="${d}" fill="rgba(0,0,0,.16)"/>`;
     return F('M80 76 H120 V132 H80 Z') + S('M58 62 L80 76 V132 L58 118 Z') + S('M142 62 L120 76 V132 L142 118 Z') + F('M58 62 L80 48 H120 L142 62 L120 76 H80 Z') + `<path d="M58 62 L80 48 H120 L142 62 L120 76 H80 Z" fill="rgba(255,255,255,.25)"/>` + rostinhoMini(100,104,16); },
-  cubo: c => { const F = d=>`<path d="${d}" fill="${c}"/>`, S = d=>F(d)+`<path d="${d}" fill="rgba(0,0,0,.16)"/>`;
-    return F('M100 38 L140 56 L100 74 L60 56 Z') + `<path d="M100 38 L140 56 L100 74 L60 56 Z" fill="rgba(255,255,255,.3)"/>` + F('M60 56 L100 74 V132 L60 114 Z') + S('M100 74 L140 56 V114 L100 132 Z') + rostinhoMini(80,94,13); },
+  /* casinha: paredes brancas, o fundo vai no telhado, alça em cima */
+  casinha: c => { const F = d=>`<path d="${d}" fill="${c}"/>`;
+    return `<path d="M88 52 V36 Q88 30 94 30 H106 Q112 30 112 36 V52" fill="none" stroke="#D8D2C8" stroke-width="6"/>`
+      + `<path d="M66 80 L100 50 L134 80 V136 H66 Z" fill="#fff"/><path d="M66 80 L100 50 L134 80 V136 H66 Z" fill="rgba(0,0,0,.04)"/>`
+      + F('M56 84 L100 44 L144 84 L136 90 L100 58 L64 90 Z') + rostinhoMini(100,108,16); },
   coracao: c => { const F = d=>`<path d="${d}" fill="${c}"/>`, S = d=>F(d)+`<path d="${d}" fill="rgba(0,0,0,.16)"/>`;
     return `<path d="M74 88 L88 56 M126 88 L112 56" stroke="${c}" stroke-width="7" stroke-linecap="round"/><path d="M74 88 L88 56 M126 88 L112 56" stroke="rgba(0,0,0,.16)" stroke-width="7" stroke-linecap="round"/>`
       + S('M100 64 C78 50 80 26 100 35 C120 26 122 50 100 64 Z') + F('M66 86 H134 V136 H66 Z') + rostinhoMini(100,111,15); },
@@ -2909,6 +2913,11 @@ function fotosDe(p){
     testarFoto(src).then(ok=>{ if (ok && sel && sel.p===p && sel.topo.cor && fotoCorTopo(p, sel.topo.cor)===src) renderProduto(); }); }
   /* Caixa: a imagem do fundo escolhido (foto, se houver; senão, o desenho com aquele fundo) */
   if (p.modelo){ const f = (sel && sel.p===p && sel.fundo) || capaFundo(p), src = FOTO.caixa(p.modelo, f);
+    /* Casinha (e outras que ganharem fotos por cor): a foto de cada cor escolhida, se já existir */
+    if (sel && sel.p===p){ const porCor = sel.cores.map(c=>[c, FOTO.caixaCor(p.modelo, f, c)]);
+      porCor.filter(([,s])=>!fotosOk.has(s)).forEach(([,s])=>testarFoto(s).then(ok=>{ if (ok && sel && sel.p===p && porCor.some(([,x])=>x===s)) renderProduto(); }));
+      const achadas = porCor.filter(([,s])=>fotosOk.has(s));
+      if (achadas.length) return achadas.map(([c,s])=>`<img src="${esc(s)}" alt="${esc(`${p.nome} com fundo ${nomeFundo(f)} na cor ${corDe(c).nome.toLowerCase()}`)}">`); }
     return [fotosOk.has(src) ? `<img src="${esc(src)}" alt="${esc(`${p.nome} com fundo ${nomeFundo(f)}`)}">` : art(p, false, f, sel && sel.p===p ? corDe(sel.cores[0]).hex : undefined)]; }
   return (p.fotos && p.fotos.length) ? p.fotos.map(src=>`<img src="${esc(src)}" alt="${esc(p.nome)}">`) : [art(p)]; }
 function abrirProduto(pid){
@@ -3071,7 +3080,8 @@ $('view-product').addEventListener('click', e=>{
   else if (b.dataset.cor){ const c = b.dataset.cor;
     if (sel.nCores === 1) sel.cores = [c];
     else if (sel.cores.includes(c)){ if (sel.cores.length > 1) sel.cores = sel.cores.filter(x=>x!==c); }
-    else { sel.cores.push(c); if (sel.cores.length > sel.nCores) sel.cores.shift(); } }   /* passou do limite: sai a mais antiga */
+    else { sel.cores.push(c); if (sel.cores.length > sel.nCores) sel.cores.shift(); }   /* passou do limite: sai a mais antiga */
+    sel.foto = Math.max(0, sel.cores.indexOf(c)); }   /* mostra a foto da cor que acabou de tocar */
   else if (b.dataset.frase){ sel.varal.frase = b.dataset.frase; if (VARAL.frases.find(f=>f.id===b.dataset.frase).comNome) setTimeout(()=>$('p-nome').focus(),0); }
   else if (b.dataset.varalCor) sel.varal.cor = b.dataset.varalCor;
   else if (b.dataset.topoCor) sel.topo.cor = b.dataset.topoCor;
